@@ -1,0 +1,80 @@
+{% extends "index.html" %}
+{% block static_file %}
+{% endblock %}
+{% block title %}
+    <title>registration</title>
+{% endblock %}
+{% block right_div %}
+    <form class="login-form content-center well-block" action="/register" method="post"
+          onsubmit="return validation(this)">
+        {% csrf_token %}
+        <div class="text-content content-center">
+        </div>
+        <p>
+            <label for="{{ form.username.id_for_label }}">Username</label>
+        </p>
+        {{ form.username }}
+        <div class="text-content content-center">
+            <p class="error" id="name_error">{{ input_error }}</p>
+
+        </div>
+
+        <p>
+            <label for="{{ form.email.id_for_label }}">Email</label>
+        </p>
+        {{ form.email }}
+        <div class="text-content content-center">
+            <p class="error" id="error_show">{{ input_error2 }}</p>
+
+        </div>
+        <p>
+            <label for="{{ form.sex.id_for_label }}">Sex</label>
+        </p>
+        <select name="sex" id="list_">
+            <option value="boy">boy</option>
+            <option value="girl">girl</option>
+        </select>
+        <div class="text-content content-center">
+            <p class="error" id="error_show"></p>
+        </div>
+        <p>
+            <label for="{{ form.type.id_for_label }}">Type</label>
+        </p>
+        <select name="type">
+            <option value="0">管理处经理</option>
+            <option value="1">业务管理员</option>
+            <option value="2">水电维修工</option>
+            <option value="3">保安</option>
+            <option value="4">业主</option>
+            <option value="5">财务员</option>
+        </select>
+        <div class="text-content content-center">
+            <p class="error" id="error_show"></p>
+        </div>
+        <p>
+            <label for="{{ form.password.id_for_label }}">Password</label>
+        </p>
+        {{ form.password }}
+        <div class="text-content content-center">
+            <p class="error" id="psw_error"></p>
+        </div>
+        <p>
+            <label for="{{ form.password_confirmation.id_for_label }}">Password confirm</label>
+        </p>
+        {{ form.password_confirmation }}
+        <div class="text-content content-center">
+            <p class="error" id="psw_match"></p>
+        </div>
+        <div class="button-group">
+            <p class="submit">
+            <input type="submit" name="submit" value="Sign up" id="submit" class="button button-primary link-button">
+        </p>
+        <p class="nav">
+            <a href="/login" class="link-button">Login</a>
+        </p>
+        </div>
+
+    </form>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+{% endblock %}

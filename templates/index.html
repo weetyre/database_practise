@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block head %}
+    {% block static_file %}{% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}">
+    <script type="text/javascript" src="{%static 'js/jquery-3.3.1.js'%}"></script>
+    <script type="text/javascript" src="{%static 'js/bootstrap.js'%}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container-flex flex-reset">
+        <div id="left" class="container-flex">
+            <img src="{% static 'img/background.jpg' %}">
+        </div>
+        <div id="right" class="container-flex">
+            <div id="login" class="table-vertical-align">
+                <h1 class="head-block well-block">{{ block_title }}</h1>
+                {% block right_div %} {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

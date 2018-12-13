@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block body %}
+    <div class="container-flex">
+        <div class="float-left col-2 pr-4" role="navigation">
+            <nav class="menu" >
+                <h2 class="menu-heading menu-item">{{ user.username }}</h2>
+                <h3 class="menu-heading menu-item">Settings</h3>
+                <a class="menu-item" href="/settings/account">Account</a>
+            </nav>
+        </div>
+        <div class="float-left col-7">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

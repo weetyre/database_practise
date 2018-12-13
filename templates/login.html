@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+{% block title %}
+    <title>login</title>
+{% endblock %}
+{% block right_div %}
+    <form class="login-form content-center well-block" action="/login" onsubmit="return " method="post">
+        <p class="error">{{ input_error }}</p>
+        {{ form.non_field_errors }}
+        {% csrf_token %}
+        <p class="errors">{{ form.email.errors }}</p>
+        <p>
+            <label for="{{ form.email.id_for_label }}">Email</label>
+        </p>
+        {{ form.email }}
+        <p class="errors">{{ form.password.errors }}</p>
+        <p>
+            <label for="{{ form.password.id_for_label }}">Password</label>
+        </p>
+        {{ form.password }}
+        <p class="submit">
+            <label for="rememberme">
+                <input class="form-input" type="checkbox" name="rememberme" id="rememberme">
+                Remember Me
+            </label>
+            <input type="submit" name="submit" value="Log in" id="submit" class="link-button">
+        </p>
+        <p class="nav">
+            <a href="/register" class="link-button">Register</a>
+        </p>
+    </form>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>profile page</title>
+    {% load static %}
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/profile.css' %}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="container-flex flex-reset">
+    <div id="left" class="container-flex">
+        <img src="{% static 'img/background.jpg' %}">
+    </div>
+    <div id="right" class="container-flex">
+        <div class="table-vertical-align">
+            <div class="float-left col-8">
+                <h2 class="head-block">{{ user.username }} </h2>
+                <h3 class="subhead-heading">Settings</h3>
+                <h2 class="subhead-heading">Change password</h2>
+
+                <form class="" action="/account/change_psw" method="post" onsubmit="return pswValidation2(this)">
+                    <div class="passwor1">
+                        <div class="field">
+                            {% csrf_token %}
+                            <div class="text-content content-center error-block">
+                                <p class="error" id="psw_error"></p>
+                            </div>
+                            <div class="text-content content-center error-block">
+                                <p class="error" id="psw_match"></p>
+                            </div>
+                            <div class="text-content content-center error-block">
+                                <p class="error" id="psw_match">
+                                    {% if form_change_psw.errors %}
+                                        {{ form_change_psw.error_messages.password_incorrect }}
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            {{ form_change_psw.old_password.label_tag }}
+                            {{ form_change_psw.old_password }}
+                            {{ form_change_psw.new_password1.label_tag }}
+                            {{ form_change_psw.new_password1 }}
+                            {{ form_change_psw.new_password2.label_tag }}
+                            {{ form_change_psw.new_password2 }}
+                            <div class="success-text">
+                                <p>{{ success_msg1 }}</p>
+                            </div>
+                            <div class="change_word">
+                                <input name="submit" type="submit" class="submint_b1" value="change password">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <h2 class="subhead-heading">Change email</h2>
+
+                <form class="login-form" action="/account/change_email" method="post"
+                      onsubmit="return emailValidation(this)">
+                    {% csrf_token %}
+
+                    <div class="success-text">
+                        <p>{{ success_msg2 }}</p>
+                    </div>
+                    <div class="text-content content-center error-block">
+                        <p class="error" id="error_show">{{ error_msg }}</p>
+                    </div>
+                    <div class="field">
+                        <label for="form_change_email.email.id_for_label">email:</label>
+                        {{ form_change_email.email }}
+                    </div>
+                    <div class="change_word">
+                        <input name="submit" type="submit" class="submint_b2" value="change email">
+                    </div>
+                </form>
+
+                <a href="/logout" class="link-button">Log out</a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/account.js' %}"></script>
+</div>
+</body>
+</html>
