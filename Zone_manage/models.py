@@ -83,7 +83,7 @@ class MyUser(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'#必须有一个唯一标识--USERNAME_FIELD
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'sex']#创建super时所必要得字段
+    REQUIRED_FIELDS = ['username', 'sex','type']#创建super时所必要得字段
 
     def __str__(self):
         return self.email
