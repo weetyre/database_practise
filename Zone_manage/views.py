@@ -40,7 +40,21 @@ def index_login(request):
             if user is not None and user.is_active:
                 # Correct password, and the user is marked "active"
                 auth.login(request, user)
-                return HttpResponseRedirect("/profile?user=" + user.username)
+
+                type = user.type
+
+                if type == 0:
+                    return render(request, '0.html', )
+                elif type == 1:
+                    return render(request, '1.html', )
+                elif type == 2:
+                    return render(request, '2.html', )
+                elif type == 3:
+                    return render(request, '3.html', )
+                elif type == 4:
+                    return render(request, '4.html', )
+                elif type == 5:
+                    return render(request, '5.html', )
                 # Redirect to a success page.
             else:
                 error_message = "Sorry, that's not a valid username or password"
