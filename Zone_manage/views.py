@@ -65,12 +65,22 @@ def index_register(request):
             sex = request.POST['sex']
             type = request.POST['type']
             # password = make_password(form.cleaned_data['password'])
-            user = MyUser.objects.create_user(username, email, sex, type, request.POST['password'])
-
+            MyUser.objects.create_user(username, email, sex, type, request.POST['password'])
             user = auth.authenticate(email=email, password=request.POST['password'])
             auth.login(request, user)
+            if type == 0:
+                return render(request, '0.html',)
+            elif type == 1:
+                return render(request, '1.html', )
+            elif type == 2:
+                return render(request, '2.html', )
+            elif type == 3:
+                return render(request, '3.html', )
+            elif type == 4:
+                return render(request, '4.html', )
+            elif type == 5:
+                return render(request, '5.html', )
 
-            return HttpResponseRedirect("/profile?email=" + user.email)
         else:
             if len(email_filter) > 0:
                 error_msg1 = 'email already taken.'
