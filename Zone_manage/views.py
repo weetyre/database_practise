@@ -107,6 +107,7 @@ def index_profile(request):
 def account_psw_change(request):
     if request.method == 'POST':
         form = MyPasswordChangeForm(user=request.user, data=request.POST)
+        h = form
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
