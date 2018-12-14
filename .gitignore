@@ -1,5 +1,5 @@
 db.sqlite3
-database_practise/
+database_practise/settings.py
 .idea/
 __pycache__/
 Zone_manage/__pycache__/
