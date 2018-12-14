@@ -8,6 +8,7 @@ from django.shortcuts import render, render_to_response
 from .admin import UserCreationForm
 from .forms import LoginForm, ChangeEmailForm, MyPasswordChangeForm
 from .models import MyUser
+from . import models
 
 
 def index_login(request):
