@@ -1,0 +1,6 @@
+db.sqlite3
+database_practise/
+.idea/
+__pycache__/
+Zone_manage/__pycache__/
+Zone_manage/migrations/
