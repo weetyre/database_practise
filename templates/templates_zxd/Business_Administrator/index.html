@@ -1,0 +1,143 @@
+{%extends "templates_zxd/Business_Administrator/base.html" %}
+{% block list%}
+<ul class="app-menu">
+  <li><a class="app-menu__item active" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
+  <li><a class="app-menu__item" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
+  <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">办理入住</span></a></li>
+  <li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">停车场业务</span></a></li>
+  <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">邮件</span></a></li>
+</ul>
+{% endblock %}
+{% block mainbody %}
+  <div class="row">
+        <div class="col-md-6 col-lg-3">
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+            <div class="info">
+              <h4>Users</h4>
+              <p><b>5</b></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
+            <div class="info">
+              <h4>Likes</h4>
+              <p><b>25</b></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
+            <div class="info">
+              <h4>Uploades</h4>
+              <p><b>10</b></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
+            <div class="info">
+              <h4>Stars</h4>
+              <p><b>500</b></p>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="row">
+        <div class="col-md-6">
+          <div class="tile">
+            <h3 class="tile-title">章程</h3>
+            <ul>
+              <li>相信梦想是价值的源泉，相信眼光决定未来的一切，相信成功的信念比成功本身更重要，相信人生有挫折没有失败，相信生命的质量来自决不妥协的信念。</li>
+              <li>如果心胸不似海，又怎能有海一样的事业。</li>
+              <li>命运如同手中的掌纹，无论多曲折，终掌握在自己手中。</li>
+              <li>世上并没有用来鼓励工作努力的赏赐，所有的赏赐都只是被用来奖励工作成果的。</li>
+    
+            </ul>
+            <p class="mt-4 mb-4"><a class="btn btn-primary mr-2 mb-2" href="http://pratikborsadiya.in/blog/vali-admin" target="_blank"><i class="fa fa-file"></i>Docs</a><a class="btn btn-info mr-2 mb-2" href="https://github.com/pratikborsadiya/vali-admin" target="_blank"><i class="fa fa-github"></i>GitHub</a><a class="btn btn-success mr-2 mb-2" href="https://github.com/pratikborsadiya/vali-admin/archive/master.zip" target="_blank"><i class="fa fa-download"></i>Download</a></p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="tile">
+            <h3 class="tile-title">业务管理员</h3>
+            <p>Business Process Management(BPM)，即业务流程管理，是一套达成企业各种业务环节整合的全面管理模式。</p>
+            <p>查看 <a href="http://pratikborsadiya.in/blog/vali-admin" target="_blank">业务管理文档</a>获取业务管理细则</p>
+            <p>
+              BPM涵盖了人员、设备、桌面应用系统、企业级 Backoffice 应用等内容的优化组合，从而实现跨应用、跨部门、跨合作伙伴与客户的企业运作。 BPM通常以Internet方式实现信息传递、数据同步、业务监控和企业业务流程的持续升级优化。显而易见，BPM不但涵盖了传统“工作流”的流程传递、流程监控的范畴，而且突破了传统“工作流”技术的瓶颈。
+            </p>
+          </div>
+        </div>
+  </div>
+  <div class="row">
+        <div class="col-md-6">
+          <div class="tile">
+            <h3 class="tile-title">月服务指数</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+              <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="tile">
+            <h3 class="tile-title">好评率</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+              <canvas class="embed-responsive-item" id="pieChartDemo"></canvas>
+            </div>
+          </div>
+        </div>
+  </div>
+{% endblock %}  
+
+
+{% block script %}
+<script type="text/javascript" src="../../../static/static_zxd/js/plugins/chart.js"></script>
+<script type="text/javascript">
+  var data = {
+    labels: ["January", "February", "March", "April", "May"],
+    datasets: [
+      {
+        label: "My First dataset",
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: [65, 59, 80, 81, 56]
+      },
+      {
+        label: "My Second dataset",
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
+        data: [28, 48, 40, 19, 86]
+      }
+    ]
+  };
+  var pdata = [
+    {
+      value: 300,
+      color: "#46BFBD",
+      highlight: "#5AD3D1",
+      label: "Complete"
+    },
+    {
+      value: 50,
+      color:"#F7464A",
+      highlight: "#FF5A5E",
+      label: "In-Progress"
+    }
+  ]
+  
+  var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+  var lineChart = new Chart(ctxl).Line(data);
+  
+  var ctxp = $("#pieChartDemo").get(0).getContext("2d");
+  var pieChart = new Chart(ctxp).Pie(pdata);
+</script>
+
+{% endblock %}
+   

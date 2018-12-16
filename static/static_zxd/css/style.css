@@ -1,0 +1,6 @@
+.comment_display{
+    display: flex; 
+}
+.comment_show{
+    cursor: pointer;
+}
