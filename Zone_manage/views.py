@@ -77,7 +77,7 @@ def index_register(request):
             username = request.POST['username']
             email = request.POST['email']
             sex = request.POST['sex']
-            type = request.POST['type']
+            type = int(request.POST['type'])
             # password = make_password(form.cleaned_data['password'])
             MyUser.objects.create_user(username, email, sex, type, request.POST['password'])
             user = auth.authenticate(email=email, password=request.POST['password'])

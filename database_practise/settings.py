@@ -25,7 +25,7 @@ SECRET_KEY = 'v*$x5(h*u*r$l4-nmp^2ehz0f2&#i3$=fr%%&4_fsr8-3%rj3j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
