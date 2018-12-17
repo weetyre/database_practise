@@ -180,3 +180,63 @@ def index_logout(request):
 
 def myhome(request):
     return render(request, 'home_base.html')
+
+@login_required
+def mysecurity(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, '3.html', {'user': user})
+
+@login_required
+def s_ca(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'calendar.html', {'user': user})
+
+@login_required
+def s_char(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'chartjs.html', {'user': user})
+
+@login_required
+def s_form(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'form_validation.html', {'user': user})
+
+@login_required
+def s_ta(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'tables_dynamic.html', {'user': user})
+
+@login_required
+def myfinance(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, '5.html', {'user': user})
+
+@login_required
+def f_ch(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'fa_ch.html', {'user': user})
+
+@login_required
+def f_fo(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'fa_fo.html', {'user': user})
+
+@login_required
+def f_ta(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'fa_ta.html', {'user': user})
+
+@login_required
+def f_ca(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'fa_ca.html', {'user': user})
