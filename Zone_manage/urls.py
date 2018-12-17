@@ -17,6 +17,7 @@ urlpatterns = [
     path('table', views.s_ta),
     path('ca', views.s_ca),
 
+    path('fa_fos', views.f_fo_bonus),
     path('fa_ch', views.f_ch),
     path('fa_fo', views.f_fo),
     path('fa_ta', views.f_ta),

@@ -205,6 +205,25 @@ def s_form(request):
         user = request.user
         return render(request, 'form_validation.html', {'user': user})
 
+    if request.method == 'POST':
+        user = request.user
+        Hname = request.POST['HostName']
+        Wnumber = request.POST['WorkID']
+        Hnumber = request.POST['HostID']
+        phone = request.POST['phone']
+        text = request.POST['textarea']
+
+        worker = models.Worker.objects.filter(w_id=int(Wnumber))[0]
+        hoster = models.Hoster.objects.filter(hos_id=int(Hnumber))[0]
+
+        if worker==None or hoster==None:
+            error_message = 'workerid or hoster id not exists!'
+            return render(request, 'form_validation.html', {'user': user,'error':error_message})
+        else:
+            models.InOut.objects.create(guest_name=Hname, worker=worker, contact=int(phone), remark=text, hoster=hoster)
+            return render(request, 'form_validation.html', {'user': user})
+
+
 @login_required
 def s_ta(request):
     if request.method == 'GET':
@@ -228,6 +247,50 @@ def f_fo(request):
     if request.method == 'GET':
         user = request.user
         return render(request, 'fa_fo.html', {'user': user})
+
+    if request.method == 'POST':
+        user = request.user
+        BN = request.POST['BillN']
+        BA = request.POST['BillA']
+        HD = request.POST['HostID']
+        WD = request.POST['WorkerId']
+
+        worker = models.Worker.objects.filter(w_id=int(WD))[0]
+        hoster = models.Hoster.objects.filter(hos_id=int(HD))[0]
+
+        if worker==None or hoster==None:
+            error_message = 'workerid or hoster id not exists!'
+            return render(request, 'fa_fo.html', {'user': user,'error':error_message})
+        else:
+            models.Bill.objects.create(b_name=BN,b_amount=int(BA),hoster_id=hoster,worker=worker)
+            return render(request, 'fa_fo.html', {'user': user})
+
+
+@login_required
+def f_fo_bonus(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'fa_fo.html', {'user': user})
+
+    if request.method == 'POST':
+        user = request.user
+        H_id = request.POST['HosterId']
+        Bonus = request.POST['Bonus']
+        Coupon = request.POST['Coupon']
+
+        hoster = models.Hoster.objects.filter(hos_id=int(H_id))[0]
+        if  hoster==None:
+            error_message = 'hoster id not exists!'
+            return render(request, 'fa_fo.html', {'user': user,'error':error_message})
+        else:
+            hoster.bonus = int(Bonus)
+            hoster.coupon_nam = Coupon
+            hoster.save()
+            return render(request, 'fa_fo.html', {'user': user})
+
+
+
+
 
 @login_required
 def f_ta(request):
