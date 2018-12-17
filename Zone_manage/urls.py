@@ -31,4 +31,17 @@ urlpatterns = [
     path('account/change_psw', views.account_psw_change, name='change_psw'),
     path('account/change_email', views.account_email_change),
     path('home', views.myhome),
+    path('security', views.mysecurity),
+    path('treasurer', views.myfinance),
+    path('char', views.s_char),
+    path('form', views.s_form),
+    path('table', views.s_ta),
+    path('ca', views.s_ca),
+
+    path('fa_fos', views.f_fo_bonus),
+    path('fa_ch', views.f_ch),
+    path('fa_fo', views.f_fo),
+    path('fa_ta', views.f_ta),
+    path('fa_ca', views.f_ca),
+    path('home', views.myhome),
 ]

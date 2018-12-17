@@ -113,7 +113,7 @@ class MyUser(AbstractBaseUser):
 
 
 class Hoster(models.Model):
-    hos_id = models.BigIntegerField(primary_key=True)
+    hos_id = models.AutoField(primary_key=True)
     contact = models.BigIntegerField(unique=True, blank=True, null=True)
     bonus = models.BigIntegerField(blank=True, null=True)
     coupon_nam = models.CharField(max_length=8, blank=True, null=True)
@@ -128,7 +128,7 @@ class Hoster(models.Model):
 
 
 class Worker(models.Model):
-    w_id = models.BigIntegerField(primary_key=True)
+    w_id = models.AutoField(primary_key=True)
     work_area = models.CharField(max_length=20, blank=True, null=True)
     name = models.CharField(max_length=20, blank=True, null=True)
     sex = models.CharField(max_length=4, blank=True, null=True)
@@ -141,7 +141,7 @@ class Worker(models.Model):
 
 
 class AInfo(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=20, blank=True, null=True)
     content = models.CharField(max_length=500, blank=True, null=True)
     inf_time = models.DateField(auto_now_add=True,blank=True, null=True)
@@ -164,7 +164,7 @@ class Advice(models.Model):
 
 
 class Bill(models.Model):
-    b_id = models.BigIntegerField(primary_key=True)
+    b_id = models.AutoField(primary_key=True)
     hoster_id = models.ForeignKey(Hoster,on_delete=models.CASCADE)
     b_name = models.CharField(max_length=20, blank=True, null=True)
     b_amount = models.FloatField(blank=True, null=True)
@@ -176,7 +176,7 @@ class Bill(models.Model):
 
 
 class CheckRe(models.Model):
-    che_id = models.BigIntegerField(primary_key=True)
+    che_id = models.AutoField(primary_key=True)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
     date_ch = models.DateField(auto_now_add=True,blank=True, null=True)
     worktime = models.FloatField(blank=True, null=True)
@@ -186,7 +186,7 @@ class CheckRe(models.Model):
 
 
 class Equip(models.Model):
-    equ_id = models.BigIntegerField(primary_key=True)
+    equ_id = models.AutoField(primary_key=True)
     buy_date = models.DateField(auto_now_add=True,blank=True, null=True)
     loca = models.CharField(max_length=20, blank=True, null=True)
     fix_date = models.DateField(auto_now=True,blank=True, null=True)
@@ -216,7 +216,7 @@ class Fix(models.Model):
 
 
 class House(models.Model):
-    ho_id = models.BigIntegerField(primary_key=True)
+    ho_id = models.AutoField(primary_key=True)
     area = models.FloatField(blank=True, null=True)
     unit_n = models.BigIntegerField(blank=True, null=True)
     avi = models.BigIntegerField(blank=True, null=True)
@@ -234,11 +234,11 @@ class House(models.Model):
 
 
 class InOut(models.Model):
-    log_id = models.BigIntegerField(primary_key=True)
+    log_id = models.AutoField(primary_key=True)
     guest_name = models.CharField(max_length=8, blank=True, null=True)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE,blank=True, null=True)
-    indate = models.DateField(blank=True, null=True)
-    outdate = models.DateField(blank=True, null=True)
+    indate = models.DateField(auto_now=True, blank=True, null=True)
+    outdate = models.DateField(auto_now=True, blank=True, null=True)
     contact = models.BigIntegerField(blank=True, null=True)
     remark = models.CharField(max_length=200, blank=True, null=True)
     hoster = models.ForeignKey(Hoster,  on_delete=models.CASCADE,blank=True, null=True)

@@ -17,15 +17,13 @@
             <label for="{{ form.password.id_for_label }}">Password</label>
         </p>
         {{ form.password }}
-        <p class="submit">
-            <label for="rememberme">
-                <input class="form-input" type="checkbox" name="rememberme" id="rememberme">
-                Remember Me
-            </label>
-            <input type="submit" name="submit" value="Log in" id="submit" class="link-button">
-        </p>
-        <p class="nav">
-            <a href="/register" class="link-button">Register</a>
-        </p>
+       <div>
+            <p class="submit">
+                <input type="submit" name="submit" value="Log in" id="submit" class="link-button">
+            </p>
+            <p class="nav">
+                <a href="/register" class="link-button">Register</a>
+            </p>
+        </div>
     </form>
 {% endblock %}

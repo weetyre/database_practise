@@ -29,7 +29,7 @@ label{
 
 p{
     display: block;
-    margin: 5px 0 0 0;
+    margin: 0 0 0 0;
 }
 
 .well-block{
@@ -46,7 +46,6 @@ p{
 	align-items: center;
 	justify-content: center;
 	padding: 0;
-	margin-top: 165px;
 	margin-right: 0;
 	margin-left: 0;
 	margin-bottom: 0;
@@ -105,6 +104,7 @@ div container
     display:flex;
     align-items: center;
     justify-content: center;
+	max-height: 900px;
     padding: 0;
     margin: 0;
 }
@@ -128,10 +128,7 @@ form
  */
 .login-form{
 	padding-top: 0em;
-	padding-right: 2em;
 	padding-left: 0em;
-	padding-bottom: 4em;
-	background-color: #fdfdfd;
 	display: block;
 	align-items: center;
 	overflow: hidden;
@@ -188,15 +185,14 @@ p.nav{
 	padding-top: 10px;
 	padding-right: 10px;
 	padding-left: 10px;
-	padding-bottom: 7px;
+	padding-bottom: 10px;
 	text-align: center;
-	background-color: #0284bb;
+	background-color: #bb3711;
 	color: white;
 	border: 0;
 	border-radius: 4px;
 	margin-bottom: 20px;
-	margin-left: 11px;
-	margin-right: 0px;
+	margin-left: 47%;
 }
 
 /**
@@ -228,10 +224,6 @@ error text
 	color: red;
 	font-size: 12px;
 	width: 100%;
-	padding-top: 8px;
-	padding-right: 8px;
-	padding-left: 8px;
-	padding-bottom: 8px;
 	display: inline-block;
 }
 
@@ -277,6 +269,8 @@ responsive-design
 .col-8 {
 	margin-top: auto;
 	width: 56%;
+	min-width: 370px;
+	max-width: 380px;
 	background-color: rgb(245, 245, 245);
 	border-radius: 8px;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -304,16 +298,14 @@ responsive-design
 	background-color: #0284bb;
 	color: white;
 	border: 0;
-	margin-top: 6px;
-	margin-bottom: 31px;
+	margin-top: 8px;
 	border-radius: 4px;
 }
 .passwor1{
 	vertical-align: middle;
 }
 .change_word{
-	padding-left: 9px;
-	padding-top: 7px;
+	padding-right: 1px;
 }
 .field {
 	padding-top: auto;
@@ -321,4 +313,7 @@ responsive-design
 	padding-left: 8px;
 	padding-bottom: auto;
 
+}
+.p_color{
+   color: #00a0d2;
 }
