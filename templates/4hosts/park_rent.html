@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租用停车场</title>
+</head>
+<body>
+Django自动按数据库查询结果生成数据表结果---停车场可租用
+
+<form action="/rentPark/" method="post">
+    <input name="park_id" placeholder="请输入停车场编号">
+    <input type="submit" value="确认租用">
+</form>
+ <br>
+ <br>
+<ul>
+    {% for park in parkss %}
+    <li>
+    {{ park.par_id }}----{{ park.gar_num }}----{{ park.rent }}----{{ park.price }}----{{ park.gar_num }}
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

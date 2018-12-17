@@ -10,6 +10,128 @@ from .forms import LoginForm, ChangeEmailForm, MyPasswordChangeForm
 from .models import MyUser
 
 
+from .models import ParLot
+from .models import House
+from .models import InOut
+from .models import Bill
+from .models import Advice
+from .models import Fix
+
+def post_suggestion(req):
+    data = req.POST.get("suggestion")
+    print(data)
+    # 增加一个数据，而不是修改
+    advice = Advice.objects.all()[0]
+    advice.hoster = req.session.get("user_id")
+    advice.content_field = data
+    advice.save()
+
+    return render(req, '4hosts/suggests.html')
+
+
+def post_go_repair(req):
+    data = req.POST.get("go_repair")
+    print(data)
+    # 增加一个数据，而不是修改
+    fix = Fix.objects.all()[0]
+    fix.date_field = data
+    fix.save()
+    return render(req, '4hosts/go_repair.html')
+
+
+def post_judge_repair(req):
+    data = req.POST.get("judge_repair")
+    print(data)
+    # 此处向数据库插入信息
+    return render(req, '4hosts/judge_repair.html')
+
+
+def pays(req):
+    bill = Bill.objects.get(req.session.get("user_id"))
+    return render(req, '4hosts/pays.html', {"bill": bill})
+
+
+def do_pay(req):
+    bill = Bill.objects.get(req.session.get("user_id"))
+    bill.b_amount = 0
+    bill.save()
+
+    bill = Bill.objects.get(req.session.get("user_id"))
+    return render(req, '4hosts/pays.html', {"bill": bill})
+
+
+def park_rent_show(req):
+    # 从数据库里取出数据
+    parks = ParLot.objects.all()
+    # 将数据发送到前段页面
+    return render(req, '4hosts/park_rent.html', {"parks": parks})
+
+
+def rentPark(req):
+    park_id = req.POST.get("park_id")
+    pass
+
+    return render(req, "4hosts/park_rent.html")
+
+def park_buy_show(req):
+    parks = ParLot.objects.all()
+    # 将数据发送到前段页面
+    return render(req, '4hosts/park_buy.html', {"parks": parks})
+
+
+def buyPark(req):
+    park_id = req.POST.get("park_id")
+    pass
+
+    return render(req, "4hosts/park_buy.html")
+
+
+def house_rent_show(req):
+    # 从数据库里取出数据
+    houses = House.objects.all()
+    # 将数据发送到前段页面
+    return render(req, '4hosts/house_rent.html', {"houses": houses})
+
+
+def rentHouse(req):
+    house_id = req.POST.get("house_id")
+    pass
+
+    return render(req, "4hosts/house_rent.html")
+
+
+def house_buy_show(req):
+    houses = House.objects.all()
+    # 将数据发送到前段页面
+    return render(req, '4hosts/house_buy.html', {"houses": houses})
+
+
+def buyHouse(req):
+    hosue_id = req.POST.get("hosue_id")
+    pass
+
+    return render(req, "4hosts/house_buy.html")
+
+
+def inout(req):
+    inouts = InOut.objects.get(req.session.get("user_id"))
+    return render(req, '4hosts/info_in_out.html', {"inouts": inouts})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def index_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)

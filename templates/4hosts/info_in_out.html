@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人出入信息</title>
+</head>
+<body>
+<h1>个人出入信息</h1>
+<ul>
+    {% for inout in inouts %}
+    <li>
+    {{ inout.log_id }}----{{ inout.guest_name }}----{{ inout.indate }}----{{ inout.outdate }}
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

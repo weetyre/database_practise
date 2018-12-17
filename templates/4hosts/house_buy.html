@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>买房</title>
+</head>
+<body>
+Django自动按数据库查询结果生成数据表结果---房屋可购买
+<form action="/buyHouse/">
+    <input name="house_id" placeholder="请输入房屋编号">
+    <input type="submit" value="确认购买">
+</form>
+ <br>
+ <br>
+<ul>
+    {% for park in parkss %}
+    <li>
+    {{ house.ho_id }}----{{ park.area }}----{{ park.unit_n }}----{{ park.flour }}----{{ park.price }}
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
