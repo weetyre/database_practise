@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租用停车场</title>
+</head>
+<body>
+<h1 align="center">可租用的停车场信息</h1>
+
+<table border="1">
+        <tr>
+            <th>车位id</th>
+            <th>车库编号</th>
+            <th>车位号</th>
+            <th>租金</th>
+            <th>操作</th>
+        </tr>
+     {% for park in parks %}
+        <tr>
+            <td>{{ park.par_id }}</td>
+            <td>{{ park.gar_num }}</td>
+            <td>{{ park.par_id }}</td>
+            <td>{{ park.rent }}</td>
+         <td><a href="/rentPark?park_id={{ park.par_id }}">购买此停车位</a></td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

@@ -10,6 +10,164 @@ from .forms import LoginForm, ChangeEmailForm, MyPasswordChangeForm
 from .models import MyUser
 from . import models
 
+from .models import ParLot
+from .models import House
+from .models import InOut
+from .models import Bill
+from .models import Advice
+from .models import Fix
+from .models import Worker
+from .models import Hoster
+
+
+def hostjudge_repair(req):
+    return render(req, "4hosts/judge_repair.html")
+
+
+def hostgo_repair(req):
+    return render(req, "4hosts/go_repair.html")
+
+
+def hostssuggests(req):
+    return render(req, "4hosts/suggests.html")
+
+
+def post_suggestion(req):
+    data = req.POST.get("suggestion")
+    work_id = req.POST.get("work_id")
+    worker = Worker.objects.all().filter(w_id=work_id)
+    hoster = Hoster.objects.all().filter(hos_id=req.session.get("user_id"))
+    Advice.objects.create(workid=worker, hoster=hoster, content_field=data, state=0)
+    return render(req, '4hosts/suggests.html')
+
+
+# 待处理------------------------------------------------------------------------------------------------------------------------
+def post_go_repair(req):
+    data = req.POST.get("go_repair")
+    print(data)
+    return render(req, '4hosts/go_repair.html')
+
+
+def post_judge_repair(req):
+    data = req.POST.get("judge_repair")
+    work_id = req.POST.get("work_id")
+    worker = Worker.objects.get(w_id=work_id)
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    Advice.objects.create(workid=worker, hoster=hoster, content_field=data, state=0)
+    return render(req, '4hosts/judge_repair.html')
+
+
+def pays(req):
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    bill = Bill.objects.get(hoster_id=hoster)
+    print(bill)
+    return render(req, '4hosts/pays.html', {"bill": bill})
+
+
+def do_pay(req):
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    bill = Bill.objects.get(hoster_id=hoster)
+    bill.b_amount = 0
+    bill.save()
+    bill = Bill.objects.get(hoster_id=hoster)
+    return HttpResponse("缴费成功")
+
+
+def park_rent_show(req):
+    # 从数据库里取出数据
+    parks = ParLot.objects.all().filter(avi=1)
+    # 将数据发送到前段页面
+    return render(req, '4hosts/park_rent.html', {"parks": parks})
+
+
+def rentPark(req):
+    park_id = req.GET.get("park_id")
+    park = ParLot.objects.get(par_id=park_id)
+    park.avi = 0
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    park.host = hoster
+    park.save()
+    return HttpResponse("租赁成功")
+
+
+def park_buy_show(req):
+    parks = ParLot.objects.all().filter(avi=1)
+    # 将数据发送到前段页面
+    return render(req, '4hosts/park_buy.html', {"parks": parks})
+
+
+def buyPark(req):
+    park_id = req.GET.get("park_id")
+    park = ParLot.objects.get(par_id=park_id)
+    park.avi = 0
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    park.host = hoster
+    park.save()
+
+    return HttpResponse("购买成功")
+
+
+def house_rent_show(req):
+    # 从数据库里取出数据
+    houses = House.objects.all().filter(avi=1)
+    # 将数据发送到前段页面
+    return render(req, '4hosts/house_rent.html', {"houses": houses})
+
+
+def rentHouse(req):
+    house_id = req.GET.get("house_id")
+    print(house_id)
+    house = House.objects.get(ho_id=house_id)
+    house.avi = 0
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    house.host = hoster
+    house.save()
+    return HttpResponse("租赁成功")
+
+
+def house_buy_show(req):
+    houses = House.objects.all().filter(avi=1)
+    # 将数据发送到前段页面
+    return render(req, '4hosts/house_buy.html', {"houses": houses})
+
+
+def buyHouse(req):
+    house_id = req.GET.get("house_id")
+    print(house_id)
+    house = House.objects.get(ho_id=house_id)
+    house.avi = 0
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    house.host = hoster
+    house.save()
+    return HttpResponse("购买成功")
+
+
+def inout(req):
+    host = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    print(host)
+    inouts = InOut.objects.all().filter(hoster=host)
+    return render(req, '4hosts/info_in_out.html', {"inouts": inouts})
+
+
+def show_data(req):
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    houses = House.objects.all().filter(host=hoster)
+    parks = ParLot.objects.all().filter(host=hoster)
+    return render(req, "4hosts/data.html", {"hoster": hoster, "houses": houses, "parks": parks})
+
+
+def modify_data(req):
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    hoster.hos_id = req.POST.get("hos_id")
+    hoster.hos_name = req.POST.get("hos_name")
+    hoster.sex = req.POST.get("sex")
+    hoster.contact = req.POST.get("contact")
+    hoster.save()
+    hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    houses = House.objects.all().filter(host=hoster)
+    parks = ParLot.objects.all().filter(host=hoster)
+    return render(req, "4hosts/data.html", {"hoster": hoster, "houses": houses, "parks": parks})
+
 
 def index_login(request):
     if request.method == 'POST':
@@ -53,7 +211,12 @@ def index_login(request):
                 elif type == 3:
                     return HttpResponseRedirect('/security')
                 elif type == 4:
-                    return render(request, '4.html', )
+                    user = request.user
+                    HN = user.username
+                    hoster = models.Hoster.objects.get(hos_name=HN)
+                    request.session["user_id"] = hoster.hos_id  # hosterid
+                    return render(request, '4.html',
+                                  {"userid": hoster.hos_id, "username": hoster.hos_name})  # hosterid hostername
                 elif type == 5:
                     return HttpResponseRedirect('/treasurer')
                 # Redirect to a success page.
@@ -94,7 +257,7 @@ def index_register(request):
 
 
             if type == 0:
-                return render(request, '0.html',)
+                return render(request, '0.html', )
             elif type == 1:
                 return render(request, '1.html', )
             elif type == 2:
@@ -193,6 +356,7 @@ def index_logout(request):
 def myhome(request):
     return render(request, 'home_base.html')
 
+
 @login_required
 def mysecurity(request):
     if request.method == 'GET':
@@ -209,17 +373,20 @@ def mysecurity(request):
         sum = boy_sum+girl_sum
         return render(request, '3.html', {'user': user,'info':infos,'advice':advice,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
 
+
 @login_required
 def s_ca(request):
     if request.method == 'GET':
         user = request.user
         return render(request, 'calendar.html', {'user': user})
 
+
 @login_required
 def s_char(request):
     if request.method == 'GET':
         user = request.user
         return render(request, 'chartjs.html', {'user': user})
+
 
 @login_required
 def s_form(request):
@@ -253,6 +420,7 @@ def s_ta(request):
         user = request.user
         LOGS = models.InOut.objects.all()
         return render(request, 'tables_dynamic.html', {'user': user, 'LOGS':LOGS})
+
 
 @login_required
 def myfinance(request):
@@ -334,6 +502,7 @@ def f_ta(request):
         user = request.user
         BILLS = models.Bill.objects.all()#查询所有账单
         return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS})
+
 
 @login_required
 def f_ca(request):

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人资料</title>
+</head>
+<body>
+<h1 align="center">个人信息</h1>
+<form action="/modify_data/" method="post">
+    ID：<input name="hos_id" value="{{ hoster.hos_id }}">
+    <br><br>
+    姓名：<input name="hos_name" value="{{ hoster.hos_name }}">
+    <br><br>
+    性别：<input name="sex" value="{{ hoster.sex }}">
+    <br><br>
+    联系方式：<input name="contact" value="{{ hoster.contact }}">
+    <br><br>
+    <input type="submit" value="提交修改">
+    <br><br>
+    积分：{{ hoster.bonus }}
+    <br><br>
+    拥有房屋：<br><br>
+    <table border="1">
+        {% for house in houses %}
+            <tr>
+                <th>房屋id</th>
+                <th>房屋面积</th>
+                <th>单元</th>
+                <th>所属楼盘</th>
+                <th>公摊面积</th>
+                <th>楼层</th>
+            </tr>
+            <tr>
+                <td>{{ house.ho_id }}</td>
+                <td>{{ house.area }}</td>
+                <td>{{ house.unit_n }}</td>
+                <td>{{ house.bel_name }}</td>
+                <td>{{ house.pub_area }}</td>
+                <td>{{ house.flour }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br><br>
+    拥有停车场：<br><br>
+    <table border="1">
+        {% for park in parks %}
+            <tr>
+                <th>车位id</th>
+                <th>车库编号</th>
+                <th>车位号</th>
+            </tr>
+            <tr>
+                <td>{{ park.par_id }}</td>
+                <td>{{ park.gar_num }}</td>
+                <td>{{ park.par_id }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人出入信息</title>
+</head>
+<body>
+<h1 align="center">个人出入信息记录</h1>
+<table border="1">
+        <tr>
+            <th>登记编号</th>
+            <th>姓名</th>
+            <th>人员id</th>
+            <th>进入时间</th>
+            <th>出去时间</th>
+            <th>备注</th>
+        </tr>
+     {% for inout in inouts %}
+        <tr>
+            <td>{{ inout.log_id }}</td>
+            <td>{{ inout.guest_name }}</td>
+            <td>{{ inout.hoster.hos_id }}</td>
+            <td>{{ inout.indate }}</td>
+            <td>{{ inout.outdate }}</td>
+            <td>{{ inout.remark }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
