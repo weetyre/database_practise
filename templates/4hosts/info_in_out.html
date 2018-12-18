@@ -6,6 +6,11 @@
 </head>
 <body>
 <h1 align="center">个人出入信息记录</h1>
+ <br>
+ <br>
+{% if inouts.count == 0 %}
+   <h3 align="center">出入信息暂无</h3>
+{% else %}
 <table border="1">
         <tr>
             <th>登记编号</th>
@@ -26,5 +31,6 @@
         </tr>
     {% endfor %}
 </table>
+{% endif %}
 </body>
 </html>

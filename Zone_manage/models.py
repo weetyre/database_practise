@@ -151,8 +151,9 @@ class AInfo(models.Model):
 
 
 class Advice(models.Model):
-    workid = models.ForeignKey(Worker,on_delete=models.CASCADE, db_column='workid', primary_key=True)
-    hoster = models.ForeignKey(Hoster,on_delete=models.CASCADE)
+    advice_id = models.IntegerField(primary_key=True, auto_created=True)
+    workid = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
+    hoster = models.ForeignKey(Hoster, on_delete=models.CASCADE, blank=True, null=True)
     content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
     reco_time = models.DateField(auto_now_add=True,blank=True, null=True)
     state = models.BigIntegerField(blank=True, null=True)
@@ -160,7 +161,7 @@ class Advice(models.Model):
 
     class Meta:
         db_table = 'advice'
-        unique_together = (('workid', 'hoster'),)
+
 
 
 class Bill(models.Model):

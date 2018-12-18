@@ -6,8 +6,23 @@
 </head>
 <body>
 <h1 align="center">缴纳账单</h1>
+    <table border="1">
+        <thead>
+            <td>账单id</td>
+            <td>应缴费</td>
+            <td>时间</td>
+        </thead>
+    {% for bill in bills %}
+        <tr>
+            <td>{{ bill.b_id }}</td>
+            <td>{{ bill.b_amount }}</td>
+            <td>{{ bill.b_date }}</td>
+        </tr>
+    {% endfor %}
+     </table>
+    <br><br>
     <form method="get" action="/do_pay/">
-        <a>应缴费金额：{{ bill.b_amount }}</a>
+        <a>应缴费金额：{{ sumbill }}</a>
         <br><br>
         <input type="submit" value="确认缴费">
     </form>
