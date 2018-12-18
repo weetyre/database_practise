@@ -17,12 +17,14 @@
             <th>公摊面积</th>
             <th>楼层</th>
             <th>租金</th>
+            <th>操作</th>
         </tr>
      {% for house in houses %}
         <tr>
             <td>{{ house.ho_id }}</td>
             <td>{{ house.area }}</td>
-            <td>{{ house.bel_name }}</td>
+            <td>{{ house.unit_n }}</td>
+             <td>{{ house.bel_name }}</td>
             <td>{{ house.pub_area }}</td>
             <td>{{ house.flour }}</td>
             <td>{{ house.rent }}</td>
