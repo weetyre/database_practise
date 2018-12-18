@@ -289,15 +289,15 @@ def f_fo(request):
         HD = request.POST['HostID']
         WD = request.POST['WorkerId']
 
-        worker = models.Worker.objects.filter(w_id=int(WD))[0]
-        hoster = models.Hoster.objects.filter(hos_id=int(HD))[0]
+        worker = models.Worker.objects.filter(w_id=int(WD))
+        hoster = models.Hoster.objects.filter(hos_id=int(HD))
 
-        if worker==None or hoster==None:
+        if worker.count()==0 or hoster.count()==0:
             error_message = 'workerid or hoster id not exists!'
             return render(request, 'fa_fo.html', {'user': user,'error':error_message})
         else:
             succeed_message = 'Success!'
-            models.Bill.objects.create(b_name=BN,b_amount=int(BA),hoster_id=hoster,worker=worker)
+            models.Bill.objects.create(b_name=BN,b_amount=int(BA),hoster_id=hoster[0],worker=worker[0])
             return render(request, 'fa_fo.html', {'user': user,'suc':succeed_message})
 
 
@@ -313,16 +313,16 @@ def f_fo_bonus(request):
         Bonus = request.POST['Bonus']
         Coupon = request.POST['Coupon']
 
-        hoster = models.Hoster.objects.filter(hos_id=int(H_id))[0]
-        if  hoster==None:
+        hoster = models.Hoster.objects.filter(hos_id=int(H_id))
+        if  hoster.count()==0:
             error_message = 'hoster id not exists!'
-            return render(request, 'fa_fo.html', {'user': user,'error':error_message})
+            return render(request, 'fa_fo.html', {'user': user,'errors':error_message})
         else:
-            hoster.bonus = int(Bonus)
-            hoster.coupon_nam = Coupon
-            hoster.save()
+            hoster[0].bonus = int(Bonus)
+            hoster[0].coupon_nam = Coupon
+            hoster[0].save()
             succeed_message = 'Success!'
-            return render(request, 'fa_fo.html', {'user': user,'suc':succeed_message})
+            return render(request, 'fa_fo.html', {'user': user,'sucs':succeed_message})
 
 
 
