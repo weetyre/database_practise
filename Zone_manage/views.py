@@ -83,6 +83,16 @@ def index_register(request):
             MyUser.objects.create_user(username, email, sex, type, request.POST['password'])
             user = auth.authenticate(email=email, password=request.POST['password'])
             auth.login(request, user)
+
+            sex_num = None
+
+            #注册成功，创建相应用户表
+            if sex == 'boy':
+                sex_num ='1'
+            else:
+                sex_num ='0'
+
+
             if type == 0:
                 return render(request, '0.html',)
             elif type == 1:
@@ -90,10 +100,12 @@ def index_register(request):
             elif type == 2:
                 return render(request, '2.html', )
             elif type == 3:
+                models.Worker.objects.create(name=username,sex=sex_num,type = type)
                 return render(request, '3.html', )
             elif type == 4:
                 return render(request, '4.html', )
             elif type == 5:
+                models.Worker.objects.create(name=username, sex=sex_num, type=type)
                 return render(request, '5.html', )
 
         else:
@@ -194,8 +206,8 @@ def mysecurity(request):
 
         boy_sum = hosts_boy.count()
         girl_sum = hosts_girl.count()
-
-        return render(request, '3.html', {'user': user,'info':infos,'advice':advice,'len':len})
+        sum = boy_sum+girl_sum
+        return render(request, '3.html', {'user': user,'info':infos,'advice':advice,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
 
 @login_required
 def s_ca(request):
@@ -248,7 +260,14 @@ def myfinance(request):
         infos = models.AInfo.objects.all()
         advice = models.Advice.objects.all()
         len = advice.count()
-        return render(request, '5.html', {'user': user,'info':infos,'advice':advice,'len':len})
+
+        hosts_boy = models.Hoster.objects.filter(sex='1')
+        hosts_girl = models.Hoster.objects.filter(sex='0')
+
+        boy_sum = hosts_boy.count()
+        girl_sum = hosts_girl.count()
+        sum = boy_sum + girl_sum
+        return render(request, '5.html', {'user': user,'info':infos,'advice':advice,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
 
 @login_required
 def f_ch(request):
