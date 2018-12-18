@@ -51,11 +51,11 @@ def index_login(request):
                 elif type == 2:
                     return render(request, '2.html', )
                 elif type == 3:
-                    return render(request, '3.html', )
+                    return HttpResponseRedirect('/security')
                 elif type == 4:
                     return render(request, '4.html', )
                 elif type == 5:
-                    return render(request, '5.html', )
+                    return HttpResponseRedirect('/treasurer')
                 # Redirect to a success page.
             else:
                 error_message = "Sorry, that's not a valid username or password"
@@ -101,12 +101,12 @@ def index_register(request):
                 return render(request, '2.html', )
             elif type == 3:
                 models.Worker.objects.create(name=username,sex=sex_num,type = type)
-                return render(request, '3.html', )
+                return HttpResponseRedirect('/security')
             elif type == 4:
                 return render(request, '4.html', )
             elif type == 5:
                 models.Worker.objects.create(name=username, sex=sex_num, type=type)
-                return render(request, '5.html', )
+                return HttpResponseRedirect('/treasurer')
 
         else:
             if len(email_filter) > 0:
@@ -242,8 +242,9 @@ def s_form(request):
             error_message = 'workerid or hoster id not exists!'
             return render(request, 'form_validation.html', {'user': user,'error':error_message})
         else:
+            succeed_message = 'Success!'
             models.InOut.objects.create(guest_name=Hname, worker=worker, contact=int(phone), remark=text, hoster=hoster)
-            return render(request, 'form_validation.html', {'user': user})
+            return render(request, 'form_validation.html', {'user': user,'suc':succeed_message})
 
 
 @login_required
@@ -295,8 +296,9 @@ def f_fo(request):
             error_message = 'workerid or hoster id not exists!'
             return render(request, 'fa_fo.html', {'user': user,'error':error_message})
         else:
+            succeed_message = 'Success!'
             models.Bill.objects.create(b_name=BN,b_amount=int(BA),hoster_id=hoster,worker=worker)
-            return render(request, 'fa_fo.html', {'user': user})
+            return render(request, 'fa_fo.html', {'user': user,'suc':succeed_message})
 
 
 @login_required
@@ -319,7 +321,8 @@ def f_fo_bonus(request):
             hoster.bonus = int(Bonus)
             hoster.coupon_nam = Coupon
             hoster.save()
-            return render(request, 'fa_fo.html', {'user': user})
+            succeed_message = 'Success!'
+            return render(request, 'fa_fo.html', {'user': user,'suc':succeed_message})
 
 
 

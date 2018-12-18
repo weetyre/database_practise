@@ -152,7 +152,7 @@
                             <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
                                aria-expanded="false">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
+                                <span class="badge bg-green"></span>
                             </a>
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 <li>
@@ -189,7 +189,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Form Validation</h3>
+                        <h3>Bill</h3>
                     </div>
 
                     <div class="title_right">
@@ -209,7 +209,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Form validation
+                                <h2>Bill conform
                                     <small>sub title</small>
                                 </h2>
                                 <ul class="nav navbar-right panel_toolbox">
@@ -234,9 +234,6 @@
 
                                 <form class="form-horizontal form-label-left" novalidate action="/fa_fo" method="post">
                                     {% csrf_token %}
-                                    <p>For alternative validation library <code>parsleyJS</code> check out in the <a
-                                            href="form.html">form page</a>
-                                    </p>
                                     <span class="section">Bill Form</span>
 
                                     <div class="item form-group">
@@ -283,6 +280,14 @@
                                             <input type="number" id="host_number" name="WorkerId" required="required"
                                                    data-validate-minmax="10,100"
                                                    class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <p class="red">{{ error }}</p>
+                                            <p class="green">{{ suc }}</p>
                                         </div>
                                     </div>
                                     <div class="ln_solid"></div>
@@ -359,6 +364,14 @@
                                             <input type="number" id="Coupon" name="Coupon" required="required"
                                                    data-validate-minmax="10,100"
                                                    class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <p class="red">{{ error }}</p>
+                                            <p class="green">{{ suc }}</p>
                                         </div>
                                     </div>
                                     <div class="ln_solid"></div>
