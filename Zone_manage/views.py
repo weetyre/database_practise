@@ -40,8 +40,6 @@ def post_suggestion(req):
     try:
         data = req.POST.get("suggestion")
         work_id = req.POST.get("work_id")
-        print(data)
-        print(work_id)
         worker = Worker.objects.all().filter(w_id=work_id)
         hoster = Hoster.objects.all().filter(hos_id=req.session.get("user_id"))
         Advice.objects.create(workid=worker[0], hoster=hoster[0], content_field=data, state=0,type_re=1)# 1 建议
@@ -53,7 +51,6 @@ def post_suggestion(req):
 def post_go_repair(req):
     try:
         data = req.POST.get("go_repair")
-        print(data)
         hoster = Hoster.objects.all().filter(hos_id=req.session.get("user_id"))
         Advice.objects.create(hoster=hoster[0], content_field=data, state=0, type_re=1)  # 1 建议
         return HttpResponse("操作成功")
@@ -295,12 +292,25 @@ def index_register(request):
                 sex_num ='0'
 
 
+            #张你的注册入口在这
             if type == 0:
+                #管理处经理
+                models.Worker.objects.create(name=username, sex=sex_num, type=type)
+                #写入你想传过去的东西
                 return render(request, '0.html', )
             elif type == 1:
+                #业务管理员
+                models.Worker.objects.create(name=username, sex=sex_num, type=type)
+
                 return render(request, '1.html', )
             elif type == 2:
+                #水电维修工
+                models.Worker.objects.create(name=username, sex=sex_num, type=type)
+
                 return render(request, '2.html', )
+
+
+
             elif type == 3:
                 models.Worker.objects.create(name=username,sex=sex_num,type = type)
                 return HttpResponseRedirect('/security')
@@ -406,8 +416,20 @@ def mysecurity(request):
     if request.method == 'GET':
         user = request.user
         infos = models.AInfo.objects.all()
-        advice = models.Advice.objects.all()
-        len = advice.count()
+
+        type = user.type
+        name = user.username
+        workers = models.Worker.objects.all().filter(type=type)
+
+        work_s = None
+        for work in workers:
+            if work.name == name:
+                work_s = work
+
+        advice_s = models.Advice.objects.filter(workid=work_s.w_id)
+
+
+        len = advice_s.count()
 
         hosts_boy = models.Hoster.objects.filter(sex='1')
         hosts_girl = models.Hoster.objects.filter(sex='0')
@@ -415,7 +437,7 @@ def mysecurity(request):
         boy_sum = hosts_boy.count()
         girl_sum = hosts_girl.count()
         sum = boy_sum+girl_sum
-        return render(request, '3.html', {'user': user,'info':infos,'advice':advice,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
+        return render(request, '3.html', {'user': user,'info':infos,'advice':advice_s,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
 
 
 @login_required
