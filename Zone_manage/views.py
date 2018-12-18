@@ -576,7 +576,8 @@ def f_ta(request):
     if request.method == 'GET':
         user = request.user
         BILLS = models.Bill.objects.all()#查询所有账单
-        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS})
+        Expen = models.Expense.objects.all()
+        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS,'Expen': Expen})
 
 
 @login_required
