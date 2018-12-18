@@ -185,7 +185,17 @@ def myhome(request):
 def mysecurity(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, '3.html', {'user': user})
+        infos = models.AInfo.objects.all()
+        advice = models.Advice.objects.all()
+        len = advice.count()
+
+        hosts_boy = models.Hoster.objects.filter(sex='1')
+        hosts_girl = models.Hoster.objects.filter(sex='0')
+
+        boy_sum = hosts_boy.count()
+        girl_sum = hosts_girl.count()
+
+        return render(request, '3.html', {'user': user,'info':infos,'advice':advice,'len':len})
 
 @login_required
 def s_ca(request):
@@ -228,13 +238,17 @@ def s_form(request):
 def s_ta(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, 'tables_dynamic.html', {'user': user})
+        LOGS = models.InOut.objects.all()
+        return render(request, 'tables_dynamic.html', {'user': user, 'LOGS':LOGS})
 
 @login_required
 def myfinance(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, '5.html', {'user': user})
+        infos = models.AInfo.objects.all()
+        advice = models.Advice.objects.all()
+        len = advice.count()
+        return render(request, '5.html', {'user': user,'info':infos,'advice':advice,'len':len})
 
 @login_required
 def f_ch(request):
@@ -296,7 +310,8 @@ def f_fo_bonus(request):
 def f_ta(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, 'fa_ta.html', {'user': user})
+        BILLS = models.Bill.objects.all()#查询所有账单
+        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS})
 
 @login_required
 def f_ca(request):

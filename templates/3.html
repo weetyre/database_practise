@@ -63,7 +63,7 @@
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
-                        <h2>John Doe</h2>
+                        <h2>{{ user.username }}</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -107,7 +107,7 @@
                 </div>
                 <!-- /sidebar menu -->
 
-                 <!-- /menu footer buttons -->
+                <!-- /menu footer buttons -->
                 <div class="sidebar-footer hidden-small">
                     <a data-toggle="tooltip" data-placement="top" title="Settings">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -138,7 +138,7 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="{% static 'static_cw/images/img.jpg' %}" alt="">John Doe
+                                <img src="{% static 'static_cw/images/img.jpg' %}" alt="">{{ user.username }}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -152,22 +152,24 @@
                             <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
                                aria-expanded="false">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
+                                <span class="badge bg-green">{{ len }}</span>
                             </a>
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                {% for item in advice %}
                                 <li>
                                     <a>
                                         <span class="image"><img src="{% static 'static_cw/images/img.jpg' %}"
                                                                  alt="Profile Image"/></span>
                                         <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
+                          <span>{{ item.hoster_id }}</span>
+                          <span class="time">{{ item.reco_time }}</span>
                         </span>
                                         <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                          {{ item.content_field }}
                         </span>
                                     </a>
                                 </li>
+                                {% endfor %}
                                 <li>
                                     <div class="text-center">
                                         <a>
@@ -315,74 +317,22 @@
                             <div class="dashboard-widget-content">
 
                                 <ul class="list-unstyled timeline widget">
-                                    <li>
-                                        <div class="block">
-                                            <div class="block_content">
-                                                <h2 class="title">
-                                                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                                </h2>
-                                                <div class="byline">
-                                                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                                    {% for item in info %}
+                                        <li>
+                                            <div class="block">
+                                                <div class="block_content">
+                                                    <h2 class="title">
+                                                        <a>{{ item.title }}</a>
+                                                    </h2>
+                                                    <div class="byline">
+                                                        <span>{{ item.inf_time }}</span> by <a>{{ item.id }}</a>
+                                                    </div>
+                                                    <p class="excerpt"> {{ item.content }}<a>Read&nbsp;More</a>
+                                                    </p>
                                                 </div>
-                                                <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                                    makers. They were where you met the producers that could fund your
-                                                    project, and if the buyers liked your flick, they’d pay to
-                                                    Fast-forward and… <a>Read&nbsp;More</a>
-                                                </p>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block">
-                                            <div class="block_content">
-                                                <h2 class="title">
-                                                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                                </h2>
-                                                <div class="byline">
-                                                    <span>13 hours ago</span> by <a>Jane Smith</a>
-                                                </div>
-                                                <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                                    makers. They were where you met the producers that could fund your
-                                                    project, and if the buyers liked your flick, they’d pay to
-                                                    Fast-forward and… <a>Read&nbsp;More</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block">
-                                            <div class="block_content">
-                                                <h2 class="title">
-                                                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                                </h2>
-                                                <div class="byline">
-                                                    <span>13 hours ago</span> by <a>Jane Smith</a>
-                                                </div>
-                                                <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                                    makers. They were where you met the producers that could fund your
-                                                    project, and if the buyers liked your flick, they’d pay to
-                                                    Fast-forward and… <a>Read&nbsp;More</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block">
-                                            <div class="block_content">
-                                                <h2 class="title">
-                                                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                                </h2>
-                                                <div class="byline">
-                                                    <span>13 hours ago</span> by <a>Jane Smith</a>
-                                                </div>
-                                                <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                                    makers. They were where you met the producers that could fund your
-                                                    project, and if the buyers liked your flick, they’d pay to
-                                                    Fast-forward and… <a>Read&nbsp;More</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
