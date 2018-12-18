@@ -246,6 +246,16 @@ def index_register(request):
             MyUser.objects.create_user(username, email, sex, type, request.POST['password'])
             user = auth.authenticate(email=email, password=request.POST['password'])
             auth.login(request, user)
+
+            sex_num = None
+
+            #注册成功，创建相应用户表
+            if sex == 'boy':
+                sex_num ='1'
+            else:
+                sex_num ='0'
+
+
             if type == 0:
                 return render(request, '0.html', )
             elif type == 1:
@@ -253,10 +263,12 @@ def index_register(request):
             elif type == 2:
                 return render(request, '2.html', )
             elif type == 3:
+                models.Worker.objects.create(name=username,sex=sex_num,type = type)
                 return render(request, '3.html', )
             elif type == 4:
                 return render(request, '4.html', )
             elif type == 5:
+                models.Worker.objects.create(name=username, sex=sex_num, type=type)
                 return render(request, '5.html', )
 
         else:
@@ -349,7 +361,17 @@ def myhome(request):
 def mysecurity(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, '3.html', {'user': user})
+        infos = models.AInfo.objects.all()
+        advice = models.Advice.objects.all()
+        len = advice.count()
+
+        hosts_boy = models.Hoster.objects.filter(sex='1')
+        hosts_girl = models.Hoster.objects.filter(sex='0')
+
+        boy_sum = hosts_boy.count()
+        girl_sum = hosts_girl.count()
+        sum = boy_sum+girl_sum
+        return render(request, '3.html', {'user': user,'info':infos,'advice':advice,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
 
 
 @login_required
@@ -395,14 +417,25 @@ def s_form(request):
 def s_ta(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, 'tables_dynamic.html', {'user': user})
+        LOGS = models.InOut.objects.all()
+        return render(request, 'tables_dynamic.html', {'user': user, 'LOGS':LOGS})
 
 
 @login_required
 def myfinance(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, '5.html', {'user': user})
+        infos = models.AInfo.objects.all()
+        advice = models.Advice.objects.all()
+        len = advice.count()
+
+        hosts_boy = models.Hoster.objects.filter(sex='1')
+        hosts_girl = models.Hoster.objects.filter(sex='0')
+
+        boy_sum = hosts_boy.count()
+        girl_sum = hosts_girl.count()
+        sum = boy_sum + girl_sum
+        return render(request, '5.html', {'user': user,'info':infos,'advice':advice,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
 
 
 @login_required
@@ -463,7 +496,8 @@ def f_fo_bonus(request):
 def f_ta(request):
     if request.method == 'GET':
         user = request.user
-        return render(request, 'fa_ta.html', {'user': user})
+        BILLS = models.Bill.objects.all()#查询所有账单
+        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS})
 
 
 @login_required
