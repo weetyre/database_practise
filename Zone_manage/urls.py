@@ -2,20 +2,23 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path(r'4hosts/suggests.html/', views.hostssuggests),
+    path(r'4hosts/judge_repair.html', views.hostjudge_repair),
+    path(r'4hosts/go_repair.html', views.hostgo_repair),
     path(r'post_suggestion/', views.post_suggestion),
     path(r'post_judge_repair/', views.post_judge_repair),
     path(r'post_go_repair/', views.post_go_repair),
-    path(r'pays/', views.pays),
+    path(r'4hosts/pays/', views.pays),
     path(r'do_pay/', views.do_pay),
-    path(r'park_rent/', views.park_rent_show),
+    path(r'4hosts/park_rent/', views.park_rent_show),
     path(r'rentPark/', views.rentPark),
-    path(r'park_buy/', views.park_buy_show),
+    path(r'4hosts/park_buy/', views.park_buy_show),
     path(r'buyPark/', views.buyPark),
-    path(r'house_rent/', views.house_rent_show),
+    path(r'4hosts/house_rent/', views.house_rent_show),
     path(r'rentHouse/', views.rentHouse),
-    path(r'house_buy/', views.house_buy_show),
+    path(r'4hosts/house_buy/', views.house_buy_show),
     path(r'buyHouse/', views.buyHouse),
-    path(r'info_in_out/', views.inout),
+    path(r'4hosts/info_in_out/', views.inout),
 
 
 

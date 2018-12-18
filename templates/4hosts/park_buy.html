@@ -5,20 +5,25 @@
     <title>购买停车场</title>
 </head>
 <body>
-Django自动按数据库查询结果生成数据表结果---停车场可租用
-
-<form action="/buyPark/" method="post">
-    <input name="park_id" placeholder="请输入停车场编号">
-    <input type="submit" value="确认租用">
-</form>
+<h1 align="center">可购买的停车场信息</h1>
  <br>
  <br>
-<ul>
-    {% for park in parkss %}
-    <li>
-    {{ park.par_id }}----{{ park.gar_num }}----{{ park.rent }}----{{ park.price }}----{{ park.gar_num }}
-    </li>
+<table border="1">
+        <tr>
+            <th>车位id</th>
+            <th>车库编号</th>
+            <th>车位号</th>
+            <th>售价</th>
+        </tr>
+     {% for park in parks %}
+        <tr>
+            <td>{{ park.par_id }}</td>
+            <td>{{ park.gar_num }}</td>
+            <td>{{ park.par_id }}</td>
+            <td>{{ park.price }}</td>
+         <td><a href="/buyPark?park_id={{ park.par_id }}">购买此停车位</a></td>
+        </tr>
     {% endfor %}
-</ul>
+</table>
 </body>
 </html>

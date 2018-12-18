@@ -17,16 +17,33 @@ from .models import InOut
 from .models import Bill
 from .models import Advice
 from .models import Fix
+from .models import Worker
+from .models import Hoster
+
+def hostjudge_repair(req):
+    return render(req, "4hosts/judge_repair.html")
+
+
+
+def hostgo_repair(req):
+    return render(req, "4hosts/go_repair.html")
+
+
+def hostssuggests(req):
+    # host = Hoster.objects.all()[0]
+    # InOut.objects.create(log_id=123,hoster=host,remark='hello world',guest_name='yyl')
+    return render(req, "4hosts/suggests.html")
+
 
 def post_suggestion(req):
     data = req.POST.get("suggestion")
+    work_id = req.POST.get("work_id")
+    print(work_id)
     print(data)
-    # 增加一个数据，而不是修改
-    advice = Advice.objects.all()[0]
-    advice.hoster = req.session.get("user_id")
-    advice.content_field = data
-    advice.save()
-
+    worker = Worker.objects.all()[0]
+    hoster = Hoster.objects.all()[0]
+    Advice.objects.create(workid=worker,hoster=hoster,content_field=data,state=0)
+    print("ok")
     return render(req, '4hosts/suggests.html')
 
 
@@ -34,31 +51,37 @@ def post_go_repair(req):
     data = req.POST.get("go_repair")
     print(data)
     # 增加一个数据，而不是修改
-    fix = Fix.objects.all()[0]
-    fix.date_field = data
-    fix.save()
+    # Fix.objects.create()
     return render(req, '4hosts/go_repair.html')
 
 
 def post_judge_repair(req):
     data = req.POST.get("judge_repair")
+    work_id = req.POST.get("work_id")
+    print(work_id)
     print(data)
-    # 此处向数据库插入信息
+    worker = Worker.objects.all()[1]
+    # Hoster.objects.create(hos_id=req.session.get("user_id"))
+    hoster = Hoster.objects.all()[0]
+    Advice.objects.create(workid=worker, hoster=hoster, content_field=data, state=0)
+    print("ok judge")
     return render(req, '4hosts/judge_repair.html')
 
 
 def pays(req):
-    bill = Bill.objects.get(req.session.get("user_id"))
+    hoster = Hoster.objects.all()[0]
+    Bill.objects.create(b_id=1234,hoster_id=hoster,b_amount=100.01)
+    bill = Bill.objects.all().filter(req.session.get("user_id"))
     return render(req, '4hosts/pays.html', {"bill": bill})
 
 
 def do_pay(req):
-    bill = Bill.objects.get(req.session.get("user_id"))
-    bill.b_amount = 0
-    bill.save()
-
-    bill = Bill.objects.get(req.session.get("user_id"))
-    return render(req, '4hosts/pays.html', {"bill": bill})
+    print("do pay")
+    # bill = Bill.objects.get(req.session.get("user_id"))
+    # bill.b_amount = 0
+    # bill.save()
+    # bill = Bill.objects.get(req.session.get("user_id"))
+    return render(req, '4hosts/pays.html', {"bill": 0})
 
 
 def park_rent_show(req):
@@ -95,7 +118,7 @@ def house_rent_show(req):
 
 
 def rentHouse(req):
-    house_id = req.POST.get("house_id")
+    house_id = req.GET.get("house_id")
     pass
 
     return render(req, "4hosts/house_rent.html")
@@ -108,16 +131,17 @@ def house_buy_show(req):
 
 
 def buyHouse(req):
-    hosue_id = req.POST.get("hosue_id")
+    hosue_id = req.GET.get("hosue_id")
     pass
 
     return render(req, "4hosts/house_buy.html")
 
 
 def inout(req):
-    inouts = InOut.objects.get(req.session.get("user_id"))
+    host = Hoster.objects.get(hos_id=req.session.get("user_id"))
+    print(host)
+    inouts = InOut.objects.all().filter(hoster = host)
     return render(req, '4hosts/info_in_out.html', {"inouts": inouts})
-
 
 
 
@@ -175,7 +199,11 @@ def index_login(request):
                 elif type == 3:
                     return render(request, '3.html', )
                 elif type == 4:
-                    return render(request, '4.html', )
+                    user= request.user
+                    HN = user.username
+                    hoster = models.Hoster.objects.get(hos_name=HN)
+                    request.session["user_id"] = hoster.hos_id # hosterid
+                    return render(request, '4.html', {"userid":hoster.hos_id,"username":hoster.hos_name}) # hosterid hostername
                 elif type == 5:
                     return render(request, '5.html', )
                 # Redirect to a success page.

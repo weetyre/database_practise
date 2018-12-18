@@ -5,8 +5,10 @@
     <title>缴费</title>
 </head>
 <body>
+<h1 align="center">缴纳账单</h1>
     <form method="get" action="/do_pay/">
-    <input title="text" value= {{ bill.b_amount }} onkeyup="value=value.replace(/[^\d]/g,'')" contenteditable="false">
+        <a>应缴费金额：{{ bill.b_amount }}</a>
+        <br><br>
         <input type="submit" value="确认缴费">
     </form>
 </body>
