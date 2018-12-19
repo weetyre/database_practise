@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>使用情况</title>
+    <title>公告信息</title>
 </head>
 <body>
+<h1>公告</h1>
+<br><br>
+{% if a_infos.count == 0 %}
+<h3 align="center">暂时没有公告</h3>
+{% else %}
+    {% for a_info in a_infos %}
+<h3>{{ a_info.title }}</h3>
+    <br>
+        <h7>{{ a_info.inf_time}}</h7>
+        <br><br>
+        <textarea disabled style="width:500px;height:200px;"  >{{ a_info.content }}</textarea>
+    {% endfor %}
+{% endif %}
+{# 设备使用情况 #}
+<br><br><br><br>
+<h1>设备使用情况</h1>
 {% if uses.count == 0 %}
 <h3 align="center">未使用任何设备</h3>
 {% else %}

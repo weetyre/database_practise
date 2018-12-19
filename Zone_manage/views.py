@@ -28,11 +28,14 @@ def hostgo_repair(req):
     return render(req, "4hosts/go_repair.html")
 
 from .models import Uses
+from .models import AInfo
 def usage(req):
     try:
+        a_infos = AInfo.objects.all()
+
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         uses = Uses.objects.all().filter(hoster=hoster.hos_id)
-        return render(req,"4hosts/usage.html",{"uses":uses})
+        return render(req,"4hosts/usage.html",{"a_infos":a_infos,"uses":uses})
     except:
         return render(req, "4hosts/usage.html")
 
