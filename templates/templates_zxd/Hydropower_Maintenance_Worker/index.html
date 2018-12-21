@@ -1,15 +1,15 @@
-{%extends "templates_zxd/Business_Administrator/base.html" %}
+{%extends "templates_zxd/Hydropower_Maintenance_Worker/base.html" %}
 {% block list%}
 <ul class="app-menu">
   <li><a class="app-menu__item active" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
   <li><a class="app-menu__item" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
-  <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">办理入住</span></a></li>
-  <li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">停车场业务</span></a></li>
-  <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">房屋信息</span></a></li>
+  <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">电表维修登记</span></a></li>
+  <li><a class="app-menu__item" href="../baoxiao"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">提交报销单</span></a></li>
+  <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">设备管理</span></a></li>
 </ul>
 {% endblock %}
 {% block mainbody %}
-  <div class="row">
+   <div class="row">
         <div class="col-md-6 col-lg-3">
           <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
             <div class="info">
@@ -21,7 +21,7 @@
          <div class="col-md-6 col-lg-3">
            <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
             <div class="info">
-              <h4>房屋数量</h4>
+              <h4>设备数量</h4>
               <p><b>{{worker_number}}</b></p>
             </div>
           </div>
@@ -48,10 +48,10 @@
           <div class="tile">
             <h3 class="tile-title">章程</h3>
             <ul>
-              {% for rule in rules %}
-
-            <li>{{ rule.content_field }}1</li>
+                {% for rule in rules %}
+                <li>{{ rule.content_field }}1</li>
              {% endfor %}
+
     
             </ul>
             <p class="mt-4 mb-4"><a class="btn btn-primary mr-2 mb-2" href="http://pratikborsadiya.in/blog/vali-admin" target="_blank"><i class="fa fa-file"></i>Docs</a><a class="btn btn-info mr-2 mb-2" href="https://github.com/pratikborsadiya/vali-admin" target="_blank"><i class="fa fa-github"></i>GitHub</a><a class="btn btn-success mr-2 mb-2" href="https://github.com/pratikborsadiya/vali-admin/archive/master.zip" target="_blank"><i class="fa fa-download"></i>Download</a></p>

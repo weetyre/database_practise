@@ -21,7 +21,7 @@ urlpatterns = [
     path(r'4hosts/info_in_out/', views.inout),
     path(r'4hosts/data/', views.show_data),
     path(r'modify_data/',views.modify_data),
-
+    path(r'4hosts/usage', views.usage),
 
 
 

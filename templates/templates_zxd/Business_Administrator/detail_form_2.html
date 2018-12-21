@@ -1,0 +1,36 @@
+<div class="tile user-settings">
+      <div class="close"> <button class="btn btn-info" onclick="form1_detail_close('form2')">收起</button></div>
+            <h4 class="line-head">详细信息</h4>
+
+            <form id="form1_update" method="POST" name="form1">
+              {% csrf_token %}
+                <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>房屋</label>
+                    <br>
+                  <input type="text" class="form-control" readonly="readonly" name="house_id" value="{{  house.ho_id }}">
+
+                </div>
+
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>住户ID</label>
+                  <input class="form-control" type="text" name="hos_id" value="{{ house.host_id }}">
+                </div>
+
+                <div class="col-md-4">
+                  <label>状态</label>
+                  <input class="form-control" type="text" name="avi" value="{{ house.avi }}">
+                </div>
+
+              </div>
+                <input type="hidden" value="form2" name="type">
+              <div class="row mb-8">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" type="button" onclick="form_update_host_submit({{ house.ho_id }})"><i class="fa fa-fw fa-lg fa-check"></i> Update</button>
+                </div>
+              </div>
+            </form>
+</div>
