@@ -3,7 +3,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 
 from .admin import UserCreationForm
 from .forms import LoginForm, ChangeEmailForm, MyPasswordChangeForm
@@ -251,11 +251,11 @@ def index_login(request):
                 type = user.type
 
                 if type == 0:
-                    return render(request, '0.html', )
+                    return redirect('Zone_manage:management_manager_index')
                 elif type == 1:
-                    return render(request, '1.html', )
+                    return redirect('Zone_manage:business_administrator_index')
                 elif type == 2:
-                    return render(request, '2.html', )
+                    return redirect('Zone_manage:hydropower_maintenance_worker_index')
                 elif type == 3:
                     return HttpResponseRedirect('/security')
                 elif type == 4:
@@ -309,17 +309,17 @@ def index_register(request):
                 #管理处经理
                 models.Worker.objects.create(name=username, sex=sex_num, type=type)
                 #写入你想传过去的东西
-                return render(request, '0.html', )
+                return redirect('Zone_manage:management_manager_index')
             elif type == 1:
                 #业务管理员
                 models.Worker.objects.create(name=username, sex=sex_num, type=type)
 
-                return render(request, '1.html', )
+                return redirect('Zone_manage:business_administrator_index')
             elif type == 2:
                 #水电维修工
                 models.Worker.objects.create(name=username, sex=sex_num, type=type)
 
-                return render(request, '2.html', )
+                return redirect('Zone_manage:hydropower_maintenance_worker_index')
 
 
 

@@ -275,12 +275,12 @@ def management_manager_advice_finish(request):
 def hydropower_maintenance_worker_index(request):
     rules = models.Rule.objects.all()
     infos = models.AInfo.objects.all()
-    hoster_number = models.Equip.objects.count()
-    worker_number = models.Worker.objects.count()
+    hoster_number = models.Hoster.objects.count()
+    equip_number = models.Equip.objects.count()
     advice_count = models.Advice.objects.filter(workid_id=3).count()
     un_advice_count = models.Advice.objects.filter(workid_id=3, state=0).count()
     return render(request, 'templates_zxd/Hydropower_Maintenance_Worker/index.html',
-                  {'rules': rules, 'hoster_number': hoster_number, 'worker_number': worker_number,
+                  {'rules': rules, 'hoster_number': hoster_number, 'equip_number': equip_number,
                    'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count})
 
 
