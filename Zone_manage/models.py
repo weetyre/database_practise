@@ -133,8 +133,9 @@ class Worker(models.Model):
     name = models.CharField(max_length=20, blank=True, null=True)
     sex = models.CharField(max_length=4, blank=True, null=True)
     in_date = models.DateField(auto_now_add=True,blank=True, null=True)
-    work_time = models.FloatField(blank=True, null=True)
+    work_num = models.IntegerField(blank=True, null=True)
     type = models.BigIntegerField(blank=True, null=True)
+    avi = models.BigIntegerField(blank=True, null=True)
 
     class Meta:
         db_table = 'worker'
@@ -157,7 +158,7 @@ class Advice(models.Model):
     content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
     reco_time = models.DateField(auto_now_add=True,blank=True, null=True)
     state = models.BigIntegerField(blank=True, null=True)
-    type_re = models.BigIntegerField(blank=True, null=True)
+    type_re = models.BigIntegerField(blank=True, null=True,default=0)
 
     class Meta:
         db_table = 'advice'
@@ -180,7 +181,7 @@ class CheckRe(models.Model):
     che_id = models.AutoField(primary_key=True)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
     date_ch = models.DateField(auto_now_add=True,blank=True, null=True)
-    worktime = models.FloatField(blank=True, null=True)
+    workcontent = models.CharField(max_length=500,blank=True, null=True)
 
     class Meta:
         db_table = 'check_re'
