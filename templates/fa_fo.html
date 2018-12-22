@@ -152,7 +152,7 @@
                             <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
                                aria-expanded="false">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
+                                <span class="badge bg-green"></span>
                             </a>
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 <li>
@@ -189,7 +189,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Form Validation</h3>
+                        <h3>Bill</h3>
                     </div>
 
                     <div class="title_right">
@@ -209,7 +209,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Form validation
+                                <h2>Bill conform
                                     <small>sub title</small>
                                 </h2>
                                 <ul class="nav navbar-right panel_toolbox">
@@ -234,9 +234,6 @@
 
                                 <form class="form-horizontal form-label-left" novalidate action="/fa_fo" method="post">
                                     {% csrf_token %}
-                                    <p>For alternative validation library <code>parsleyJS</code> check out in the <a
-                                            href="form.html">form page</a>
-                                    </p>
                                     <span class="section">Bill Form</span>
 
                                     <div class="item form-group">
@@ -285,10 +282,17 @@
                                                    class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <p class="red">{{ error }}</p>
+                                            <p class="green">{{ suc }}</p>
+                                        </div>
+                                    </div>
                                     <div class="ln_solid"></div>
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-3">
-                                            <button type="submit" class="btn btn-primary">Cancel</button>
                                             <button id="send" type="submit" class="btn btn-success" name="BF">Submit</button>
                                         </div>
                                     </div>
@@ -361,10 +365,99 @@
                                                    class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <p class="red">{{ errors }}</p>
+                                            <p class="green">{{ sucs }}</p>
+                                        </div>
+                                    </div>
                                     <div class="ln_solid"></div>
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-3">
-                                            <button type="submit" class="btn btn-primary">Cancel</button>
+                                            <button id="send" type="submit" class="btn btn-success" name="BONU">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Salary handing out
+                                    <small>sub title</small>
+                                </h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Settings 1</a>
+                                            </li>
+                                            <li><a href="#">Settings 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <form class="form-horizontal form-label-left" novalidate action="/fa_sa" method="post">
+                                    {% csrf_token %}
+                                    <span class="section">Salary handing out</span>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Base Salary<span
+                                                    class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="hoster_id" class="form-control col-md-7 col-xs-12"
+                                                   data-validate-length-range="6" data-validate-words="2" name="salary"
+                                                   placeholder="please input the base salary" required="required"
+                                                   type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Security
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="number" id="bonus" name="security" required="required"
+                                                   data-validate-minmax="10,100"
+                                                   class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Worker ID
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="number" id="Coupon" name="workid" required="required"
+                                                   data-validate-minmax="10,100" placeholder="please input the work id"
+                                                   class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <p class="red">{{ error_sa }}</p>
+                                            <p class="green">{{ suc_sa }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-3">
                                             <button id="send" type="submit" class="btn btn-success" name="BONU">Submit</button>
                                         </div>
                                     </div>

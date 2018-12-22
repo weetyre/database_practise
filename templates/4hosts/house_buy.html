@@ -8,6 +8,9 @@
 <h1 align="center">可购买房屋信息</h1>
 <br>
 <br>
+{% if houses.count == 0 %}
+   <h3 align="center">当前空闲房屋为空</h3>
+{% else %}
 <table border="1">
         <tr>
             <th>房屋id</th>
@@ -32,5 +35,6 @@
         </tr>
     {% endfor %}
 </table>
+{% endif %}
 </body>
 </html>

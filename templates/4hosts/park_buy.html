@@ -8,6 +8,9 @@
 <h1 align="center">可购买的停车场信息</h1>
  <br>
  <br>
+{% if parks.count == 0 %}
+   <h3 align="center">当前可用车位为空</h3>
+{% else %}
 <table border="1">
         <tr>
             <th>车位id</th>
@@ -26,5 +29,6 @@
         </tr>
     {% endfor %}
 </table>
+{% endif %}
 </body>
 </html>

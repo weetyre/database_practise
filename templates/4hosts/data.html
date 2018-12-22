@@ -7,17 +7,26 @@
 <body>
 <h1 align="center">个人信息</h1>
 <form action="/modify_data/" method="post">
-    ID：<input name="hos_id" value="{{ hoster.hos_id }}">
     <br><br>
-    姓名：<input name="hos_name" value="{{ hoster.hos_name }}">
+    姓名：{{ hoster.hos_name }}
     <br><br>
-    性别：<input name="sex" value="{{ hoster.sex }}">
+    {% if hoster.sex == '1' %}
+        性别：<input name="sex" value="男">
+    {% else %}
+        性别：<input name="sex" value="女">
+    {% endif %}
     <br><br>
-    联系方式：<input name="contact" value="{{ hoster.contact }}">
+    {% if hoster.contact == None %}
+    联系方式：<input name="contact" oninput="value=value.replace(/[^\d]/g,'')" value="">
+    {% else %}
+    联系方式：<input name="contact" oninput="value=value.replace(/[^\d]/g,'')" value="{{ hoster.contact }}">
+    {% endif %}
     <br><br>
     <input type="submit" value="提交修改">
     <br><br>
     积分：{{ hoster.bonus }}
+    <br><br>
+    代金券：{{ hoster.coupon_nam }}
     <br><br>
     拥有房屋：<br><br>
     <table border="1">

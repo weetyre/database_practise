@@ -6,7 +6,10 @@
 </head>
 <body>
 <h1 align="center">可租用的停车场信息</h1>
-
+<br><br>
+{% if parks.count == 0 %}
+   <h3 align="center">当前可用车位为空</h3>
+{% else %}
 <table border="1">
         <tr>
             <th>车位id</th>
@@ -21,9 +24,10 @@
             <td>{{ park.gar_num }}</td>
             <td>{{ park.par_id }}</td>
             <td>{{ park.rent }}</td>
-         <td><a href="/rentPark?park_id={{ park.par_id }}">购买此停车位</a></td>
+         <td><a href="/rentPark?park_id={{ park.par_id }}">租用此停车位</a></td>
         </tr>
     {% endfor %}
 </table>
+{% endif %}
 </body>
 </html>

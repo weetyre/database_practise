@@ -8,13 +8,41 @@
 <form action="/post_suggestion/" method="post">
     <a>请输入工作人员id:</a>
     <br>
-    <input type="text" name="work_id" value="00001">
+    <input type="text" name="work_id">
     <br>
     <br>
-<textarea style="width:500px;height:200px;" name="suggestion">
+    <textarea style="width:500px;height:200px;" name="suggestion">
 请在此输入您的建议......
 </textarea>
-    <input type="submit"  value="提交">
+    <br><br>
+    <input type="submit" width="60" height="30" value="提交">
 </form>
+<br><br><br>
+<h2>投诉建议状态</h2>
+{% if advices.count == 0 %}
+    <h4 align="center">您未曾参与投诉或提供建议</h4>
+{% else %}
+    <table border="1">
+        <thead>
+        <td>编号</td>
+        <td>内容</td>
+        <td>时间</td>
+        <td>处理状态</td>
+        </thead>
+        {% for advice in advices %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ advice.content_field }}</td>
+                <td>{{ advice.reco_time }}</td>
+                {% if advice.state == 1 %}
+                    <td>待处理</td>
+                {% else %}
+                    <td>已处理</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
 </body>
 </html>
