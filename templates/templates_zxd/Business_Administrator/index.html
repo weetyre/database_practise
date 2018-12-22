@@ -50,7 +50,7 @@
             <ul>
               {% for rule in rules %}
 
-            <li>{{ rule.content_field }}1</li>
+            <li><strong> {{ rule.type_field }}</strong> <br>{{ rule.content_field }}</li> <br>
              {% endfor %}
     
             </ul>
@@ -62,7 +62,7 @@
             <h3 class="tile-title">公告</h3>
               <ul>
               {% for info in infos %}
-                  <li><stong> {{ info.title }}</stong>{{ info.content }}</li>
+                  <li><strong> {{ info.title }}</strong> <br>{{ info.content }}</li> <br>
              {% endfor %}
               </ul>
           </div>

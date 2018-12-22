@@ -15,35 +15,38 @@
         <div class="col-md-12">
           <div class="tile">
           <div class="add_title line-head">
-                  <p>住户信息</p>
+                  <p>停车场信息</p>
                   <div class="add_button">
-                    <button class="btn btn-primary change_btn_height" onclick="form_add_host()">添加</button>
+                    <button class="btn btn-primary change_btn_height" onclick="park_handle(0, 0, 'add')">添加</button>
                   </div>
               </div>
             <div class="tile-body">
-              <table class="table table-hover table-bordered" id="HosterTable">
+              <table class="table table-hover table-bordered" id="parks">
                 <thead>
                   <tr>
-                    <th>住户ID</th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>联系方式</th>
-                    <th>登陆名</th>
-                    <th>创建日期</th>
+                    <th>编号</th>
+                    <th>车库号</th>
+                    <th>车位号</th>
+                    <th>售价</th>
+                    <th>租金</th>
+                    <th>状态</th>
                     <th>操作</th>
                   </tr>
                 </thead>
-                  <tbody>
-                  {% for hoster in hosters %}
+                  <tbody id="table_tbody">
+                  {% for park in parks %}
                   <tr>
-                    <td>{{ hoster.hos_id  }}</td>
-                    <td>{{ hoster.hos_name }}</td>
-                    <td>{{ hoster.sex }}</td>
-                    <td>{{ hoster.contact }}</td>
-                    <td>{{ hoster.loign_nam }}</td>
-                    <td>{{ hoster.in_time }}</td>
-                    <td><button class="btn btn-danger"  onclick="form_host_delete({{ hoster.hos_id }}, 'form1')">删除</button>
-                    <button class="btn btn-primary"  onclick="form_host_detail({{ hoster.hos_id  }}, 'form1')">详细</button></td>
+                    <td>{{ park.par_id }}</td>
+                    <td>{{ park.gar_num  }}</td>
+                    <td>{{ park.par_location }}</td>
+                    <td>{{ park.price }}</td>
+                    <td>{{ park.rent }}</td>
+                      {% if park.avi == 1 %}
+                      <td>可用</td>
+                      {% else %}
+                      <td>不可用</td>
+                      {% endif %}
+                      <td><button class="btn btn-danger"  onclick="park_handle({{ park.gar_num  }}, {{ park.par_location }}, 'delete')">删除</button></td>
                   </tr>
                 {% endfor %}
                 </tbody>
@@ -56,93 +59,78 @@
           </div>
         </div>
       </div>
-        <div class="row">
-        <div class="col-md-12">
-          <div class="tile">
-          <div class="add_title line-head">
-                  <p>入住信息</p>
-              <p style="color:red;">{{error}}</p>
-              </div>
-            <div class="tile-body">
-              <table class="table table-hover table-bordered" id="HouseTable">
-                <thead>
-                  <tr>
-                    <th>房屋ID</th>
-                    <th>住户ID</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                  </tr>
-                </thead>
-                  <tbody>
-                  {% for house in houses %}
-                  <tr>
-                    <td>{{ house.ho_id  }}</td>
-                    <td>{{ house.host_id }}</td>
-                    <td>{{ house.avi }}</td>
-                   <td>  <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-             <div class="detail" id = 'form2_detail'>
-                 <div id="form2_detail_text">
-                 </div>
-             </div>
-            </div>
-          </div>
-        </div>
-      </div>
+{#        <div class="row">#}
+{#        <div class="col-md-12">#}
+{#          <div class="tile">#}
+{#          <div class="add_title line-head">#}
+{#                  <p>入住信息</p>#}
+{#              <p style="color:red;">{{error}}</p>#}
+{#              </div>#}
+{#            <div class="tile-body">#}
+{#              <table class="table table-hover table-bordered" id="HouseTable">#}
+{#                <thead>#}
+{#                  <tr>#}
+{#                    <th>房屋ID</th>#}
+{#                    <th>住户ID</th>#}
+{#                    <th>状态</th>#}
+{#                    <th>操作</th>#}
+{#                  </tr>#}
+{#                </thead>#}
+{#                  <tbody>#}
+{#                  {% for house in houses %}#}
+{#                  <tr>#}
+{#                    <td>{{ house.ho_id  }}</td>#}
+{#                    <td>{{ house.host_id }}</td>#}
+{#                    <td>{{ house.avi }}</td>#}
+{#                   <td>  <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>#}
+{#                  </tr>#}
+{#                {% endfor %}#}
+{#                </tbody>#}
+{#              </table>#}
+{#             <div class="detail" id = 'form2_detail'>#}
+{#                 <div id="form2_detail_text">#}
+{#                 </div>#}
+{#             </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
     </div>
-    <div class="form-add-host" id="form_add_host">
+    <div class="form-add-host" id="add_park">
     <div class="tab-pane">
           <div class="tile user-settings">
-            <h4 class="line-head">添加小区住户</h4>
+            <h4 class="line-head">添加停车场</h4>
+              <div id = "error"></div>
             <form id="form1_submit" method="POST" name="form1">
               {% csrf_token %}
               <div class="row mb-4">
                 <div class="col-md-4">
-                  <label>姓名</label>
-                  <input class="form-control" type="text" name="hos_name" id="form1_hos_name">
+                  <label>车库号</label>
+                  <input class="form-control" type="text" name="gar_num" id="gar_num">
                 </div>
                 <div class="col-md-4">
-                  <label>联系方式</label>
-                  <input class="form-control" type="number" name="contact" id="form1_contact">
+                  <label>车位号</label>
+                  <input class="form-control" type="number" name="par_id" id="par_id">
                 </div>
               </div>
                 <div class="row mb-4">
                 <div class="col-md-4">
-                  <label>性别</label>
-                    <div  class="radiolist">
-                        <input type="radio" value="男" name="sex" >男
-                        <input class ="radio_button" type="radio" value="女" name="sex">女
-                    </div>
+                  <label>售价</label>
+                  <input class="form-control" type="text" name="price" id="price">
                 </div>
-                <div class="col-md-4">
-                  <label>积分</label>
-                  <input class="form-control" type="text" name="bonus" id="form1_bonus">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-8 mb-4">
-                  <label>登陆账户</label>
-                  <input class="form-control" type="email" name="login_nam" id="form1_login_nam">
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-8 mb-4">
-                  <label> 登陆密码</label>
-                  <input class="form-control" type="text" name="pass" id="form1_pass">
-                </div>
-                <div class="clearfix"></div>
-              </div>
-
-              <div class="row mb-8">
                     <div class="col-md-4">
-                        <button class="btn btn-primary" type="button" onclick="form_add_host_submit()"><i class="fa fa-fw fa-lg fa-check"></i> Save</button>
-                </div>
-                    <div class="col">
-                    <button class="btn btn-danger" type="button" onclick="form_close_host_submit()"><i class="fa fa-fw fa-lg fa-close"></i>Close</button>
+                  <label>租金</label>
+                  <input class="form-control" type="text" name="rent" id="rent">
                 </div>
               </div>
+                <div class="row mb-4">
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" type="button" onclick="park_handle(0,0,'add_post')"><i class="fa fa-fw fa-lg fa-check"></i> Save</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger" type="button" onclick="park_handle(0,0,'concel_add')"><i class="fa fa-fw fa-lg fa-close"></i>Close</button>
+                        </div>
+                    </div>
             </form>
           </div>
         </div>
@@ -152,5 +140,6 @@
 {% block script %}
 <script type="text/javascript" src="../../../static/static_zxd/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="../../../static/static_zxd/js/plugins/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript">$('#sampleTable').DataTable();</script>
+<script type="text/javascript" src="../../../static/static_zxd/js/business_administrator_parking.js"></script>
+<script type="text/javascript">$('#parks').DataTable();</script>
 {% endblock %}

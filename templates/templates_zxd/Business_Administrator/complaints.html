@@ -30,11 +30,15 @@
               {% csrf_token %}
           <div>
               <div class="row mb-4">
-                   <input placeholder="title" style="margin: auto;"  name="post_title">
+                  <div class="col-md-4">
+                     <input placeholder="title"  class="form-control"  name="post_title">
+                  </div>
               </div>
-
-              <div class="clearfix"></div>
-              <textarea  type="text" placeholder="content" class="send_post_input" id="bussiness_send_content" name="post_content"></textarea>
+            <div class="row mb-4">
+                  <div class="col-md-12">
+                      <textarea  rows="3" type="text" placeholder="content" class="form-control" id="bussiness_send_content" name="post_content"></textarea>
+                  </div>
+              </div>
           </div>
               <input type="hidden" value="1" name="user">
           <div>

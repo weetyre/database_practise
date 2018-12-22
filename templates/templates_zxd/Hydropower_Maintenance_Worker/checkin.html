@@ -2,7 +2,7 @@
 {% block list%}
 <ul class="app-menu">
   <li><a class="app-menu__item" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
-  <li><a class="app-menu__item" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
+  <li><a class="app-menu__item" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">留言评价</span></a></li>
   <li><a class="app-menu__item active" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">电表维修登记</span></a></li>
   <li><a class="app-menu__item" href="../baoxiao"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">提交报销单</span></a></li>
   <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">设备管理</span></a></li>
@@ -27,10 +27,12 @@
                   <label>金额</label>
                   <input class="form-control" type="text" name="amount" id="form1_expense_amount">
                 </div>
+                  </div>
+                <div class="row mb-4">
                    <div class="col-md-4">
                   <label>类型</label>
                        <div class="clearfix"></div>
-                   <select name="type">
+                   <select class="form-control" name="type">
                     <option value="电费">电费</option>
                     <option value="维修费用">维修费用</option>
                     </select>
