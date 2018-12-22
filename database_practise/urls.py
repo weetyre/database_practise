@@ -18,7 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('Zone_manage.urls'))
+    path('', include('Zone_manage.urls')),
+    path('', include(('Zone_manage.urls_zxd', 'Zone_manage'), namespace='Zone_manage'))
 ]
 
 

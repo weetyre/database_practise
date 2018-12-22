@@ -4,3 +4,55 @@
 .comment_show{
     cursor: pointer;
 }
+
+
+.add_title{
+    height: 40px;
+    width: 100%;
+    display: flex;
+    margin: 0px 0px 20px 0px;
+}
+
+.add_title p{
+    font-size: 26px;
+    text-align: left;
+    width: 50%;
+    vertical-align: bottom;
+}
+
+.add_button{
+    text-align: right;
+    width: 50%;
+}
+.form-add-host{
+    display: none;
+}
+.change_btn_color{
+    background: #d96060;
+    border: #d96060;
+}
+.change_btn{
+    width: 60%;
+    height: 60%;
+}
+
+.radio_button{
+    margin: 0px 0px 0px 20px;
+}
+
+.detail{
+    display: none;
+}
+
+.close{
+    width: 100%;
+    text-align: right;
+}
+.send_post{
+    text-align: center;
+}
+.send_post_input{
+    height: 150px;
+    width: 500px;
+    margin: 0px 0px 10px 0px;
+}

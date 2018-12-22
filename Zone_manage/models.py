@@ -197,7 +197,7 @@ class Equip(models.Model):
 
 
 class Expense(models.Model):
-    exp_id = models.BigIntegerField(primary_key=True)
+    exp_id = models.IntegerField(primary_key=True, auto_created=True)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE,blank=True, null=True)
     duty_id = models.BigIntegerField(unique=True, blank=True, null=True)
     amount = models.FloatField(blank=True, null=True)
@@ -278,7 +278,7 @@ class Rule(models.Model):
     type_field = models.BigIntegerField(db_column='type_', blank=True, null=True)  # Field renamed because it ended with '_'.
     crea_time = models.DateField(auto_now_add=True,blank=True, null=True)
     content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
-    rule_id = models.BigIntegerField(primary_key=True)
+    rule_id = models.AutoField(primary_key=True,auto_created=True)
 
     class Meta:
         db_table = 'rule_'

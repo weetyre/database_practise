@@ -5,62 +5,81 @@
   <li><a class="app-menu__item  active" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
   <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">办理入住</span></a></li>
   <li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">停车场业务</span></a></li>
-  <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">邮件</span></a></li>
+  <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">房屋信息</span></a></li>
 </ul>
 {% endblock %}
 
 {% block mainbody %}
-<div class="row user">
+<div class="row user" >
     <div class="col-md-12">
       <div class="profile">
-        <div class="cover-image"></div>
+        <div class="co·ver-image"></div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="tile p-0">
         <ul class="nav flex-column nav-tabs user-tabs">
           <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">Timeline</a></li>
-          <li class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">Unreplay</a></li>
         </ul>
       </div>
     </div>
     <div class="col-md-9">
       <div class="tab-content">
+      <div class="send_post timeline-post" >
+          <form method="POST" id="send_post_form">
+              {% csrf_token %}
+          <div>
+              <div class="row mb-4">
+                   <input placeholder="title" style="margin: auto;"  name="post_title">
+              </div>
+
+              <div class="clearfix"></div>
+              <textarea  type="text" placeholder="content" class="send_post_input" id="bussiness_send_content" name="post_content"></textarea>
+          </div>
+              <input type="hidden" value="1" name="user">
+          <div>
+              <button class="btn btn-primary"  onclick="send_post()"><i class="fa fa-fw fa-lg fa-check"></i>Send</button>
+          </div>
+          </form>
+      </div>
         <div class="tab-pane active" id="user-timeline">
-          <div class="timeline-post">
+            <!-- post_content  -->
+            {% for name, advice in advices %}
+              <div class="timeline-post">
             <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
               <div class="content">
-                <h5><a href="#">John Doe</a></h5>
-                <p class="text-muted"><small>2 January at 9:30</small></p>
+                  {% if advice.hoster_id %}
+                            <h5><a href="#" >{{ name }}</a></h5>
+                {% endif %}
+
+
+                <p class="text-muted"><small>{{ advice.reco_time }}</small></p>
               </div>
             </div>
             <div class="post-content">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,	quis tion ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>{{ advice.content_field }}</p>
             </div>
             <ul class="post-utility">
-              <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
-              <li class="shares"><a href="#"><i class="fa fa-fw fa-lg fa-share"></i>Share</a></li>
-              <li class="comments"><div class="comment_show" onclick="change()"><i class="fa fa-fw fa-lg fa-comment-o"></i>5 Comments</div></li>
+
+{#              <li class="shares"><button class="btn btn-success "><i class="fa fa-fw fa-lg fa-share"></i>Share</button></li>#}
+                {% if advice.state == 0%}
+                    <div  id="{{ advice.advice_id }}" class="col-md-8" style="display: flex">
+                    <input class="form-control" style="width: 200px;margin: 0px 10px  0px 0px"
+                           type="number" placeholder="receiver" aplaceholder="send" id="input_{{ advice.advice_id }}">
+                     <li class="shares"><button class="btn btn-success " onclick="share_advice({{ advice.advice_id }})"><i class="fa fa-fw fa-lg fa-share"></i>Share</button></li>
+                    <li class="comments"><button class="btn btn-info"  onclick="finish_advice({{ advice.advice_id }})"><i class="fa fa-fw fa-lg fa-history"></i>Complete</button></li>
+               </div>
+                {% endif %}
+            <br>
+
+{#                <li class="comments"><div class="comment_show"  ><i class="fa fa-fw fa-lg fa-comment-o"></i>Replay</div></li>#}
             </ul>
-            <div id="comment_display_1">adasdasdasd</div>
+              <p id="message_{{ advice.advice_id }}"></p>
+{#              onclick="change()"#}
+{#            <div id="comment_display_1">adasdasdasd</div>#}
           </div>
-          <div class="timeline-post">
-            <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
-              <div class="content">
-                <h5><a href="#">John Doe</a></h5>
-                <p class="text-muted"><small>2 January at 9:30</small></p>
-              </div>
-            </div>
-            <div class="post-content">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,	quis tion ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-            <ul class="post-utility">
-              <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
-              <li class="shares"><a href="#"><i class="fa fa-fw fa-lg fa-share"></i>Share</a></li>
-              <li class="comments"><a href="#"><i class="fa fa-fw fa-lg fa-comment-o"></i>5 Comments</a></li>
-            </ul>
-          </div>
-        </div>
+
+            {% endfor %}
         <div class="tab-pane fade" id="user-settings">
           <div class="tile user-settings">
             <h4 class="line-head">Settings</h4>
@@ -107,14 +126,15 @@
       </div>
     </div>
   </div>
+    </div>
 {% endblock %}  
 
 {% block script %}
 <script type="text/javascript">
-function change(){
-  console.log("1")
-  var x = document.getElementById("comment_display_1");
-  document.getElementById("comment_display_1").style.display = "none";
+function send_post(){
+    console.log(12312)
+   $("#send_post_form").submit();
 }
 </script>
+<script text="text/javascript" src="../../../static/static_zxd/js/business_administrator.js"></script>
 {% endblock %}

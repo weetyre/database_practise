@@ -1,0 +1,35 @@
+<div class="tile user-settings">
+      <div class="close"> <button class="btn btn-info" onclick="form1_detail_close('form1')">收起</button></div>
+            <h4 class="line-head">详细信息</h4>
+
+            <form id="form1_update" method="POST" name="form1">
+              {% csrf_token %}
+                <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>ID</label>
+                    <br>
+                  <input type="text" class="form-control" readonly="readonly" name="rule_id" value="{{ hoster.rule_id }}">
+
+                </div>
+
+                <div class="col-md-4">
+                  <label>详细内容</label>
+                  <input type="text" class="form-control" name="content_field" value="{{ hoster.content_field }}">
+                </div>
+                    <div class="col-md-4">
+                  <label>类型</label>
+                  <input type="text" class="form-control" name="type_field" value="{{ hoster.type_field }}">
+                </div>
+
+                 <div>
+                     <label> </label>
+                     <button  class="btn btn-primary form-control" type="submit">Update</button>
+
+                 </div>
+                    <input type="hidden" name="type" value="form1_update">
+
+
+              </div>
+
+            </form>
+</div>

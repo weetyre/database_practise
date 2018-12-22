@@ -1,0 +1,67 @@
+<div class="tile user-settings">
+      <div class="close"> <button class="btn btn-info" onclick="form1_detail_close('form1')">收起</button></div>
+            <h4 class="line-head">详细信息</h4>
+
+            <form id="form1_update" method="POST" name="form1">
+              {% csrf_token %}
+                <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>ID</label>
+                    <br>
+                  <input type="text" class="form-control" readonly="readonly" name="hos_id" value="{{ hoster.hos_id }}">
+
+                </div>
+
+                <div class="col-md-4">
+                  <label>注册日期</label>
+                    <br>
+                  <label>{{ hoster.in_time }}</label>
+                </div>
+
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>姓名</label>
+                  <input class="form-control" type="text" name="hos_name" value="{{ hoster.hos_name }}">
+                </div>
+
+                <div class="col-md-4">
+                  <label>联系方式</label>
+                  <input class="form-control" type="number" name="contact" value="{{ hoster.contact }}">
+                </div>
+
+              </div>
+                <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>性别</label>
+                    <div  class="radiolist">
+                        {{ hoster.sex }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                  <label>积分</label>
+                  <input class="form-control" type="text" name="bonus"  value="{{ hoster.bonus }}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8 mb-4">
+                  <label>登陆账户</label>
+                  <input class="form-control" type="email" name="login_nam" value="{{ hoster.loign_nam  }}">
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-8 mb-4">
+                  <label>登陆密码</label>
+                  <input class="form-control" type="text" name="pass" value="{{ hoster.pass_field }}">
+                </div>
+                  <input type="hidden" name="type" value="form1_update">
+                  <input type="hidden" name="sex" value="{{ hoster.sex }}">
+                <div class="clearfix"></div>
+              </div>
+              <div class="row mb-8">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" type="button" onclick="form_update_host_submit({{ hoster.hos_id }})"><i class="fa fa-fw fa-lg fa-check"></i> Update</button>
+                </div>
+              </div>
+            </form>
+</div>
