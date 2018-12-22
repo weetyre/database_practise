@@ -16,8 +16,8 @@ def homepage(request):
 
 
 def business_administrator_index(request):
-    rules = models.Rule.objects.all()
-    infos = models.AInfo.objects.all()
+    rules = models.Rule.objects.all().order_by('-rule_id')
+    infos = models.AInfo.objects.all().order_by('-id')
     print(rules)
     hoster_number = models.Hoster.objects.count()
     house_number = models.House.objects.count()
@@ -36,7 +36,7 @@ def business_administrator_mail(request):
         bel_id = request.POST.get('bonus')
         price = request.POST.get('login_nam')
         rent = request.POST.get('pass')
-        models.House.objects.create(area=area, unit_n=unit, flour=ceng, bel_id=bel_id,price=price, rent=rent)
+        models.House.objects.create(area=area, unit_n=unit, flour=ceng, bel_id=bel_id,price=price, rent=rent, avi=1)
 
     houses = models.House.objects.all()
     return render(request, 'templates_zxd/Business_Administrator/mail.html', {'hosters': houses})
@@ -97,7 +97,24 @@ def business_administrator_complaints(request):
 
 def business_administrator_parking(request):
     par_lot = models.ParLot.objects.all()
-    return render(request, 'templates_zxd/Business_Administrator/parking.html', {'houses': par_lot})
+    return render(request, 'templates_zxd/Business_Administrator/parking.html', {'parks': par_lot})
+
+
+def bussiness_park_handle(request):
+    gar_num = request.GET.get('gar_num')
+    par_location = request.GET.get('par_location')
+    price = request.GET.get('price')
+    rent = request.GET.get('rent')
+    if request.GET.get('operate') == 'delete':
+        # parks = models.ParLot.objects.all()
+        parks = models.ParLot.objects.get(gar_num=gar_num, par_location=par_location).delete()
+    elif request.GET.get('operate') == 'add_post':
+        if models.ParLot.objects.filter(gar_num=gar_num, par_location=par_location):
+            return HttpResponse('404')
+        else:
+            models.ParLot.objects.create(gar_num=gar_num, par_location=par_location, price=price, rent=rent, avi=1)
+    parks = models.ParLot.objects.all()
+    return render(request, 'templates_zxd/Business_Administrator/table_park.html', {'parks': parks})
 
 
 def bussiness_checkin_delete(request):
@@ -161,16 +178,18 @@ def management_manager_advice_share(request):
 #                              #
 ################################
 def management_manager_index(request):
-    rules = models.Rule.objects.all()
-    infos = models.AInfo.objects.all()
+
+    rules = models.Rule.objects.all().order_by('-rule_id')
+    infos = models.AInfo.objects.all().order_by('-id')
     print(rules)
     hoster_number = models.Hoster.objects.count()
     worker_number = models.Worker.objects.count()
     advice_count = models.Advice.objects.count()
     un_advice_count = models.Advice.objects.filter(state=0).count()
     return render(request, 'templates_zxd/Management_Manager/index.html',
-                  {'rules': rules, 'hoster_number': hoster_number, 'worker_number':worker_number,
-                   'infos': infos, 'advice_count':advice_count, 'un_advice_count':un_advice_count})
+                  {'rules': rules, 'hoster_number': hoster_number, 'worker_number': worker_number,
+                   'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count,
+                   })
 
 
 def management_manager_mail(request):
@@ -273,8 +292,8 @@ def management_manager_advice_finish(request):
 #                              #
 ################################
 def hydropower_maintenance_worker_index(request):
-    rules = models.Rule.objects.all()
-    infos = models.AInfo.objects.all()
+    rules = models.Rule.objects.all().order_by('-rule_id')
+    infos = models.AInfo.objects.all().order_by('-id')
     hoster_number = models.Hoster.objects.count()
     equip_number = models.Equip.objects.count()
     advice_count = models.Advice.objects.filter(workid_id=3).count()
@@ -295,7 +314,7 @@ def hydropower_maintenance_worker_mail(request):
     if request.method == 'POST':
         if type == 'fix':
             if models.Equip.objects.filter(equ_id=equip_id) and models.Worker.objects.filter(w_id=worker_id):
-                e = models.Equip.objects.get(equ_id=equip_id)
+                # e = models.Equip.objects.get(equ_id=equip_id)
                 w = models.Worker.objects.get(w_id=worker_id)
                 models.Fix.objects.create(workid=w, equ_id=equip_id)
             else:
@@ -305,7 +324,7 @@ def hydropower_maintenance_worker_mail(request):
     equips = models.Equip.objects.all()
     fixs = models.Fix.objects.all()
     return render(request, 'templates_zxd/Hydropower_Maintenance_Worker/mail.html',
-                  {'equips': equips, 'message1': message1,'fixs':fixs})
+                  {'equips': equips, 'message1': message1, 'fixs': fixs})
 
 
 def hydropower_maintenance_worker_mail_checkin(request):
@@ -313,9 +332,11 @@ def hydropower_maintenance_worker_mail_checkin(request):
     if request.method == 'POST':
         hoster_id_id = request.POST.get('hosterid_id')
         b_name = request.POST.get('type')
-        b_amount =eval(request.POST.get('amount'))*2
+        b_amount =eval(request.POST.get('amount'))
+        user_name = request.user.username
+        worker = models.Worker.objects.get(name=user_name)
         if models.Hoster.objects.filter(hos_id=hoster_id_id):
-            models.Bill.objects.create(hoster_id_id=hoster_id_id, b_name=b_name, b_amount=b_amount, worker_id=3)
+            models.Bill.objects.create(hoster_id_id=hoster_id_id, b_name=b_name, b_amount=b_amount, worker_id=worker.w_id)
         else:
             message = 'fault'
     houses = models.Bill.objects.filter(b_name='维修费用').union(models.Bill.objects.filter(b_name='电费'))
@@ -328,7 +349,9 @@ def hydropower_maintenance_worker_complaints(request):
         title = request.POST.get('post_title')
         models.AInfo.objects.create(title=title, content=content_field)
     print(request)
-    advices = models.Advice.objects.filter(workid_id=3).order_by('-advice_id')
+    user_name = request.user.username
+    worker = models.Worker.objects.get(name=user_name)
+    advices = models.Advice.objects.filter(workid_id=worker.w_id).order_by('-advice_id')
     all_ = []
     for advice in advices:
         work_name = models.Hoster.objects.get(hos_id=advice.hoster_id).hos_name
@@ -342,14 +365,17 @@ def hydropower_maintenance_worker_complaints(request):
 
 def hydropower_maintenance_baoxiao(request):
     message = ''
-
     if request.method == 'POST':
         duty_id = request.POST.get('duty_id')
         amount = request.POST.get('amount')
+        name = request.POST.get('content')
+        user_name = request.user.username
+        worker = models.Worker.objects.get(name=user_name)
         if models.Expense.objects.filter(duty_id=duty_id):
             message = '税号重叠'
         else:
-            models.Expense.objects.create(duty_id=duty_id, amount=amount, worker_id=3)
+            models.Expense.objects.create(duty_id=duty_id, amount=amount, name=name,
+                                          worker_id=worker.w_id)
             message = '添加成功'
     expense = models.Expense.objects.all()
     return render(request, 'templates_zxd/Hydropower_Maintenance_Worker/baoxiao.html', {'message': message, 'expense':expense})
