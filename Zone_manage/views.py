@@ -548,6 +548,30 @@ def f_fo(request):
 
 
 @login_required
+def f_sa(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'fa_fo.html', {'user': user})
+
+    if request.method == 'POST':
+        user = request.user
+        sa = request.POST['salary']
+        se = request.POST['security']
+        WD = request.POST['workid']
+
+        worker = models.Worker.objects.filter(w_id=int(WD))
+
+
+        if worker.count()==0:
+            error_message = 'workerid id not exists!'
+            return render(request, 'fa_fo.html', {'user': user,'error_sa':error_message})
+        else:
+            succeed_message = 'Success!'
+            models.Salary.objects.create(base_sal=int(sa),up_sa=0,secu_sa=int(se),deduct=0,total=int(sa)+int(se),worker_id=int(WD))
+            return render(request, 'fa_fo.html', {'user': user,'suc_sa':succeed_message})
+
+
+@login_required
 def f_fo_bonus(request):
     if request.method == 'GET':
         user = request.user
@@ -580,7 +604,8 @@ def f_ta(request):
         user = request.user
         BILLS = models.Bill.objects.all()#查询所有账单
         Expen = models.Expense.objects.all()
-        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS,'Expen': Expen})
+        Salary = models.Salary.objects.all()
+        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS,'Expen': Expen,'Salary':Salary})
 
 
 @login_required

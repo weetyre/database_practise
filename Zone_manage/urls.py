@@ -20,13 +20,8 @@ urlpatterns = [
     path(r'buyHouse/', views.buyHouse),
     path(r'4hosts/info_in_out/', views.inout),
     path(r'4hosts/data/', views.show_data),
-    path(r'modify_data/',views.modify_data),
+    path(r'modify_data/', views.modify_data),
     path(r'4hosts/usage', views.usage),
-
-
-
-
-
 
     path('login', views.index_login, name='login'),
     path('', views.index_landingPage),
@@ -44,6 +39,7 @@ urlpatterns = [
     path('ca', views.s_ca),
 
     path('fa_fos', views.f_fo_bonus),
+    path('fa_sa', views.f_sa),
     path('fa_ch', views.f_ch),
     path('fa_fo', views.f_fo),
     path('fa_ta', views.f_ta),

@@ -209,13 +209,13 @@ class Expense(models.Model):
 
 
 class Fix(models.Model):
-    workid = models.ForeignKey(Worker, on_delete=models.CASCADE, db_column='workid', primary_key=True)
+    fixid = models.IntegerField(primary_key=True, auto_created=True)
+    workid = models.ForeignKey(Worker, on_delete=models.CASCADE, db_column='workid')
     equ = models.ForeignKey(Equip, on_delete=models.CASCADE)
     date_field = models.DateField(auto_now=True, db_column='date_', blank=True, null=True)  # Field renamed because it ended with '_'.
 
     class Meta:
         db_table = 'fix'
-        unique_together = (('workid', 'equ'),)
 
 
 class House(models.Model):
@@ -287,10 +287,10 @@ class Rule(models.Model):
 
 
 class Salary(models.Model):
-    sa_id = models.BigIntegerField(primary_key=True)
+    sa_id = models.AutoField(primary_key=True)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
     base_sal = models.FloatField(blank=True, null=True)
-    handout_time = models.DateField(blank=True, null=True)
+    handout_time = models.DateField(auto_now_add=True,blank=True, null=True)
     up_sa = models.FloatField(blank=True, null=True)
     secu_sa = models.FloatField(blank=True, null=True)
     deduct = models.FloatField(blank=True, null=True)
