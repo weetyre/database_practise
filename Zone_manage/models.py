@@ -202,6 +202,7 @@ class Expense(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE,blank=True, null=True)
     duty_id = models.BigIntegerField(unique=True, blank=True, null=True)
     amount = models.FloatField(blank=True, null=True)
+    name = models.CharField(max_length=100,blank=True, null=True)
 
     class Meta:
         db_table = 'expense'
