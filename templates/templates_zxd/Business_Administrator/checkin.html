@@ -5,159 +5,156 @@
   <li><a class="app-menu__item" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
   <li><a class="app-menu__item active" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">办理入住</span></a></li>
   <li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">停车场业务</span></a></li>
-  <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">邮件</span></a></li>
+  <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">房屋信息</span></a></li>
 </ul>
 {% endblock %}
 
 {% block mainbody %}
-<div class="row">
-    <div class="col-md-12">
-      <div class="tile">
-        <div class="tile-body">
-          <table class="table table-hover table-bordered" id="sampleTable">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Tiger Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-                <td>$320,800</td>
-              </tr>
-              <tr>
-                <td>Garrett Winters</td>
-                <td>Accountant</td>
-                <td>Tokyo</td>
-                <td>63</td>
-                <td>2011/07/25</td>
-                <td>$170,750</td>
-              </tr>
-              <tr>
-                <td>Ashton Cox</td>
-                <td>Junior Technical Author</td>
-                <td>San Francisco</td>
-                <td>66</td>
-                <td>2009/01/12</td>
-                <td>$86,000</td>
-              </tr>
-              <tr>
-                <td>Cedric Kelly</td>
-                <td>Senior Javascript Developer</td>
-                <td>Edinburgh</td>
-                <td>22</td>
-                <td>2012/03/29</td>
-                <td>$433,060</td>
-              </tr>
-              <tr>
-                <td>Airi Satou</td>
-                <td>Accountant</td>
-                <td>Tokyo</td>
-                <td>33</td>
-                <td>2008/11/28</td>
-                <td>$162,700</td>
-              </tr>
-              <tr>
-                <td>Brielle Williamson</td>
-                <td>Integration Specialist</td>
-                <td>New York</td>
-                <td>61</td>
-                <td>2012/12/02</td>
-                <td>$372,000</td>
-              </tr>
-              <tr>
-                <td>Herrod Chandler</td>
-                <td>Sales Assistant</td>
-                <td>San Francisco</td>
-                <td>59</td>
-                <td>2012/08/06</td>
-                <td>$137,500</td>
-              </tr>
-              <tr>
-                <td>Rhona Davidson</td>
-                <td>Integration Specialist</td>
-                <td>Tokyo</td>
-                <td>55</td>
-                <td>2010/10/14</td>
-                <td>$327,900</td>
-              </tr>
-              <tr>
-                <td>Colleen Hurst</td>
-                <td>Javascript Developer</td>
-                <td>San Francisco</td>
-                <td>39</td>
-                <td>2009/09/15</td>
-                <td>$205,500</td>
-              </tr>
-              <tr>
-                <td>Sonya Frost</td>
-                <td>Software Engineer</td>
-                <td>Edinburgh</td>
-                <td>23</td>
-                <td>2008/12/13</td>
-                <td>$103,600</td>
-              </tr>
-              <tr>
-                <td>Jena Gaines</td>
-                <td>Office Manager</td>
-                <td>London</td>
-                <td>30</td>
-                <td>2008/12/19</td>
-                <td>$90,560</td>
-              </tr>
-              <tr>
-                <td>Quinn Flynn</td>
-                <td>Support Lead</td>
-                <td>Edinburgh</td>
-                <td>22</td>
-                <td>2013/03/03</td>
-                <td>$342,000</td>
-              </tr>
-              <tr>
-                <td>Charde Marshall</td>
-                <td>Regional Director</td>
-                <td>San Francisco</td>
-                <td>36</td>
-                <td>2008/10/16</td>
-                <td>$470,600</td>
-              </tr>
-              <tr>
-                <td>Haley Kennedy</td>
-                <td>Senior Marketing Designer</td>
-                <td>London</td>
-                <td>43</td>
-                <td>2012/12/18</td>
-                <td>$313,500</td>
-              </tr>
-              <tr>
-                <td>Tatyana Fitzpatrick</td>
-                <td>Regional Director</td>
-                <td>London</td>
-                <td>19</td>
-                <td>2010/03/17</td>
-                <td>$385,750</td>
-              </tr>
-            
-              
-            </tbody>
-          </table>
+    <div id="content">
+        <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+          <div class="add_title line-head">
+                  <p>住户信息</p>
+                  <div class="add_button">
+                    <button class="btn btn-primary change_btn_height" onclick="form_add_host()">添加</button>
+                  </div>
+              </div>
+            <div class="tile-body">
+              <table class="table table-hover table-bordered" id="HosterTable">
+                <thead>
+                  <tr>
+                    <th>住户ID</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>联系方式</th>
+                    <th>登陆名</th>
+                    <th>创建日期</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                  {% for hoster in hosters %}
+                  <tr>
+                    <td>{{ hoster.hos_id  }}</td>
+                    <td>{{ hoster.hos_name }}</td>
+                    <td>{{ hoster.sex }}</td>
+                    <td>{{ hoster.contact }}</td>
+                    <td>{{ hoster.loign_nam }}</td>
+                    <td>{{ hoster.in_time }}</td>
+                    <td><button class="btn btn-danger"  onclick="form_host_delete({{ hoster.hos_id }}, 'form1')">删除</button>
+                    <button class="btn btn-primary"  onclick="form_host_detail({{ hoster.hos_id  }}, 'form1')">详细</button></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+             <div class="detail" id = 'form1_detail'>
+                 <div id="form1_detail_text">
+                 </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+          <div class="add_title line-head">
+                  <p>入住信息</p>
+              <p style="color:red;">{{error}}</p>
+              </div>
+            <div class="tile-body">
+              <table class="table table-hover table-bordered" id="HouseTable">
+                <thead>
+                  <tr>
+                    <th>房屋ID</th>
+                    <th>住户ID</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                  {% for house in houses %}
+                  <tr>
+                    <td>{{ house.ho_id  }}</td>
+                    <td>{{ house.host_id }}</td>
+                    <td>{{ house.avi }}</td>
+                   <td>  <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+             <div class="detail" id = 'form2_detail'>
+                 <div id="form2_detail_text">
+                 </div>
+             </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <div class="form-add-host" id="form_add_host">
+    <div class="tab-pane">
+          <div class="tile user-settings">
+            <h4 class="line-head">添加小区住户</h4>
+            <form id="form1_submit" method="POST" name="form1">
+              {% csrf_token %}
+              <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>姓名</label>
+                  <input class="form-control" type="text" name="hos_name" id="form1_hos_name">
+                </div>
+                <div class="col-md-4">
+                  <label>联系方式</label>
+                  <input class="form-control" type="number" name="contact" id="form1_contact">
+                </div>
+              </div>
+                <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>性别</label>
+                    <div  class="radiolist">
+                        <input type="radio" value="男" name="sex" >男
+                        <input class ="radio_button" type="radio" value="女" name="sex">女
+                    </div>
+                </div>
+                <div class="col-md-4">
+                  <label>积分</label>
+                  <input class="form-control" type="text" name="bonus" id="form1_bonus">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8 mb-4">
+                  <label>登陆账户</label>
+                  <input class="form-control" type="email" name="login_nam" id="form1_login_nam">
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-8 mb-4">
+                  <label> 登陆密码</label>
+                  <input class="form-control" type="text" name="pass" id="form1_pass">
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="row mb-8">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" type="button" onclick="form_add_host_submit()"><i class="fa fa-fw fa-lg fa-check"></i> Save</button>
+                </div>
+                    <div class="col">
+                    <button class="btn btn-danger" type="button" onclick="form_close_host_submit()"><i class="fa fa-fw fa-lg fa-close"></i>Close</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
 {% endblock %}  
 
 {% block script %}
-<script type="text/javascript" src="../../../static/js/plugins/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="../../../static/js/plugins/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript">$('#sampleTable').DataTable();</script>
+    <script type="text/javascript" src="../../../static/static_zxd/js/business_administrator.js"></script>
+    <script type="text/javascript" src="../../../static/static_zxd/js/plugins/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../../../static/static_zxd/js/plugins/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/static_zxd/js/zepto.min.js"></script>
+    <script type="text/javascript">$('#HosterTable').DataTable();</script>
+    <script type="text/javascript">$('#HouseTable').DataTable();</script>
+    <script type="text/javascript">$('#LiveTable').DataTable();</script>
 {% endblock %}

@@ -1,0 +1,78 @@
+{%extends "templates_zxd/Management_Manager/base.html" %}
+{% block list%}
+<ul class="app-menu">
+  <li><a class="app-menu__item" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
+  <li><a class="app-menu__item  active" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
+  <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">章程管理</span></a></li>
+  <!--<li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">财政记录</span></a></li>-->
+  <!--<li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">邮件</span></a></li>-->
+</ul>
+{% endblock %}
+
+{% block mainbody %}
+<div class="row user" >
+    <div class="col-md-12">
+      <div class="profile">
+        <div class="cover-image"></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="tile p-0">
+        <ul class="nav flex-column nav-tabs user-tabs">
+          <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">Timeline</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="tab-content">
+         <div class="tab-pane active" id="user-timeline">
+            <!-- post_content  -->
+            {% for name, advice in advices %}
+              <div class="timeline-post">
+            <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
+              <div class="content">
+                  {% if advice.hoster_id %}
+                            <h5><a href="#" >{{ name }}</a></h5>
+                {% endif %}
+
+
+                <p class="text-muted"><small>{{ advice.reco_time }}</small></p>
+              </div>
+            </div>
+            <div class="post-content">
+              <p>{{ advice.content_field }}</p>
+            </div>
+            <ul class="post-utility">
+
+{#              <li class="shares"><button class="btn btn-success "><i class="fa fa-fw fa-lg fa-share"></i>Share</button></li>#}
+                {% if advice.state == 0%}
+                    <div  id="{{ advice.advice_id }}" style="display: block">
+                    <li class="comments"><button class="btn btn-danger"  onclick="finish_advice({{ advice.advice_id }})"><i class="fa fa-fw fa-lg fa-history"></i>Need Complete</button></li>
+               </div>
+                {% endif %}
+            <br>
+
+{#                <li class="comments"><div class="comment_show"  ><i class="fa fa-fw fa-lg fa-comment-o"></i>Replay</div></li>#}
+            </ul>
+              <p id="message_{{ advice.advice_id }}"></p>
+{#              onclick="change()"#}
+{#            <div id="comment_display_1">adasdasdasd</div>#}
+          </div>
+
+            {% endfor %}
+      </div>
+    </div>
+  </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+function send_post(){
+    console.log(12312)
+   $("#send_post_form").submit();
+}
+</script>
+
+{% endblock %}
