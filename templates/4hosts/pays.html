@@ -10,12 +10,14 @@
         <thead>
             <td>账单id</td>
             <td>应缴费</td>
+            <td>缴费详情</td>
             <td>时间</td>
         </thead>
     {% for bill in bills %}
         <tr>
             <td>{{ bill.b_id }}</td>
             <td>{{ bill.b_amount }}</td>
+            <td>{{ bill.b_name }}</td>
             <td>{{ bill.b_date }}</td>
         </tr>
     {% endfor %}

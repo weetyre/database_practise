@@ -20,6 +20,23 @@ from .models import Worker
 from .models import Hoster
 
 
+def unRentHouse(req):
+    ho_id = req.GET.get("ho_id")
+    house = House.objects.get(ho_id=int(ho_id))
+    house.avi = 0
+    house.host_id = None
+    house.save()
+    return HttpResponse("退租成功")
+
+
+def unRentPark(req):
+    par_id = req.GET.get("par_id")
+    park = ParLot.objects.get(par_id = int(par_id))
+    park.avi = 0
+    park.host_id = None
+    park.save()
+    return HttpResponse("退租成功")
+
 def hostjudge_repair(req):
     return render(req, "4hosts/judge_repair.html")
 
@@ -107,7 +124,7 @@ def do_pay(req):
 
 def park_rent_show(req):
     # 从数据库里取出数据
-    parks = ParLot.objects.all().filter(avi=1)
+    parks = ParLot.objects.all().filter(avi=0)
     # 将数据发送到前段页面
     return render(req, '4hosts/park_rent.html', {"parks": parks})
 
@@ -117,10 +134,11 @@ def rentPark(req):
         park_id = req.GET.get("park_id")
         print(park_id)
         park = ParLot.objects.get(par_id=int(park_id))
-        park.avi = 0
+        park.avi = 1
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         park.host = hoster
         park.save()
+        Bill.objects.create(b_name="租停车位",hoster_id=hoster,b_amount=park.rent)
         return HttpResponse("租赁成功")
     except:
         return HttpResponse("操作失败")
@@ -128,7 +146,7 @@ def rentPark(req):
 
 
 def park_buy_show(req):
-    parks = ParLot.objects.all().filter(avi=1)
+    parks = ParLot.objects.all().filter(avi=0)
     # 将数据发送到前段页面
     return render(req, '4hosts/park_buy.html', {"parks": parks})
 
@@ -137,10 +155,11 @@ def buyPark(req):
     try:
         park_id = req.GET.get("park_id")
         park = ParLot.objects.get(par_id=int(park_id))
-        park.avi = 0
+        park.avi = 2
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         park.host = hoster
         park.save()
+        Bill.objects.create(b_name="购买停车位", hoster_id=hoster, b_amount=park.price)
         return HttpResponse("购买成功")
     except:
         return HttpResponse("操作失败")
@@ -148,7 +167,7 @@ def buyPark(req):
 
 def house_rent_show(req):
     # 从数据库里取出数据
-    houses = House.objects.all().filter(avi=1)
+    houses = House.objects.all().filter(avi=0)
     # 将数据发送到前段页面
     return render(req, '4hosts/house_rent.html', {"houses": houses})
 
@@ -157,16 +176,17 @@ def rentHouse(req):
     try:
         house_id = req.GET.get("house_id")
         house = House.objects.get(ho_id=int(house_id))
-        house.avi = 0
+        house.avi = 1
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         house.host = hoster
         house.save()
+        Bill.objects.create(b_name="租房", hoster_id=hoster, b_amount=house.rent)
         return HttpResponse("租赁成功")
     except:
         return HttpResponse("操作失败")
 
 def house_buy_show(req):
-    houses = House.objects.all().filter(avi=1)
+    houses = House.objects.all().filter(avi=0)
     # 将数据发送到前段页面
     return render(req, '4hosts/house_buy.html', {"houses": houses})
 
@@ -175,10 +195,11 @@ def buyHouse(req):
     try:
         house_id = req.GET.get("house_id")
         house = House.objects.get(ho_id=int(house_id))
-        house.avi = 0
+        house.avi = 2
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         house.host = hoster
         house.save()
+        Bill.objects.create(b_name="买房", hoster_id=hoster, b_amount=house.price)
         return HttpResponse("购买成功")
     except:
         return HttpResponse("操作失败")
@@ -216,6 +237,9 @@ def modify_data(req):
         return render(req, "4hosts/data.html", {"hoster": hoster, "houses": houses, "parks": parks})
     except:
         return HttpResponse("修改失败")
+
+
+
 
 def index_login(request):
     if request.method == 'POST':
