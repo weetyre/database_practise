@@ -68,10 +68,8 @@ def hostssuggests(req):
 def post_suggestion(req):
     try:
         data = req.POST.get("suggestion")
-        work_id = req.POST.get("work_id")
-        worker = Worker.objects.all().filter(w_id=work_id)
         hoster = Hoster.objects.all().filter(hos_id=req.session.get("user_id"))
-        Advice.objects.create(workid=worker[0], hoster=hoster[0], content_field=data, state=0,type_re=1)# 1 建议
+        Advice.objects.create(hoster=hoster[0], content_field=data, state=0,type_re=1)# 1 建议
         return HttpResponse("操作成功")
     except:
         return HttpResponse("操作失败")
