@@ -25,8 +25,8 @@
                 <thead>
                   <tr>
                     <th>章程ID</th>
+                    <th>主题</th>
                     <th>内容</th>
-                    <th>类型</th>
                    <th>操作</th>
                   </tr>
                 </thead>
@@ -34,8 +34,8 @@
                   {% for rule in rules %}
                   <tr>
                     <td>{{ rule.rule_id  }}</td>
-                    <td>{{ rule.content_field  }}</td>
                     <td>{{ rule.type_field}}</td>
+                    <td>{{ rule.content_field  }}</td>
                     <td><button class="btn btn-danger"  onclick="form_host_delete({{ rule.rule_id }}, 'form1')">删除</button>
                     <button class="btn btn-primary"  onclick="form_host_detail({{ rule.rule_id  }}, 'form1')">详细</button></td>
                   </tr>
@@ -59,16 +59,18 @@
               {% csrf_token %}
               <div class="row mb-4">
                 <div class="col-md-4">
-                  <label>类型</label>
+                  <label>主题</label>
                   <input class="form-control" type="text" name="type_field" id="form1_hos_name">
                 </div>
+              </div>
+               <div class="row mb-4">
                 <div class="col-md-4">
                   <label>内容</label>
-                  <input class="form-control" type="text" name="content_field" id="form1_contact">
+                    <textarea class="form-control" type="text" name="content_field" id="form1_contact"></textarea>
                 </div>
-              </div>
+               </div>
               <div class="row mb-8">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <button class="btn btn-primary" type="button" onclick="form_add_host_submit()"><i class="fa fa-fw fa-lg fa-check"></i> Save</button>
                 </div>
                     <div class="col">

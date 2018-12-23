@@ -151,18 +151,31 @@ class AInfo(models.Model):
         db_table = 'a_info'
 
 
+class Fix_Service(models.Model):
+    fix_service_id = models.IntegerField(primary_key=True, auto_created=True)
+    workid = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
+    hoster = models.ForeignKey(Hoster, on_delete=models.CASCADE, blank=True, null=True)
+    content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
+    reco_time = models.DateField(auto_now_add=True,blank=True, null=True)
+    state = models.BigIntegerField(blank=True, null=True)#报修是否完成
+
+    class Meta:
+        db_table = 'Fix_Service'
+
+
 class Advice(models.Model):
     advice_id = models.IntegerField(primary_key=True, auto_created=True)
     workid = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
     hoster = models.ForeignKey(Hoster, on_delete=models.CASCADE, blank=True, null=True)
     content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
     reco_time = models.DateField(auto_now_add=True,blank=True, null=True)
-    state = models.BigIntegerField(blank=True, null=True)
-    type_re = models.BigIntegerField(blank=True, null=True,default=0)
+    state = models.BigIntegerField(blank=True, null=True)#评价是否完成
+    type_re = models.BigIntegerField(blank=True, null=True,default=0) #好评、中评、差评
+    type_field = models.BigIntegerField(blank=True, null=True,default=0)#评价、投诉
+    service_id = models.ForeignKey(Fix_Service, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'advice'
-
 
 
 class Bill(models.Model):

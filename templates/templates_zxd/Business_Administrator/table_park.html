@@ -1,0 +1,15 @@
+{% for park in parks %}
+                 <tr>
+                    <td>{{ park.par_id }}</td>
+                    <td>{{ park.gar_num  }}</td>
+                    <td>{{ park.par_location }}</td>
+                    <td>{{ park.price }}</td>
+                    <td>{{ park.rent }}</td>
+                      {% if park.avi == 1 %}
+                      <td>可用</td>
+                      {% else %}
+                      <td>不可用</td>
+                      {% endif %}
+                      <td><button class="btn btn-danger"  onclick="park_handle({{ park.gar_num  }}, {{ park.par_location }}, 'delete')">删除</button></td>
+                  </tr>
+                {% endfor %}

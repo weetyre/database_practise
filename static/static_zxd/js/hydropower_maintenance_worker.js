@@ -12,14 +12,14 @@ function form_add_fix_submit(){
         return false;
     }
      console.log(11);
-    $('#form_add_fix_submit').submit();
+    $('#form1_add_fix_submit').submit();
 }
 function form_add_equip_submit() {
     if($('#form1_equip_content').val()==''){
         $('#error2').html('输入不完整');
         return false;
     }
-    $('#form_add_equip_submit').submit();
+    $('#form1_add_equip_submit').submit();
 }
 function finish_advice(advice_id){
      $.ajax({

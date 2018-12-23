@@ -18,6 +18,7 @@ urlpatterns = [
     path('hydropower_maintenance_worker/complaints/', views.hydropower_maintenance_worker_complaints),
     path('hydropower_maintenance_worker/baoxiao/', views.hydropower_maintenance_baoxiao),
 
+    path('bussiness_park_handle/', views.bussiness_park_handle),
     path('bussiness_checkin_delete/', views.bussiness_checkin_delete),
     path('bussiness_checkin_detail/', views.bussiness_checkin_detail),
     path('bussiness_checkin_update/', views.bussiness_checkin_update),

@@ -30,6 +30,7 @@
                     <th>号</th>
                       <th>租金</th>
                     <th>售价</th>
+                      <th>状态</th>
                     <th>操作</th>
                   </tr>
                 </thead>
@@ -43,6 +44,11 @@
                     <td>{{ house.bel_id }}</td>
                       <td>{{ house.price }}</td>
                       <td>{{ house.rent }}</td>
+                      {% if house.avi == 1 %}
+                      <td>可用</td>
+                      {% else %}
+                      <td>不可用</td>
+                      {% endif %}
                     <td><button class="btn btn-danger"  onclick="form_host_delete({{ house.ho_id }}, 'form2')">删除</button>
 {#                    <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>#}
                   </tr>
