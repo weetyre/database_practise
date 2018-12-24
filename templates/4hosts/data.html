@@ -17,9 +17,9 @@
     {% endif %}
     <br><br>
     {% if hoster.contact == None %}
-    联系方式：<input name="contact" oninput="value=value.replace(/[^\d]/g,'')" value="">
+        联系方式：<input name="contact" oninput="value=value.replace(/[^\d]/g,'')" value="">
     {% else %}
-    联系方式：<input name="contact" oninput="value=value.replace(/[^\d]/g,'')" value="{{ hoster.contact }}">
+        联系方式：<input name="contact" oninput="value=value.replace(/[^\d]/g,'')" value="{{ hoster.contact }}">
     {% endif %}
     <br><br>
     <input type="submit" value="提交修改">
@@ -30,15 +30,16 @@
     <br><br>
     拥有房屋：<br><br>
     <table border="1">
+        <tr>
+            <th>房屋id</th>
+            <th>房屋面积</th>
+            <th>单元</th>
+            <th>所属楼盘</th>
+            <th>公摊面积</th>
+            <th>楼层</th>
+            <th>操作</th>
+        </tr>
         {% for house in houses %}
-            <tr>
-                <th>房屋id</th>
-                <th>房屋面积</th>
-                <th>单元</th>
-                <th>所属楼盘</th>
-                <th>公摊面积</th>
-                <th>楼层</th>
-            </tr>
             <tr>
                 <td>{{ house.ho_id }}</td>
                 <td>{{ house.area }}</td>
@@ -46,22 +47,31 @@
                 <td>{{ house.bel_name }}</td>
                 <td>{{ house.pub_area }}</td>
                 <td>{{ house.flour }}</td>
+                {% if house.avi == 1 %}
+                    <td><a href="/unRentHouse?ho_id={{ house.ho_id }}">退租</a></td>
+                {% else %}
+                    <td>拥有</td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
     <br><br>
     拥有停车场：<br><br>
     <table border="1">
+        <tr>
+            <th>车位id</th>
+            <th>车库编号</th>
+            <th>操作</th>
+        </tr>
         {% for park in parks %}
-            <tr>
-                <th>车位id</th>
-                <th>车库编号</th>
-                <th>车位号</th>
-            </tr>
             <tr>
                 <td>{{ park.par_id }}</td>
                 <td>{{ park.gar_num }}</td>
-                <td>{{ park.par_id }}</td>
+            {% if park.avi == 1 %}
+                    <td><a href="/unRentPark?par_id={{ park.par_id }}">退租</a></td>
+                {% else %}
+                    <td>拥有</td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
