@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect, HttpResponse
 # Create your views here.
 
 from . import models
-import json
 
 
 def homepage(request):
@@ -13,6 +12,40 @@ def homepage(request):
         return render(request, 'login.html')
     else:
         return redirect('app_1:page')
+
+
+# 维修服务
+def business_administrator_fix_service(request):
+    fix_services = models.Fix_Service.objects.all().order_by('-fix_service_id')
+    workers = models.Worker.objects.all()
+    return render(request, 'templates_zxd/Business_Administrator/fix_service.html',
+                  {'fix_services': fix_services, 'workers': workers})
+
+
+# 处理维修请求
+def bussiness_fix_handle(request):
+    fix_service_id = request.GET.get('id')
+    operate_type = request.GET.get('operate_type')
+    fix_worker = request.GET.get('fix_worker')
+    user_name = request.user.username
+    if operate_type == 'complete':
+        models.Fix_Service.objects.filter(fix_service_id=fix_service_id).update(state=0)
+        worker = models.Worker.objects.get(name=user_name)
+        models.Worker.objects.filter(name=user_name).update(avi=1)
+        models.Worker.objects.filter(name=user_name).update(work_num=worker.work_num + 1)
+        return HttpResponse(1)
+    elif operate_type == 'share':
+        if models.Worker.objects.filter(w_id=fix_worker):
+            if models.Worker.objects.get(w_id=fix_worker).avi == 1:
+                models.Fix_Service.objects.filter(fix_service_id=fix_service_id).update(workid_id=fix_worker)
+                models.Worker.objects.filter(w_id=fix_worker).update(avi=0)
+                return HttpResponse(2)
+            else:
+                return HttpResponse(500)
+        else:
+            return HttpResponse(404)
+    else:
+        return HttpResponse(404)
 
 
 def business_administrator_index(request):
@@ -129,7 +162,6 @@ def bussiness_checkin_delete(request):
             house_id = request.GET.get('id')
             models.House.objects.filter(ho_id=house_id).delete()
             return redirect('Zone_manage:business_administrator_mail')
-            return HttpResponse(2)
 
     return HttpResponse(404)
 
@@ -359,8 +391,16 @@ def hydropower_maintenance_worker_complaints(request):
 
     advices = zip(all_, advices)
 
+    fix_services = models.Fix_Service.objects.filter(workid_id=worker.w_id)
+    comment = []
+    for fix_service in fix_services:
+        if models.Advice.objects.filter(service_id_id=fix_service.fix_service_id):
+            comment.append(models.Advice.objects.get(service_id_id=fix_service.fix_service_id))
+        else:
+            comment.append(0)
+    fix_services = zip(fix_services, comment)
     return render(request, 'templates_zxd/Hydropower_Maintenance_Worker/complaints.html',
-                  {'advices': advices})
+                  {'advices': advices, 'fix_services': fix_services})
 
 
 def hydropower_maintenance_baoxiao(request):

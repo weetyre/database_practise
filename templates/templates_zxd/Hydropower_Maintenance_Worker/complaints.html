@@ -2,7 +2,7 @@
 {% block list%}
 <ul class="app-menu">
   <li><a class="app-menu__item" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
-  <li><a class="app-menu__item  active" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">留言评价</span></a></li>
+  <li><a class="app-menu__item  active" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">维修服务</span></a></li>
   <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">电表维修登记</span></a></li>
   <li><a class="app-menu__item" href="../baoxiao"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">提交报销单</span></a></li>
 <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">设备管理</span></a></li>
@@ -27,11 +27,49 @@
     <div class="col-md-9">
       <div class="tab-content">
          <div class="tab-pane active" id="user-timeline">
+         {% for fix_service,comment in fix_services %}
+              <div class="timeline-post">
+              <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
+               <div class="content">
+               <h5><a href="#" >小区住户</a></h5>
+                <p class="text-muted"><small>{{ fix_service.reco_time }}</small></p>
+              </div>
+            </div>
+            <div class="post-content">
+              <p>{{ fix_service.content_field }}</p>
+            </div>
+            <ul class="post-utility" id="handle_fix_info{{ fix_service.fix_service_id }}">
+                {% if fix_service.state == 1%}
+                    <div  id="{{ fix_service.fix_service_id }}" style="display: block">
+                    <li class="comments"><button class="btn btn-info"  onclick="handle_fix({{ fix_service.fix_service_id }})"><i class="fa fa-fw fa-lg fa-history"></i>Complete</button></li>
+                    </div>
+                 {% else %}
+                    <p class="btn btn-success ">已完成</p>
+                {% endif %}
+            <br>
+
+{#                <li class="comments"><div class="comment_show"  ><i class="fa fa-fw fa-lg fa-comment-o"></i>Replay</div></li>#}
+            </ul>
+              <p id="message_{{ fix_service.advice_id }}"></p>
+              {% if comment %}
+                  <div class="col col-md-4">
+                    <input class="form-control" value="{{ comment.content_field }}" readonly="readonly">
+                  </div>
+                    {% else %}
+                      <div class="col col-md-4">
+                    <input class="form-control" value="用户尚未评价" readonly="readonly">
+                  </div>
+                    {% endif %}
+{#              onclick="change()"#}
+{#            <div id="comment_display_1">adasdasdasd</div>#}
+          </div>
+
+            {% endfor %}
             <!-- post_content  -->
             {% for name, advice in advices %}
               <div class="timeline-post">
-            <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
-              <div class="content">
+                <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
+                <div class="content">
                   {% if advice.hoster_id %}
                             <h5><a href="#" >{{ name }}</a></h5>
                 {% endif %}
@@ -64,7 +102,7 @@
       </div>
     </div>
   </div>
-
+</div>
 {% endblock %}  
 
 {% block script %}
@@ -75,4 +113,6 @@ function change(){
   document.getElementById("comment_display_1").style.display = "none";
 }
 </script>
+<script type="text/javascript" src="../../../static/static_zxd/js/hydropower_maintenance_worker_handle_fix.js"></script>
+<script type="text/javascript" src="../../../static/static_zxd/js/zepto.min.js"></script>
 {% endblock %}
