@@ -71,6 +71,31 @@ function park_handle(gar_num,par_location,operate){
                 }
             });
             break;
+        case 'update':
+            $('#form1_update_park').submit()
+            break;
+        case 'detail':
+            $.ajax({
+                url: '/bussiness_park_handle/',
+                type: 'GET',
+                data: {
+                    operate: operate,
+                    gar_num: gar_num,
+                    par_location: par_location,
+                },
+                cache: false,
+                success: function (data) {
+                    console.log(data)
+                    $('#detail_park_modify_2').html(data);
+                },
+                error: function (err) {
+                    console.log('err');
+                }
+            });
+        break;
+        case 'close':
+            $('#detail_park_modify_2').html('');
+            break;  
 
         default:
             break;

@@ -19,9 +19,18 @@
                   <label>住户ID</label>
                   <input class="form-control" type="text" name="hos_id" value="{{ house.host_id }}">
                 </div>
-
-
               </div>
+
+              <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>操作</label>
+                  <select class="form-control" name="house_avi">
+                    <option value="1">租用</option>
+                    <option value="2">购买</option>
+                    </select>
+                </div>
+              </div>
+
                 <input type="hidden" value="form2" name="type">
               <div class="row mb-8">
                     <div class="col-md-4">

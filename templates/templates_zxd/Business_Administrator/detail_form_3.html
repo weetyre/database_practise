@@ -1,0 +1,46 @@
+<div class="tile user-settings">
+      <div class="close"> <button class="btn btn-info" onclick="park_handle(0, 0, 'close')">收起</button></div>
+            <h4 class="line-head">详细信息</h4>
+            <form id="form1_update_park" method="POST" name="form1">
+              {% csrf_token %}
+                <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>车库号</label>
+                    <br>
+                  <input type="text" class="form-control" readonly="readonly" name="gar_num" value="{{  park_info.gar_num }}">
+                </div>
+                <div class="col-md-4">
+                  <label>车位号</label>
+                    <br>
+                  <input type="text" class="form-control" readonly="readonly" name="par_location" value="{{  park_info.par_location }}">
+                </div>
+
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-4">
+                  <label>住户ID</label>
+                  <input class="form-control" type="text" name="hos_id" id="hoster_input" value="{{ park_info.host.hos_id }}">
+                </div>    
+                <div class="col-md-4">
+                  <label>操作</label>
+                  <select class="form-control" name="park_avi">
+                    {% if park_info.avi == 1%}
+                    <option value="1"  selected="selected">租用</option>
+                    <option value="2">购买</option>
+                    {% else %}
+                    <option value="1">租用</option>
+                    <option value="2" selected="selected">购买</option>
+                    {% endif %}
+                    </select>
+                </div>
+              </div>
+
+                <input type="hidden" value="form2" name="type">
+              <div class="row mb-8">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" type="button" onclick="park_handle({{  park_info.gar_num }}, {{  park_info.par_location }}, 'update')"><i class="fa fa-fw fa-lg fa-check"></i> Update</button>
+                </div>
+              </div>
+            </form>
+</div>

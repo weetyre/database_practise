@@ -45,10 +45,12 @@
                     <td>{{ house.bel_id }}</td>
                       <td>{{ house.price }}</td>
                       <td>{{ house.rent }}</td>
-                      {% if house.avi == 1 %}
-                      <td>可用</td>
+                      {% if house.avi == 2 %}
+                      <td>购买</td>
+                      {% elif house.avi == 1%}
+                      <td>租用</td>
                       {% else %}
-                      <td>不可用</td>
+                      <td>闲置</td>
                       {% endif %}
                     <td><button class="btn btn-danger"  onclick="form_host_delete({{ house.ho_id }}, 'form2')">删除</button>
 {#                    <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>#}

@@ -70,6 +70,7 @@
                   <tr>
                     <th>房屋ID</th>
                     <th>住户ID</th>
+                    <th>状态</th>
                     <th>操作</th>
                   </tr>
                 </thead>
@@ -78,6 +79,13 @@
                   <tr>
                     <td>{{ house.ho_id  }}</td>
                     <td>{{ house.host_id }}</td>
+                    {% if  house.avi == 0 %}
+                    <td>闲置</td>
+                    {% elif house.avi == 1 %}
+                    <td>租用</td>
+                    {% else %}
+                    <td>购买</td>
+                    {% endif %}
                    <td>  <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>
                   </tr>
                 {% endfor %}

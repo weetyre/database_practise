@@ -69,7 +69,7 @@ def business_administrator_mail(request):
         bel_id = request.POST.get('bonus')
         price = request.POST.get('login_nam')
         rent = request.POST.get('pass')
-        models.House.objects.create(area=area, unit_n=unit, flour=ceng, bel_id=bel_id,price=price, rent=rent, avi=1)
+        models.House.objects.create(area=area, unit_n=unit, flour=ceng, bel_id=bel_id,price=price, rent=rent, avi=0)
 
     houses = models.House.objects.all()
     return render(request, 'templates_zxd/Business_Administrator/mail.html', {'hosters': houses})
@@ -88,7 +88,7 @@ def business_administrator_checkin(request):
         bonus = request.POST.get('bonus')
         id = request.POST.get('hos_id')
         house_id = request.POST.get('house_id')
-        state = request.POST.get('avi')
+        house_avi = request.POST.get('house_avi')
         if request.POST.get('type') is None:
             print(request.POST)
             models.Hoster.objects.create(contact=contact, sex=sex, hos_name=hos_name,
@@ -101,8 +101,10 @@ def business_administrator_checkin(request):
 
             print('xxxxxxx')
         else:
-            if models.Hoster.objects.filter(hos_id=id):
-                models.House.objects.filter(ho_id=house_id).update(avi=state, host_id=id)
+            if id == 'None' or id == '':
+                models.House.objects.filter(ho_id=house_id).update(avi=0, host_id=None)
+            elif models.Hoster.objects.filter(hos_id=id):
+                models.House.objects.filter(ho_id=house_id).update(host_id=id, avi=house_avi)
             else:
                 error = '请先创建住户'
     hosters = models.Hoster.objects.all()
@@ -117,7 +119,7 @@ def business_administrator_complaints(request):
         title = request.POST.get('post_title')
         models.AInfo.objects.create(title=title, content=content_field)
     print(request)
-    advices = models.Advice.objects.all().order_by('-advice_id')
+    advices = models.Advice.objects.filter(type_field=0).order_by('-advice_id')
     all_ = []
     for advice in advices:
         work_name = models.Hoster.objects.get(hos_id=advice.hoster_id).hos_name
@@ -129,6 +131,15 @@ def business_administrator_complaints(request):
 
 
 def business_administrator_parking(request):
+    if request.method == 'POST':
+        park_avi = request.POST.get('park_avi')
+        hoster = request.POST.get('hos_id')
+        par_location = request.POST.get('par_location')
+        gar_num = request.POST.get('gar_num')
+        if hoster =="" or hoster == None:
+            models.ParLot.objects.filter(gar_num=gar_num, par_location=par_location).update(avi=0, host=None)
+        elif models.Hoster.objects.filter(hos_id=hoster):
+            models.ParLot.objects.filter(gar_num=gar_num, par_location=par_location).update(avi=park_avi, host=hoster)
     par_lot = models.ParLot.objects.all()
     return render(request, 'templates_zxd/Business_Administrator/parking.html', {'parks': par_lot})
 
@@ -138,14 +149,20 @@ def bussiness_park_handle(request):
     par_location = request.GET.get('par_location')
     price = request.GET.get('price')
     rent = request.GET.get('rent')
+    hoster = request.GET.get('hoster')
     if request.GET.get('operate') == 'delete':
         # parks = models.ParLot.objects.all()
         parks = models.ParLot.objects.get(gar_num=gar_num, par_location=par_location).delete()
+    elif request.GET.get('operate') == 'detail':
+        park = models.ParLot.objects.get(gar_num=gar_num, par_location=par_location)
+        return render(request, 'templates_zxd/Business_Administrator/detail_form_3.html', {'park_info': park})
     elif request.GET.get('operate') == 'add_post':
         if models.ParLot.objects.filter(gar_num=gar_num, par_location=par_location):
             return HttpResponse('404')
         else:
             models.ParLot.objects.create(gar_num=gar_num, par_location=par_location, price=price, rent=rent, avi=1)
+    else:
+        return HttpResponse(404)
     parks = models.ParLot.objects.all()
     return render(request, 'templates_zxd/Business_Administrator/table_park.html', {'parks': parks})
 

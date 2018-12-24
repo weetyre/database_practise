@@ -42,10 +42,12 @@
                     <td>{{ park.par_location }}</td>
                     <td>{{ park.price }}</td>
                     <td>{{ park.rent }}</td>
-                      {% if park.avi == 1 %}
-                      <td>可用</td>
+                      {% if park.avi == 0 %}
+                      <td>闲置</td>
+                      {% elif park.avi == 1 %}
+                      <td>出租</td>
                       {% else %}
-                      <td>不可用</td>
+                      <td>购买</td>
                       {% endif %}
                       <td><button class="btn btn-danger"  onclick="park_handle({{ park.gar_num  }}, {{ park.par_location }}, 'delete')">删除</button></td>
                   </tr>
@@ -60,43 +62,53 @@
           </div>
         </div>
       </div>
-{#        <div class="row">#}
-{#        <div class="col-md-12">#}
-{#          <div class="tile">#}
-{#          <div class="add_title line-head">#}
-{#                  <p>入住信息</p>#}
-{#              <p style="color:red;">{{error}}</p>#}
-{#              </div>#}
-{#            <div class="tile-body">#}
-{#              <table class="table table-hover table-bordered" id="HouseTable">#}
-{#                <thead>#}
-{#                  <tr>#}
-{#                    <th>房屋ID</th>#}
-{#                    <th>住户ID</th>#}
-{#                    <th>状态</th>#}
-{#                    <th>操作</th>#}
-{#                  </tr>#}
-{#                </thead>#}
-{#                  <tbody>#}
-{#                  {% for house in houses %}#}
-{#                  <tr>#}
-{#                    <td>{{ house.ho_id  }}</td>#}
-{#                    <td>{{ house.host_id }}</td>#}
-{#                    <td>{{ house.avi }}</td>#}
-{#                   <td>  <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>#}
-{#                  </tr>#}
-{#                {% endfor %}#}
-{#                </tbody>#}
-{#              </table>#}
-{#             <div class="detail" id = 'form2_detail'>#}
-{#                 <div id="form2_detail_text">#}
-{#                 </div>#}
-{#             </div>#}
-{#            </div>#}
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+          <div class="add_title line-head">
+                  <p>停车场业务信息</p>
+              <p style="color:red;">{{error}}</p>
+              </div>
+            <div class="tile-body">
+              <table class="table table-hover table-bordered" id="Park_table">
+                <thead>
+                  <tr>
+                    <th>车库号</th>
+                    <th>车位号</th>
+                    <th>住户</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                  {% for park_info in parks %}
+                  <tr>
+                    <td>{{ park_info.gar_num  }}</td>
+                    <td>{{ park_info.par_location }}</td>
+                    <td>{{ park_info.host.hos_id }}</td>
+                    {% if  park_info.avi == 0 %}
+                    <td>闲置</td>
+                    {% elif park_info.avi == 1 %}
+                    <td>租用</td>
+                    {% else %}
+                    <td>购买</td>
+                    {% endif %}
+                   <td>  <button class="btn btn-primary"  onclick="park_handle({{ park_info.gar_num  }}, {{ park_info.par_location}}, 'detail')">详细</button></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+             <div id = 'detail_park_modify'>
+                 <div id="detail_park_modify_2">
+                 </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
     </div>
+
     <div class="form-add-host" id="add_park">
     <div class="tab-pane">
           <div class="tile user-settings">
@@ -143,4 +155,6 @@
 <script type="text/javascript" src="../../../static/static_zxd/js/plugins/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="../../../static/static_zxd/js/business_administrator_parking.js"></script>
 <script type="text/javascript">$('#parks').DataTable();</script>
+<script type="text/javascript">$('#Park_table').DataTable();</script>
+
 {% endblock %}
