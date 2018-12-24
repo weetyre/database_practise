@@ -6,11 +6,6 @@
 </head>
 <body>
 <form action="/post_suggestion/" method="post">
-    <a>请输入工作人员id:</a>
-    <br>
-    <input type="text" name="work_id">
-    <br>
-    <br>
     <textarea style="width:500px;height:200px;" name="suggestion">
 请在此输入您的建议......
 </textarea>
@@ -25,6 +20,7 @@
     <table border="1">
         <thead>
         <td>编号</td>
+        <td>评价等级</td>
         <td>内容</td>
         <td>时间</td>
         <td>处理状态</td>
@@ -32,9 +28,16 @@
         {% for advice in advices %}
             <tr>
                 <td>{{ forloop.counter }}</td>
+                {% if advice.type_re == 1 %}
+                    <td>差评</td>
+                {% elif advice.type_re == 2 %}
+                    <td>中评</td>
+                {% else %}
+                    <td>好评</td>
+                {% endif %}
                 <td>{{ advice.content_field }}</td>
                 <td>{{ advice.reco_time }}</td>
-                {% if advice.state == 1 %}
+                {% if advice.state == 0 %}
                     <td>待处理</td>
                 {% else %}
                     <td>已处理</td>

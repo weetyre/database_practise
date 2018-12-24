@@ -1,4 +1,5 @@
 db.sqlite3
 .idea/
-__pycache__
-Zone_manage/migrations/0001_initial.py
+__pycache__/
+Zone_manage/__pycache__/
+Zone_manage/migrations/
