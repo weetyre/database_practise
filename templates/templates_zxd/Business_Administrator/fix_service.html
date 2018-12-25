@@ -53,7 +53,11 @@
                   <tr>
                     <td>{{ worker.w_id }}</td>
                     <td>{{ worker.name }}</td>
-                    <td>{{ worker.sex }}</td>
+                     {% if worker.sex == '1' %}
+                    <td>男</td>
+                  {% else %}
+                      <td>女</td>
+                  {% endif %}
                            <td>水电维修工</td>
                     <td>{{ worker.work_num }}</td>
                     {% if worker.avi == 0 %}

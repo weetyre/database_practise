@@ -4,51 +4,76 @@
   <li><a class="app-menu__item" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
   <li><a class="app-menu__item" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
   <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">章程管理</span></a></li>
-  <!--<li><a class="app-menu__item active" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">财政记录</span></a></li>-->
+  <li><a class="app-menu__item active" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">服务记录</span></a></li>
   <!--<li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">邮件</span></a></li>-->
 </ul>
 {% endblock %}
 
 {% block mainbody %}
-<div class="row">
-    <div class="col-md-12">
-      <div class="tile">
-        <div class="tile-body">
-          <table class="table table-hover table-bordered" id="sampleTable">
-            <thead>
-              <tr>
-                <th>编号</th>
-                <th>guest_name</th>
-                <th>indate</th>
-                <th>content</th>
-                <th>remark</th>
-                <th>hoster_id</th>
-                  <th>worker_id</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for house in houses %}
-              <tr>
-                <td>{{ house.log_id  }}</td>
-                <td>{{ house.guest_name }}</td>
-                <td>{{ house.indate }}</td>
-                <td>{{ house.content }}</td>
-                <td>{{ house.remark }}</td>
-                <td>{{ house.hoster_id }}</td>
-               <td>{{ house.worker_id }}</td>
-              </tr>
-            {% endfor %}
-
-            </tbody>
-          </table>
+<div id="content">
+  <div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+    <div class="add_title line-head">
+            <p>服务记录</p>
+            <div class="add_button">
+              <button class="btn btn-primary change_btn_height" onclick="form_add_host()">添加</button>
+            </div>
         </div>
+      <div class="tile-body">
+        <table class="table table-hover table-bordered" id="fix_service_table">
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>内容</th>
+              <th>日期</th>
+             <th>状态</th>
+             <th>住户</th>
+             <th>工作人员</th>
+             <th>评价内容</th>
+             <th>评价级别</th>
+            </tr>
+          </thead>
+            <tbody>
+            {% for fix_service, comment, hos, work in fix_services %}
+            <tr>
+              <td>{{ fix_service.fix_service_id  }}</td>
+              <td>{{ fix_service.content_field  }}</td>
+              <td>{{ fix_service.reco_time  }}</td>
+              {% if fix_service.state == 1%}
+              <td>尚未完成</td>
+              {% else %}
+              <td>完成服务</td>
+              {% endif %}
+              <td>{{ hos.hos_name  }}</td>
+              <td>{{ work.name  }}</td>
+              <td>{{ comment.content_field  }}</td>
+              {% if comment.type_re == 0%}
+              <td>好评</td>
+              {%elif comment.type_re == 1 %}
+              <td style="color: red">差评</td>
+              {% elif comment.type_re == 3 %}
+              <td>尚未评价</td>
+              {% else %}
+              <td>中评</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+       <div class="detail" id = 'form1_detail'>
+           <div id="form1_detail_text">
+           </div>
+       </div>
       </div>
     </div>
   </div>
+</div>
+</div>
 {% endblock %}  
 
 {% block script %}
 <script type="text/javascript" src="../../../static/static_zxd/js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="../../../static/static_zxd/js/plugins/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript">$('#sampleTable').DataTable();</script>
+<script type="text/javascript">$('#fix_service_table').DataTable();</script>
 {% endblock %}

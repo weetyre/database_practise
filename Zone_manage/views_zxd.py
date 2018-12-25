@@ -39,7 +39,7 @@ def bussiness_fix_handle(request):
         worker = models.Worker.objects.get(name=user_name)
         models.Worker.objects.filter(name=user_name).update(avi=1) #将工作人员状态设为空闲
         models.Worker.objects.filter(name=user_name).update(work_num=worker.work_num + 1) # 工作数+1
-        models.Advice.objects.create(hoster_id=fix.hoster_id, type_field=1, state=1, service_id_id=fix_service_id,
+        models.Advice.objects.create(hoster_id=fix.hoster_id, type_re=3, type_field=1, state=1, service_id_id=fix_service_id,
                                      workid_id=fix.workid_id) # 产生一条留言
         return HttpResponse(1)
     elif operate_type == 'share':
@@ -139,8 +139,10 @@ def business_administrator_complaints(request):
         all_.append(work_name)
 
     advices = zip(all_, advices)
+    workers = models.Worker.objects.all()
 
-    return render(request, 'templates_zxd/Business_Administrator/complaints.html', {'advices': advices})
+    return render(request, 'templates_zxd/Business_Administrator/complaints.html', {'advices': advices,
+                                                                                    'workers': workers})
 
 
 def business_administrator_parking(request):
@@ -282,7 +284,7 @@ def management_manager_complaints(request):
         content_field = request.POST.get('post_content')
         models.Advice.objects.create(content_field=content_field, workid_id=1, state=2)
     print(request)
-    advices = models.Advice.objects.all().order_by('-advice_id')
+    advices = models.Advice.objects.filter(type_field=0).order_by('-advice_id')
     all_ = []
     for advice in advices:
         if advice.workid_id:
@@ -298,9 +300,23 @@ def management_manager_complaints(request):
 
 
 def management_manager_parking(request):
-    houses = models.InOut.objects.all()
-    print(houses)
-    return render(request, 'templates_zxd/Management_Manager/parking.html', {'houses': houses})
+    fix_services = models.Fix_Service.objects.all().order_by('-fix_service_id')
+    hos = [] 
+    comment = []
+    works = []
+    for fix_service in fix_services:
+        hos.append(models.Hoster.objects.get(hos_id=fix_service.hoster_id))
+        if models.Advice.objects.filter(service_id_id=fix_service.fix_service_id):
+            comment.append(models.Advice.objects.get(service_id_id=fix_service.fix_service_id))
+        else:
+            comment.append(0)
+        if models.Worker.objects.filter(w_id=fix_service.workid_id):
+            works.append(models.Worker.objects.get(w_id=fix_service.workid_id))
+        else:
+            works.append('')
+    fix_services = zip(fix_services, comment, hos, works)
+
+    return render(request, 'templates_zxd/Management_Manager/parking.html', {'fix_services': fix_services})
 
 
 def management_manager_delete(request):

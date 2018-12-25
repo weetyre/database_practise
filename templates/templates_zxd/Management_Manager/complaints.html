@@ -4,7 +4,7 @@
   <li><a class="app-menu__item" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
   <li><a class="app-menu__item  active" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
   <li><a class="app-menu__item" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">章程管理</span></a></li>
-  <!--<li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">财政记录</span></a></li>-->
+  <li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">服务记录</span></a></li>
   <!--<li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">邮件</span></a></li>-->
 </ul>
 {% endblock %}
@@ -45,7 +45,7 @@
             <ul class="post-utility">
 
 {#              <li class="shares"><button class="btn btn-success "><i class="fa fa-fw fa-lg fa-share"></i>Share</button></li>#}
-                {% if advice.state == 0%}
+                {% if advice.state == 1%}
                     <div  id="{{ advice.advice_id }}" style="display: block">
                     <li class="comments"><button class="btn btn-danger"  onclick="finish_advice({{ advice.advice_id }})"><i class="fa fa-fw fa-lg fa-history"></i>Need Complete</button></li>
                </div>

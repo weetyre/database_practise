@@ -33,7 +33,7 @@
               <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
                <div class="content">
                <h5><a href="#" >{{ hos.hos_name}}<br>ID:{{ hos.hos_id}}</a></h5>
-                <p class="text-muted"><small>{{ fix_service.reco_time }}</small></p>
+                <p class="text-muted"><small>{{ fix_service.reco_time }}<br>维修服务</small></p>
               </div>
             </div>
             <div class="post-content">
@@ -59,11 +59,11 @@
                     <input class="form-control" value="{{ comment.content_field }}" readonly="readonly">
                     <br>
                     {% if comment.type_re == 0 %}
-                        <p>用户给了好评</p>
+                        <p><i class="fa fa-thumbs-up"></i>用户给了好评</p>
                      {% elif comment.type_re ==  1%}
-                        <p>用户给了差评</p>
+                        <p><i class="fa fa-thumbs-down"></i>用户给了差评</p>
                         {% else %}
-                        <p>用户给了中评</p>
+                        <p><i class="fa fa-hand-stop-o"></i>用户给了中评</p>
                      {% endif %}
                   </div>
                     {% else %}
@@ -87,7 +87,7 @@
                 {% endif %}
 
 
-                <p class="text-muted"><small>{{ advice.reco_time }}</small></p>
+                <p class="text-muted"><small>{{ advice.reco_time }}<br>投诉建议</small></p>
               </div>
             </div>
             <div class="post-content">

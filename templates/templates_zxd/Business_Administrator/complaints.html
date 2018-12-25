@@ -17,6 +17,7 @@
         <div class="co·ver-image"></div>
       </div>
     </div>
+
     <div class="col-md-3">
       <div class="tile p-0">
         <ul class="nav flex-column nav-tabs user-tabs">
@@ -54,6 +55,59 @@
           </div>
           </form>
       </div>
+        <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+          <div class="add_title line-head">
+                  <p>工作人员信息</p>
+              </div>
+            <div class="tile-body">
+              <table class="table table-hover table-bordered" id="WorkerTable">
+                <thead>
+                  <tr>
+                    <th>工作人员ID</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>职位</th>
+                    <th>工作统计</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                  {% for worker in workers %}
+
+                  <tr>
+                    <td>{{ worker.w_id }}</td>
+                    <td>{{ worker.name }}</td>
+                  {% if worker.sex == '1' %}
+                    <td>男</td>
+                  {% else %}
+                      <td>女</td>
+                  {% endif %}
+                  {% if worker.type == 0 %}
+                           <td>管理处经理</td>
+                          {% elif worker.type == 1 %}
+                           <td>业务管理员</td>
+                     {% elif worker.type == 2 %}
+                           <td>水电维修工</td>
+                      {% elif worker.type == 3 %}
+                           <td>保安</td>
+                         {% elif worker.type == 5 %}
+                           <td>财务管理</td>
+                     {% endif %}
+                    <td>{{ worker.work_num }}</td>
+                  </tr>
+
+                {% endfor %}
+                </tbody>
+              </table>
+             <div class="detail" id = 'form1_detail'>
+                 <div id="form1_detail_text">
+                 </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
         <div class="tab-pane active" id="user-timeline">
             <!-- post_content  -->
             {% for name, advice in advices %}
@@ -65,7 +119,7 @@
                 {% endif %}
 
 
-                <p class="text-muted"><small>{{ advice.reco_time }}</small></p>
+                <p class="text-muted"><small>{{ advice.reco_time }}<br>受理人：{{ advice.workid_id }}</small></p>
               </div>
             </div>
             <div class="post-content">
@@ -149,4 +203,7 @@ function send_post(){
 }
 </script>
 <script text="text/javascript" src="../../../static/static_zxd/js/business_administrator.js"></script>
+<script type="text/javascript" src="../../../static/static_zxd/js/plugins/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../../static/static_zxd/js/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">$('#WorkerTable').DataTable();</script>
 {% endblock %}
