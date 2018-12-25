@@ -16,16 +16,18 @@
         <td>编号</td>
         <td>工作人员id</td>
         <td>报修内容</td>
+        <td>报修ID</td>
         <td>时间</td>
         <td>评价</td>
         </thead>
      {% for service in services %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ service.workid.w_id }}</td>
-            <td>{{ service.content_field }}</td>
+            <td>{{ service.workid_id }}</td>
+            <td>{{ service.service_id.content_field }}</td>
+            <td>{{ service.service_id.fix_service_id}}</td>
             <td>{{ service.reco_time }}</td>
-         <td><a href="/4hosts/judge_repair?workid={{ service.workid.w_id }}">评价</a></td>
+         <td><a href="/4hosts/judge_repair?workid={{ service.workid.w_id }}&serviceid={{ service.service_id.fix_service_id }}">评价</a></td>
         </tr>
     {% endfor %}
 </table>

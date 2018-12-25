@@ -5,13 +5,18 @@
     <title>维修评价</title>
 </head>
 <body>
-<form action="/post_judge_repair/" method="post">
-    <a>请输入工作人员id:</a>
+<form action="/post_judge_repair/?worker_id={{  work_id  }}&serviceid={{ serviceid }}" method="post">
+    <a>待评工作人员id:</a>
     <br>
-    <input type="text" name="work_id" value="{{ work_id }}" disabled="disabled">
+    <input type="text" name="worker_id" value="{{ work_id }}" disabled="disabled">
     <br>
     <br>
-<textarea style="width:500px;height:200px;" name="judge_repair">
+    <a>本次服务id:</a>
+    <br>
+    <input type="text" name="worker_id" value="{{ serviceid }}" disabled="disabled">
+    <br>
+    <br>
+    <textarea style="width:500px;height:200px;" name="judge_repair">
 请在此输入您对此次维修服务的评价......
 </textarea>
     <br><br>

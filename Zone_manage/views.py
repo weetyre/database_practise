@@ -24,7 +24,7 @@ from .models import Fix_Service
 def show_daipingjia(req):
     hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
     print(hoster)
-    services = Fix_Service.objects.all().filter(hoster=hoster).filter(state=1)
+    services = Advice.objects.all().filter(type_field=1,state=1,hoster=hoster)
     print(services)
     return render(req, '4hosts/show_daipingjia.html', {"services": services})
 
@@ -48,9 +48,10 @@ def unRentPark(req):
 
 def hostjudge_repair(req):
     work_id = req.GET.get("workid")
+    service_id = req.GET.get("serviceid")
     print("workid = ",work_id)
     print(type(work_id))
-    return render(req, "4hosts/judge_repair.html",{"work_id":work_id})
+    return render(req, "4hosts/judge_repair.html",{"work_id":work_id,"serviceid":service_id})
 
 
 def hostgo_repair(req):
@@ -72,7 +73,7 @@ def usage(req):
 def hostssuggests(req):
     try:
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
-        advices = Advice.objects.all().filter(hoster=hoster)
+        advices = Advice.objects.all().filter(hoster=hoster).filter(type_field=0)
         return render(req, "4hosts/suggests.html",{"advices":advices})
     except:
         return render(req, "4hosts/suggests.html")
@@ -102,12 +103,21 @@ def post_go_repair(req):
 def post_judge_repair(req):
     try:
         data = req.POST.get("judge_repair")
-        work_id = req.POST.get("work_id")
+        work_id = req.GET.get("worker_id")
+        serviceid = req.GET.get("serviceid")
         level = req.POST.get("level")
         print(level)
         worker = Worker.objects.get(w_id=work_id)
         hoster = Hoster.objects.get(hos_id=req.session.get("user_id"))
-        Advice.objects.create(workid=worker, hoster=hoster, content_field=data, state=0, type_re=int(level));
+        service = Fix_Service.objects.get(fix_service_id=int(serviceid))
+        # .filter(service_id_id=service).filter(work_id=worker)
+
+        advice = Advice.objects.filter(hoster_id=hoster).filter(service_id_id=service).filter(workid_id=worker).filter(type_field=1)[0]
+
+        advice.type_re = int(level)
+        advice.content_field = data
+        advice.state = 0
+        advice.save()
         return HttpResponse("操作成功")
     except:
         return HttpResponse("操作失败")
