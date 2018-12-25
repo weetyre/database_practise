@@ -27,11 +27,12 @@
     <div class="col-md-9">
       <div class="tab-content">
          <div class="tab-pane active" id="user-timeline">
-         {% for fix_service,comment in fix_services %}
+         {% for fix_service,comment, hos in fix_services %}
+
               <div class="timeline-post">
               <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
                <div class="content">
-               <h5><a href="#" >小区住户</a></h5>
+               <h5><a href="#" >{{ hos.hos_name}}<br>ID:{{ hos.hos_id}}</a></h5>
                 <p class="text-muted"><small>{{ fix_service.reco_time }}</small></p>
               </div>
             </div>
@@ -40,11 +41,12 @@
             </div>
             <ul class="post-utility" id="handle_fix_info{{ fix_service.fix_service_id }}">
                 {% if fix_service.state == 1%}
-                    <div  id="{{ fix_service.fix_service_id }}" style="display: block">
+                    <div  id="{{ fix_service.fix_service_id }}" style="display: block;">
                     <li class="comments"><button class="btn btn-info"  onclick="handle_fix({{ fix_service.fix_service_id }})"><i class="fa fa-fw fa-lg fa-history"></i>Complete</button></li>
                     </div>
                  {% else %}
                     <p class="btn btn-success ">已完成</p>
+
                 {% endif %}
             <br>
 
@@ -73,10 +75,10 @@
 {#              onclick="change()"#}
 {#            <div id="comment_display_1">adasdasdasd</div>#}
           </div>
-
             {% endfor %}
             <!-- post_content  -->
             {% for name, advice in advices %}
+                 {% if advice.type_field == 0 %}
               <div class="timeline-post">
                 <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
                 <div class="content">
@@ -94,7 +96,7 @@
             <ul class="post-utility">
 
 {#              <li class="shares"><button class="btn btn-success "><i class="fa fa-fw fa-lg fa-share"></i>Share</button></li>#}
-                {% if advice.state == 0%}
+                {% if advice.state == 1%}
                     <div  id="{{ advice.advice_id }}" style="display: block">
                     <li class="comments"><button class="btn btn-info"  onclick="finish_advice({{ advice.advice_id }})"><i class="fa fa-fw fa-lg fa-history"></i>Complete</button></li>
                </div>
@@ -107,7 +109,7 @@
 {#              onclick="change()"#}
 {#            <div id="comment_display_1">adasdasdasd</div>#}
           </div>
-
+                {% endif %}
             {% endfor %}
       </div>
     </div>

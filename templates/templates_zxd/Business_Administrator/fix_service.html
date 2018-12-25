@@ -49,11 +49,12 @@
                 </thead>
                   <tbody>
                   {% for worker in workers %}
+                    {% if worker.type == 2 %}
                   <tr>
                     <td>{{ worker.w_id }}</td>
                     <td>{{ worker.name }}</td>
                     <td>{{ worker.sex }}</td>
-                    <td>{{ worker.type }}</td>
+                           <td>水电维修工</td>
                     <td>{{ worker.work_num }}</td>
                     {% if worker.avi == 0 %}
                     <td><button class="btn btn-dark"><i class="fa  fa-lg fa-hourglass"></i>忙碌</button></td>
@@ -61,6 +62,7 @@
                         <td><button class="btn btn-primary"><i class="fa  fa-lg fa-check"></i>空闲</button></td>
                     {% endif %}
                   </tr>
+                      {% endif %}
                 {% endfor %}
                 </tbody>
               </table>
@@ -74,12 +76,12 @@
       </div>
         <div class="tab-pane active" id="user-timeline">
             <!-- post_content  -->
-            {% for fix_service in fix_services %}
+            {% for fix_service,hos in fix_services %}
               <div class="timeline-post">
             <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
               <div class="content">
                   {% if fix_service.hoster_id %}
-                            <h5><a href="#" >小区住户</a></h5>
+                            <h5><a href="#" >{{ hos.hos_name}}<br>ID:{{ hos.hos_id}}</a></h5>
                 {% endif %}
 
                 <p class="text-muted"><small>{{ fix_service.reco_time }}</small></p>
@@ -103,11 +105,11 @@
                             <li class="shares"><button class="btn btn-success " onclick="handle_fix({{ fix_service.fix_service_id }}, 'share')"><i class="fa fa-fw fa-lg fa-share"></i>Share</button></li>
                         {% endif %}
                         </div>
-                        {% if fix_service.state == 1%}
-                            <li class="comments" id="complete_{{ fix_service.fix_service_id }}"><button class="btn btn-info"  onclick="handle_fix({{ fix_service.fix_service_id }}, 'complete')"><i class="fa fa-fw fa-lg fa-history"></i>Complete</button></li>
-                        {% else %}
-                            <li class="comments"></li>
-                        {% endif %}
+{#                        {% if fix_service.state == 1%}#}
+{#                            <li class="comments" id="complete_{{ fix_service.fix_service_id }}"><button class="btn btn-info"  onclick="handle_fix({{ fix_service.fix_service_id }}, 'complete')"><i class="fa fa-fw fa-lg fa-history"></i>Complete</button></li>#}
+{#                        {% else %}#}
+{#                            <li class="comments"></li>#}
+{#                        {% endif %}#}
                </div>
             <br>
 {#                <li class="comments"><div class="comment_show"  ><i class="fa fa-fw fa-lg fa-comment-o"></i>Replay</div></li>#}
