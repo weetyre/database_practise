@@ -375,7 +375,7 @@ def index_register(request):
                 models.Worker.objects.create(name=username,sex=sex_num,type = type)
                 return HttpResponseRedirect('/security')
             elif type == 4:
-                models.Hoster.objects.create(hos_name=username, sex=sex_num)
+                models.Hoster.objects.create(hos_name=username, sex=sex_num,coupon_nam='您没有任何代金券',bonus=0)
                 hoster = models.Hoster.objects.get(hos_name=username)
                 request.session["user_id"] = hoster.hos_id  # hosterid
                 return render(request, '4.html',
@@ -552,9 +552,9 @@ def s_ta(request):
 def myfinance(request):
     if request.method == 'GET':
         user = request.user
+        worker = Worker.objects.get(name=user.username)
         infos = models.AInfo.objects.all()
-        infos = models.AInfo.objects.all()
-        advice = models.Advice.objects.all()
+        advice = models.Advice.objects.filter(workid_id=worker.w_id)
         len = advice.count()
 
         hosts_boy = models.Hoster.objects.filter(sex='1')
