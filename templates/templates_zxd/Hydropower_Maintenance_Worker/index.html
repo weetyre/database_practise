@@ -29,7 +29,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
-              <h4>投诉建议</h4>
+              <h4>维修服务</h4>
               <p><b>{{ advice_count }}</b></p>
             </div>
           </div>
@@ -71,10 +71,12 @@
   <div class="row">
         <div class="col-md-6">
           <div class="tile">
-            <h3 class="tile-title">月服务指数</h3>
-            <div class="embed-responsive embed-responsive-16by9">
-              <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
-            </div>
+            <h3 class="tile-title">投诉建议</h3>
+              <ul>
+            {% for advice in advices %}
+                <li>{{ advice.content_field }}</li>
+              {% endfor %}
+          </ul>
           </div>
         </div>
         <div class="col-md-6">
@@ -92,48 +94,26 @@
 {% block script %}
 <script type="text/javascript" src="../../../static/static_zxd/js/plugins/chart.js"></script>
 <script type="text/javascript">
-  var data = {
-    labels: ["January", "February", "March", "April", "May"],
-    datasets: [
-      {
-        label: "My First dataset",
-        fillColor: "rgba(220,220,220,0.2)",
-        strokeColor: "rgba(220,220,220,1)",
-        pointColor: "rgba(220,220,220,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(220,220,220,1)",
-        data: [65, 59, 80, 81, 56]
-      },
-      {
-        label: "My Second dataset",
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,1)",
-        data: [28, 48, 40, 19, 86]
-      }
-    ]
-  };
   var pdata = [
     {
-      value: 300,
-      color: "#46BFBD",
-      highlight: "#5AD3D1",
-      label: "Complete"
+      value: {{ no_thump_up }},
+      color: "#FFEC8B",
+      highlight: "#FFEC8B",
+      label: "中评"
+    }, 
+    {
+      value: {{ thump_down }},
+      color:"#F7464A",
+      highlight: "#FE3A5E",
+      label: "差评"
     },
     {
-      value: 50,
-      color:"#F7464A",
-      highlight: "#FF5A5E",
-      label: "In-Progress"
-    }
+      value: {{ thump_up }},
+      color:"#46BFBD",
+      highlight: "#5AD3D1",
+      label: "好评"
+    },
   ]
-  
-  var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-  var lineChart = new Chart(ctxl).Line(data);
   
   var ctxp = $("#pieChartDemo").get(0).getContext("2d");
   var pieChart = new Chart(ctxp).Pie(pdata);

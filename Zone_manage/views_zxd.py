@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 # from django.contrib.auth import authenticate, login, logout
 # from .admin import UserCreationForm
 
+
 # Create your views here.
 
 from . import models
@@ -17,9 +18,13 @@ def homepage(request):
 # 维修服务
 def business_administrator_fix_service(request):
     fix_services = models.Fix_Service.objects.all().order_by('-fix_service_id')
+    hos = []
+    for fixservice in fix_services:
+        hos.append(models.Hoster.objects.get(hos_id=fixservice.hoster_id))
     workers = models.Worker.objects.all()
+    fix = zip(fix_services, hos)
     return render(request, 'templates_zxd/Business_Administrator/fix_service.html',
-                  {'fix_services': fix_services, 'workers': workers})
+                  {'fix_services': fix, 'workers': workers})
 
 
 # 处理维修请求
@@ -29,12 +34,13 @@ def bussiness_fix_handle(request):
     fix_worker = request.GET.get('fix_worker')
     user_name = request.user.username
     if operate_type == 'complete':
-        fix = models.Fix_Service.objects.get(fix_service_id=fix_service_id)
-        models.Fix_Service.objects.filter(fix_service_id=fix_service_id).update(state=0)
+        fix = models.Fix_Service.objects.get(fix_service_id=fix_service_id) # 获取维修请求
+        models.Fix_Service.objects.filter(fix_service_id=fix_service_id).update(state=0)# 将state设为1，完成一次维修
         worker = models.Worker.objects.get(name=user_name)
-        models.Worker.objects.filter(name=user_name).update(avi=1)
-        models.Worker.objects.filter(name=user_name).update(work_num=worker.work_num + 1)
-        models.Advice.objects.create(hoster_id=fix.hoster_id, type_field=1, service_id_id=fix_service_id)
+        models.Worker.objects.filter(name=user_name).update(avi=1) #将工作人员状态设为空闲
+        models.Worker.objects.filter(name=user_name).update(work_num=worker.work_num + 1) # 工作数+1
+        models.Advice.objects.create(hoster_id=fix.hoster_id, type_re=3, type_field=1, state=1, service_id_id=fix_service_id,
+                                     workid_id=fix.workid_id) # 产生一条留言
         return HttpResponse(1)
     elif operate_type == 'share':
         if models.Worker.objects.filter(w_id=fix_worker):
@@ -66,13 +72,16 @@ def business_administrator_index(request):
 
 def business_administrator_mail(request):
     if request.method == 'POST':
-        area = request.POST.get('hos_name')
+        bel_name = request.POST.get('hos_name')
         unit = request.POST.get('contact')
         ceng = request.POST.get('sex')
         bel_id = request.POST.get('bonus')
-        price = request.POST.get('login_nam')
-        rent = request.POST.get('pass')
-        models.House.objects.create(area=area, unit_n=unit, flour=ceng, bel_id=bel_id,price=price, rent=rent, avi=0)
+        area = request.POST.get('area')
+        pub_area = request.POST.get('pub_area')
+        price = request.POST.get('price')
+        rent = request.POST.get('rent')
+        models.House.objects.create(bel_name=bel_name, unit_n=unit, flour=ceng, bel_id=bel_id,
+                                    pub_area=pub_area, price=price, rent=rent, avi=0, area=area)
 
     houses = models.House.objects.all()
     return render(request, 'templates_zxd/Business_Administrator/mail.html', {'hosters': houses})
@@ -96,6 +105,7 @@ def business_administrator_checkin(request):
             print(request.POST)
             models.Hoster.objects.create(contact=contact, sex=sex, hos_name=hos_name,
                                          loign_nam=login_nam, pass_field=password, bonus=bonus,)
+            models.MyUser.objects.create_user(login_nam, contact, sex, 4, password)
         elif request.POST.get('type') == 'form1_update':
             # MyUser.objects.create_user(username, email, sex, type, request.POST['password'])
             models.Hoster.objects.get(hos_id=id).delete()
@@ -129,8 +139,10 @@ def business_administrator_complaints(request):
         all_.append(work_name)
 
     advices = zip(all_, advices)
+    workers = models.Worker.objects.all()
 
-    return render(request, 'templates_zxd/Business_Administrator/complaints.html', {'advices': advices})
+    return render(request, 'templates_zxd/Business_Administrator/complaints.html', {'advices': advices,
+                                                                                    'workers': workers})
 
 
 def business_administrator_parking(request):
@@ -236,8 +248,8 @@ def management_manager_index(request):
     print(rules)
     hoster_number = models.Hoster.objects.count()
     worker_number = models.Worker.objects.count()
-    advice_count = models.Advice.objects.count()
-    un_advice_count = models.Advice.objects.filter(state=0).count()
+    advice_count = models.Fix_Service.objects.count()
+    un_advice_count = models.Fix_Service.objects.filter(state=1).count()
     return render(request, 'templates_zxd/Management_Manager/index.html',
                   {'rules': rules, 'hoster_number': hoster_number, 'worker_number': worker_number,
                    'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count,
@@ -272,7 +284,7 @@ def management_manager_complaints(request):
         content_field = request.POST.get('post_content')
         models.Advice.objects.create(content_field=content_field, workid_id=1, state=2)
     print(request)
-    advices = models.Advice.objects.all().order_by('-advice_id')
+    advices = models.Advice.objects.filter(type_field=0).order_by('-advice_id')
     all_ = []
     for advice in advices:
         if advice.workid_id:
@@ -288,9 +300,23 @@ def management_manager_complaints(request):
 
 
 def management_manager_parking(request):
-    houses = models.InOut.objects.all()
-    print(houses)
-    return render(request, 'templates_zxd/Management_Manager/parking.html', {'houses': houses})
+    fix_services = models.Fix_Service.objects.all().order_by('-fix_service_id')
+    hos = [] 
+    comment = []
+    works = []
+    for fix_service in fix_services:
+        hos.append(models.Hoster.objects.get(hos_id=fix_service.hoster_id))
+        if models.Advice.objects.filter(service_id_id=fix_service.fix_service_id):
+            comment.append(models.Advice.objects.get(service_id_id=fix_service.fix_service_id))
+        else:
+            comment.append(0)
+        if models.Worker.objects.filter(w_id=fix_service.workid_id):
+            works.append(models.Worker.objects.get(w_id=fix_service.workid_id))
+        else:
+            works.append('')
+    fix_services = zip(fix_services, comment, hos, works)
+
+    return render(request, 'templates_zxd/Management_Manager/parking.html', {'fix_services': fix_services})
 
 
 def management_manager_delete(request):
@@ -336,23 +362,42 @@ def management_manager_detail(request):
 def management_manager_advice_finish(request):
     if request.method == 'GET':
         advice_id = request.GET.get('id')
-        models.Advice.objects.filter(advice_id=advice_id).update(state=1)
+        if models.Advice.objects.get(advice_id=advice_id).workid_id:
+            models.Advice.objects.filter(advice_id=advice_id).update(state=0)
+        else:
+            user_name = request.user.username
+            worker = models.Worker.objects.get(name=user_name)
+            models.Advice.objects.filter(advice_id=advice_id).update(state=0, workid_id=worker.w_id)
     return HttpResponse(1)
 ################################
 #                              #
 #    Management_Manager View   #
 #                              #
 ################################
+
 def hydropower_maintenance_worker_index(request):
     rules = models.Rule.objects.all().order_by('-rule_id')
     infos = models.AInfo.objects.all().order_by('-id')
     hoster_number = models.Hoster.objects.count()
     equip_number = models.Equip.objects.count()
-    advice_count = models.Advice.objects.filter(workid_id=3).count()
-    un_advice_count = models.Advice.objects.filter(workid_id=3, state=0).count()
+    
+    user_name = request.user.username
+    worker = models.Worker.objects.get(name=user_name)
+
+    thump_up = models.Advice.objects.filter(type_field=1, state=0,type_re=0,workid_id=worker.w_id).count()
+    thump_down = models.Advice.objects.filter(type_field=1, state=0,type_re=1,workid_id=worker.w_id).count()
+    no_thump_up = models.Advice.objects.filter(type_field=1,state=0, type_re=2,workid_id=worker.w_id).count()
+ 
+ 
+    advice_count = models.Fix_Service.objects.filter(workid_id=worker.w_id).count()
+    un_advice_count = models.Fix_Service.objects.filter(workid_id=worker.w_id, state=1).count()
+    user_name = request.user.username
+    worker = models.Worker.objects.get(name=user_name)
+    advices = models.Advice.objects.filter(workid_id=worker.w_id, type_field=0)
     return render(request, 'templates_zxd/Hydropower_Maintenance_Worker/index.html',
                   {'rules': rules, 'hoster_number': hoster_number, 'equip_number': equip_number,
-                   'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count})
+                   'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count,
+                   'advices': advices, 'thump_up':thump_up, 'no_thump_up':no_thump_up, 'thump_down':thump_down})
 
 
 def hydropower_maintenance_worker_mail(request):
@@ -411,14 +456,16 @@ def hydropower_maintenance_worker_complaints(request):
 
     advices = zip(all_, advices)
 
-    fix_services = models.Fix_Service.objects.filter(workid_id=worker.w_id)
+    fix_services = models.Fix_Service.objects.filter(workid_id=worker.w_id).order_by('-fix_service_id')
     comment = []
+    hos = []
     for fix_service in fix_services:
+        hos.append(models.Hoster.objects.get(hos_id=fix_service.hoster_id))
         if models.Advice.objects.filter(service_id_id=fix_service.fix_service_id):
             comment.append(models.Advice.objects.get(service_id_id=fix_service.fix_service_id))
         else:
             comment.append(0)
-    fix_services = zip(fix_services, comment)
+    fix_services = zip(fix_services, comment, hos)
     return render(request, 'templates_zxd/Hydropower_Maintenance_Worker/complaints.html',
                   {'advices': advices, 'fix_services': fix_services})
 
