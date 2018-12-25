@@ -2,11 +2,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path(r'4hosts/show_daipingjia/', views.show_daipingjia),
     path(r'unRentHouse/', views.unRentHouse),
     path(r'unRentPark/', views.unRentPark),
 
     path(r'4hosts/suggests.html/', views.hostssuggests),
-    path(r'4hosts/judge_repair.html', views.hostjudge_repair),
+    path(r'4hosts/judge_repair', views.hostjudge_repair),
     path(r'4hosts/go_repair.html', views.hostgo_repair),
     path(r'post_suggestion/', views.post_suggestion),
     path(r'post_judge_repair/', views.post_judge_repair),

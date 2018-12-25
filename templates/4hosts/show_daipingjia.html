@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>可评价</title>
+</head>
+<body>
+<h1 align="center">可评价</h1>
+ <br>
+ <br>
+{% if services.count == 0 %}
+   <h3 align="center">当前不存在可评价的维修</h3>
+{% else %}
+<table border="1">
+        <thead>
+        <td>编号</td>
+        <td>工作人员id</td>
+        <td>报修内容</td>
+        <td>时间</td>
+        <td>评价</td>
+        </thead>
+     {% for service in services %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ service.workid.w_id }}</td>
+            <td>{{ service.content_field }}</td>
+            <td>{{ service.reco_time }}</td>
+         <td><a href="/4hosts/judge_repair?workid={{ service.workid.w_id }}">评价</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
+</body>
+</html>
