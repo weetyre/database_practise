@@ -116,7 +116,7 @@ class Hoster(models.Model):
     hos_id = models.AutoField(primary_key=True)
     contact = models.BigIntegerField(unique=True, blank=True, null=True)
     bonus = models.BigIntegerField(blank=True, null=True)
-    coupon_nam = models.CharField(max_length=8, blank=True, null=True)
+    coupon_nam = models.IntegerField(blank=True, null=True)
     pass_field = models.BigIntegerField(db_column='pass', blank=True, null=True)  # Field renamed because it was a Python reserved word.
     loign_nam = models.CharField(max_length=8, blank=True, null=True)
     hos_name = models.CharField(max_length=8, blank=True, null=True)

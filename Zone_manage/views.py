@@ -375,7 +375,7 @@ def index_register(request):
                 models.Worker.objects.create(name=username,sex=sex_num,type = type)
                 return HttpResponseRedirect('/security')
             elif type == 4:
-                models.Hoster.objects.create(hos_name=username, sex=sex_num,coupon_nam='您没有任何代金券',bonus=0)
+                models.Hoster.objects.create(hos_name=username, sex=sex_num,coupon_nam=0,bonus=0)
                 hoster = models.Hoster.objects.get(hos_name=username)
                 request.session["user_id"] = hoster.hos_id  # hosterid
                 return render(request, '4.html',
