@@ -530,6 +530,7 @@ def myfinance(request):
     if request.method == 'GET':
         user = request.user
         infos = models.AInfo.objects.all()
+        infos = models.AInfo.objects.all()
         advice = models.Advice.objects.all()
         len = advice.count()
 
