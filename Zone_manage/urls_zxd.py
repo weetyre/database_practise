@@ -7,6 +7,7 @@ urlpatterns = [
     path('business_administrator/checkin/', views.business_administrator_checkin, name='business_administrator_checkin'),
     path('business_administrator/complaints/', views.business_administrator_complaints),
     path('business_administrator/parking/', views.business_administrator_parking),
+    path('business_administrator/fix_service/', views.business_administrator_fix_service),
     path('management_manager/index/', views.management_manager_index, name='management_manager_index'),
     path('management_manager/mail/', views.management_manager_mail),
     path('management_manager/checkin/', views.management_manager_checkin,name='management_manager_checkin'),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('hydropower_maintenance_worker/complaints/', views.hydropower_maintenance_worker_complaints),
     path('hydropower_maintenance_worker/baoxiao/', views.hydropower_maintenance_baoxiao),
 
+    path('bussiness_fix_handle/', views.bussiness_fix_handle),
     path('bussiness_park_handle/', views.bussiness_park_handle),
     path('bussiness_checkin_delete/', views.bussiness_checkin_delete),
     path('bussiness_checkin_detail/', views.bussiness_checkin_detail),

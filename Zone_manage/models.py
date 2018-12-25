@@ -133,7 +133,7 @@ class Worker(models.Model):
     name = models.CharField(max_length=20, blank=True, null=True)
     sex = models.CharField(max_length=4, blank=True, null=True)
     in_date = models.DateField(auto_now_add=True,blank=True, null=True)
-    work_num = models.IntegerField(blank=True, null=True)
+    work_num = models.IntegerField(blank=True, null=True, default=0)
     type = models.BigIntegerField(blank=True, null=True)
     avi = models.BigIntegerField(blank=True, null=True)
 
@@ -274,7 +274,8 @@ class Operation(models.Model):
 
 
 class ParLot(models.Model):
-    par_id = models.BigIntegerField(primary_key=True)
+    par_id = models.AutoField(primary_key=True)
+    par_location = models.IntegerField(blank=True, null=True)
     gar_num = models.BigIntegerField()
     rent = models.FloatField(blank=True, null=True)
     avi = models.BigIntegerField(blank=True, null=True)
@@ -284,15 +285,15 @@ class ParLot(models.Model):
 
     class Meta:
         db_table = 'par_lot'
-        unique_together = (('par_id', 'gar_num'),)
+        unique_together = (('par_location', 'gar_num'),)
 
 
 class Rule(models.Model):
     crea_id = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
     change_date = models.DateField(auto_now=True,blank=True, null=True)
-    type_field = models.BigIntegerField(db_column='type_', blank=True, null=True)  # Field renamed because it ended with '_'.
-    crea_time = models.DateField(auto_now_add=True,blank=True, null=True)
-    content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
+    type_field = models.CharField(db_column='type_field', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
+    crea_time = models.DateField(auto_now_add=True, blank=True, null=True)
+    content_field = models.CharField(db_column='content_field', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
     rule_id = models.AutoField(primary_key=True,auto_created=True)
 
     class Meta:

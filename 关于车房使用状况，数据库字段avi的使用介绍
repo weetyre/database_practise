@@ -2,3 +2,12 @@ avi 	状态
 0 	    空
 1 	    租用
 2 	    购买
+
+
+advice表内
+type_field = 0 代表投诉
+type_field = 1 代表每次维修后自动生成的评价
+
+type_re = 0 好评
+type_re = 1 差评
+type_re = 2 中评

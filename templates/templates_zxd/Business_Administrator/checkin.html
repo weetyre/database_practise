@@ -3,7 +3,8 @@
 <ul class="app-menu">
   <li><a class="app-menu__item" href="../index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">主页</span></a></li>
   <li><a class="app-menu__item" href="../complaints"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">投诉建议</span></a></li>
-  <li><a class="app-menu__item active" href="../checkin"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">办理入住</span></a></li>
+  <li><a class="app-menu__item" href="../fix_service"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">维修请求</span></a></li>
+  <li><a class="app-menu__item active" href="../checkin"><i class="app-menu__icon fa fa-id-card"></i><span class="app-menu__label">办理入住</span></a></li>
   <li><a class="app-menu__item" href="../parking"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">停车场业务</span></a></li>
   <li><a class="app-menu__item" href="../mail"><i class="app-menu__icon fa fa-inbox"></i><span class="app-menu__label">房屋信息</span></a></li>
 </ul>
@@ -69,6 +70,7 @@
                   <tr>
                     <th>房屋ID</th>
                     <th>住户ID</th>
+                    <th>状态</th>
                     <th>操作</th>
                   </tr>
                 </thead>
@@ -77,6 +79,13 @@
                   <tr>
                     <td>{{ house.ho_id  }}</td>
                     <td>{{ house.host_id }}</td>
+                    {% if  house.avi == 0 %}
+                    <td>闲置</td>
+                    {% elif house.avi == 1 %}
+                    <td>租用</td>
+                    {% else %}
+                    <td>购买</td>
+                    {% endif %}
                    <td>  <button class="btn btn-primary"  onclick="form_host_detail({{ house.ho_id  }}, 'form2')">详细</button></td>
                   </tr>
                 {% endfor %}
