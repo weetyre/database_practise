@@ -29,14 +29,17 @@ def bussiness_fix_handle(request):
     fix_worker = request.GET.get('fix_worker')
     user_name = request.user.username
     if operate_type == 'complete':
+        fix = models.Fix_Service.objects.get(fix_service_id=fix_service_id)
         models.Fix_Service.objects.filter(fix_service_id=fix_service_id).update(state=0)
         worker = models.Worker.objects.get(name=user_name)
         models.Worker.objects.filter(name=user_name).update(avi=1)
         models.Worker.objects.filter(name=user_name).update(work_num=worker.work_num + 1)
+        models.Advice.objects.create(hoster_id=fix.hoster_id, type_field=1, service_id_id=fix_service_id)
         return HttpResponse(1)
     elif operate_type == 'share':
         if models.Worker.objects.filter(w_id=fix_worker):
-            if models.Worker.objects.get(w_id=fix_worker).avi == 1:
+            if models.Worker.objects.get(w_id=fix_worker).avi == 1 or \
+                    models.Worker.objects.get(w_id=fix_worker).avi is None:
                 models.Fix_Service.objects.filter(fix_service_id=fix_service_id).update(workid_id=fix_worker)
                 models.Worker.objects.filter(w_id=fix_worker).update(avi=0)
                 return HttpResponse(2)

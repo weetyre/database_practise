@@ -51,15 +51,25 @@
 {#                <li class="comments"><div class="comment_show"  ><i class="fa fa-fw fa-lg fa-comment-o"></i>Replay</div></li>#}
             </ul>
               <p id="message_{{ fix_service.advice_id }}"></p>
-              {% if comment %}
+              {% if fix_service.state == 0 %}
+              {% if comment.content_field %}
                   <div class="col col-md-4">
                     <input class="form-control" value="{{ comment.content_field }}" readonly="readonly">
+                    <br>
+                    {% if comment.type_re == 0 %}
+                        <p>用户给了好评</p>
+                     {% elif comment.type_re ==  1%}
+                        <p>用户给了差评</p>
+                        {% else %}
+                        <p>用户给了中评</p>
+                     {% endif %}
                   </div>
                     {% else %}
                       <div class="col col-md-4">
                     <input class="form-control" value="用户尚未评价" readonly="readonly">
                   </div>
                     {% endif %}
+              {% endif %}
 {#              onclick="change()"#}
 {#            <div id="comment_display_1">adasdasdasd</div>#}
           </div>
