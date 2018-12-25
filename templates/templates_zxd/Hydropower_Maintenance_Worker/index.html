@@ -96,17 +96,23 @@
 <script type="text/javascript">
   var pdata = [
     {
-      value: 300,
-      color: "#46BFBD",
-      highlight: "#5AD3D1",
-      label: "Complete"
+      value: {{ no_thump_up }},
+      color: "#FFEC8B",
+      highlight: "#FFEC8B",
+      label: "中评"
+    }, 
+    {
+      value: {{ thump_down }},
+      color:"#F7464A",
+      highlight: "#FE3A5E",
+      label: "差评"
     },
     {
-      value: 50,
-      color:"#F7464A",
-      highlight: "#FF5A5E",
-      label: "In-Progress"
-    }
+      value: {{ thump_up }},
+      color:"#46BFBD",
+      highlight: "#5AD3D1",
+      label: "好评"
+    },
   ]
   
   var ctxp = $("#pieChartDemo").get(0).getContext("2d");

@@ -380,9 +380,15 @@ def hydropower_maintenance_worker_index(request):
     infos = models.AInfo.objects.all().order_by('-id')
     hoster_number = models.Hoster.objects.count()
     equip_number = models.Equip.objects.count()
-
+    
     user_name = request.user.username
     worker = models.Worker.objects.get(name=user_name)
+
+    thump_up = models.Advice.objects.filter(type_field=1, state=0,type_re=0,workid_id=worker.w_id).count()
+    thump_down = models.Advice.objects.filter(type_field=1, state=0,type_re=1,workid_id=worker.w_id).count()
+    no_thump_up = models.Advice.objects.filter(type_field=1,state=0, type_re=2,workid_id=worker.w_id).count()
+ 
+ 
     advice_count = models.Fix_Service.objects.filter(workid_id=worker.w_id).count()
     un_advice_count = models.Fix_Service.objects.filter(workid_id=worker.w_id, state=1).count()
     user_name = request.user.username
@@ -391,7 +397,7 @@ def hydropower_maintenance_worker_index(request):
     return render(request, 'templates_zxd/Hydropower_Maintenance_Worker/index.html',
                   {'rules': rules, 'hoster_number': hoster_number, 'equip_number': equip_number,
                    'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count,
-                   'advices': advices})
+                   'advices': advices, 'thump_up':thump_up, 'no_thump_up':no_thump_up, 'thump_down':thump_down})
 
 
 def hydropower_maintenance_worker_mail(request):
