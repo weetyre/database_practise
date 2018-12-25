@@ -47,8 +47,10 @@ def unRentPark(req):
     return HttpResponse("退租成功")
 
 def hostjudge_repair(req):
-    work_id = req.POST.get("work_id")
-    return render(req, "4hosts/judge_repair.html",{{"work_id",work_id}})
+    work_id = req.GET.get("workid")
+    print("workid = ",work_id)
+    print(type(work_id))
+    return render(req, "4hosts/judge_repair.html",{"work_id":work_id})
 
 
 def hostgo_repair(req):
@@ -80,7 +82,7 @@ def post_suggestion(req):
         data = req.POST.get("suggestion")
 
         hoster = Hoster.objects.all().filter(hos_id=req.session.get("user_id"))
-        Advice.objects.create(hoster=hoster[0], content_field=data, state=0,type_re=3)# 1 建议
+        Advice.objects.create(hoster=hoster[0], content_field=data, state=1)
         return HttpResponse("操作成功")
     except:
         return HttpResponse("操作失败")
@@ -90,7 +92,8 @@ def post_go_repair(req):
     try:
         data = req.POST.get("go_repair")
         hoster = Hoster.objects.all().filter(hos_id=req.session.get("user_id"))
-        Advice.objects.create(hoster=hoster[0], content_field=data, state=0, type_re=1)  # 1 建议
+        Fix_Service.objects.create(hoster=hoster[0], content_field=data, state=1)
+        # Advice.objects.create(hoster=hoster[0], content_field=data, state=0, type_re=1)  # 1 建议
         return HttpResponse("操作成功")
     except:
         return HttpResponse("操作失败")

@@ -30,9 +30,9 @@
                 <td>{{ advice.content_field }}</td>
                 <td>{{ advice.reco_time }}</td>
                 {% if advice.state == 0 %}
-                    <td>待处理</td>
-                {% else %}
                     <td>已处理</td>
+                {% else %}
+                    <td>待处理</td>
                 {% endif %}
             </tr>
         {% endfor %}
