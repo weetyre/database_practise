@@ -61,13 +61,19 @@ def business_administrator_index(request):
     rules = models.Rule.objects.all().order_by('-rule_id')
     infos = models.AInfo.objects.all().order_by('-id')
     print(rules)
+ 
+    thump_up = models.Advice.objects.filter(type_field=1, state=0,type_re=0).count()
+    thump_down = models.Advice.objects.filter(type_field=1, state=0,type_re=1).count()
+    no_thump_up = models.Advice.objects.filter(type_field=1,state=0, type_re=2).count()
+
     hoster_number = models.Hoster.objects.count()
     house_number = models.House.objects.count()
     advice_count = models.Advice.objects.count()
-    un_advice_count = models.Advice.objects.filter(state=0).count()
+    un_advice_count = models.Advice.objects.filter(state=1).count()
     return render(request, 'templates_zxd/Business_Administrator/index.html',
                   {'rules': rules, 'hoster_number': hoster_number, 'worker_number': house_number,
-                   'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count})
+                   'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count,
+                   'thump_up':thump_up, 'no_thump_up':no_thump_up, 'thump_down':thump_down})
 
 
 def business_administrator_mail(request):
@@ -248,12 +254,17 @@ def management_manager_index(request):
     print(rules)
     hoster_number = models.Hoster.objects.count()
     worker_number = models.Worker.objects.count()
-    advice_count = models.Fix_Service.objects.count()
-    un_advice_count = models.Fix_Service.objects.filter(state=1).count()
+    advice_count = models.Fix_Service.objects.count() + models.Advice.objects.filter(type_field=0).count()
+    un_advice_count = models.Fix_Service.objects.filter(state=1).count() + models.Advice.objects.filter(type_field=0,state=1).count()
+
+    thump_up = models.Advice.objects.filter(type_field=1, state=0,type_re=0).count()
+    thump_down = models.Advice.objects.filter(type_field=1, state=0,type_re=1).count()
+    no_thump_up = models.Advice.objects.filter(type_field=1,state=0, type_re=2).count()
+
     return render(request, 'templates_zxd/Management_Manager/index.html',
                   {'rules': rules, 'hoster_number': hoster_number, 'worker_number': worker_number,
                    'infos': infos, 'advice_count': advice_count, 'un_advice_count': un_advice_count,
-                   })
+                   'thump_up':thump_up, 'no_thump_up':no_thump_up, 'thump_down':thump_down})
 
 
 def management_manager_mail(request):

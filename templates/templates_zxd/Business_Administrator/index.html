@@ -29,7 +29,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
-              <h4>投诉建议</h4>
+              <h4>事项总计</h4>
               <p><b>{{ advice_count }}</b></p>
             </div>
           </div>
@@ -118,18 +118,24 @@
     ]
   };
   var pdata = [
+  {
+      value: {{ no_thump_up }},
+      color: "#FFEC8B",
+      highlight: "#FFEC8B",
+      label: "中评"
+    }, 
     {
-      value: 300,
-      color: "#46BFBD",
-      highlight: "#5AD3D1",
-      label: "Complete"
+      value: {{ thump_down }},
+      color:"#F7464A",
+      highlight: "#FE3A5E",
+      label: "差评"
     },
     {
-      value: 50,
-      color:"#F7464A",
-      highlight: "#FF5A5E",
-      label: "In-Progress"
-    }
+      value: {{ thump_up }},
+      color:"#46BFBD",
+      highlight: "#5AD3D1",
+      label: "好评"
+    },
   ]
   
   var ctxl = $("#lineChartDemo").get(0).getContext("2d");
