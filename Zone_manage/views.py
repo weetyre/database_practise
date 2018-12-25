@@ -18,6 +18,15 @@ from .models import Advice
 from .models import Fix
 from .models import Worker
 from .models import Hoster
+from .models import Fix_Service
+
+
+def show_daipingjia(req):
+    hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
+    print(hoster)
+    services = Fix_Service.objects.all().filter(hoster=hoster).filter(state=1)
+    print(services)
+    return render(req, '4hosts/show_daipingjia.html', {"services": services})
 
 
 def unRentHouse(req):
@@ -38,7 +47,8 @@ def unRentPark(req):
     return HttpResponse("退租成功")
 
 def hostjudge_repair(req):
-    return render(req, "4hosts/judge_repair.html")
+    work_id = req.POST.get("work_id")
+    return render(req, "4hosts/judge_repair.html",{{"work_id",work_id}})
 
 
 def hostgo_repair(req):
