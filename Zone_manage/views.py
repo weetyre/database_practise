@@ -19,12 +19,13 @@ from .models import Fix
 from .models import Worker
 from .models import Hoster
 from .models import Fix_Service
+import cx_Oracle as cx
 
 
 def show_daipingjia(req):
     hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
     print(hoster)
-    services = Advice.objects.all().filter(type_field=1,state=1,hoster=hoster)
+    services = Advice.objects.all().filter(type_field=1, state=1, hoster=hoster)
     print(services)
     return render(req, '4hosts/show_daipingjia.html', {"services": services})
 
@@ -40,32 +41,36 @@ def unRentHouse(req):
 
 def unRentPark(req):
     par_id = req.GET.get("par_id")
-    park = ParLot.objects.get(par_id = int(par_id))
+    park = ParLot.objects.get(par_id=int(par_id))
     park.avi = 0
     park.host_id = None
     park.save()
     return HttpResponse("退租成功")
 
+
 def hostjudge_repair(req):
     work_id = req.GET.get("workid")
     service_id = req.GET.get("serviceid")
-    print("workid = ",work_id)
+    print("workid = ", work_id)
     print(type(work_id))
-    return render(req, "4hosts/judge_repair.html",{"work_id":work_id,"serviceid":service_id})
+    return render(req, "4hosts/judge_repair.html", {"work_id": work_id, "serviceid": service_id})
 
 
 def hostgo_repair(req):
     return render(req, "4hosts/go_repair.html")
 
+
 from .models import Uses
 from .models import AInfo
+
+
 def usage(req):
     try:
         a_infos = AInfo.objects.all()
 
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         uses = Uses.objects.all().filter(hoster=hoster.hos_id)
-        return render(req,"4hosts/usage.html",{"a_infos":a_infos,"uses":uses})
+        return render(req, "4hosts/usage.html", {"a_infos": a_infos, "uses": uses})
     except:
         return render(req, "4hosts/usage.html")
 
@@ -74,9 +79,10 @@ def hostssuggests(req):
     try:
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         advices = Advice.objects.all().filter(hoster=hoster).filter(type_field=0)
-        return render(req, "4hosts/suggests.html",{"advices":advices})
+        return render(req, "4hosts/suggests.html", {"advices": advices})
     except:
         return render(req, "4hosts/suggests.html")
+
 
 def post_suggestion(req):
     try:
@@ -112,7 +118,8 @@ def post_judge_repair(req):
         service = Fix_Service.objects.get(fix_service_id=int(serviceid))
         # .filter(service_id_id=service).filter(work_id=worker)
 
-        advice = Advice.objects.filter(hoster_id=hoster).filter(service_id_id=service).filter(workid_id=worker).filter(type_field=1)[0]
+        advice = Advice.objects.filter(hoster_id=hoster).filter(service_id_id=service).filter(workid_id=worker).filter(
+            type_field=1)[0]
 
         advice.type_re = int(level)
         advice.content_field = data
@@ -131,10 +138,11 @@ def pays(req):
         for bill in bills:
             sumbill = sumbill + bill.b_amount
 
-        return render(req, '4hosts/pays.html', {"bills": bills,"sumbill":sumbill})
-    except :
+        return render(req, '4hosts/pays.html', {"bills": bills, "sumbill": sumbill})
+    except:
         bill = None
         return render(req, '4hosts/pays.html', {"bills": bills})
+
 
 def do_pay(req):
     try:
@@ -145,6 +153,7 @@ def do_pay(req):
         return HttpResponse("缴费成功")
     except:
         return HttpResponse("缴费失败")
+
 
 def park_rent_show(req):
     # 从数据库里取出数据
@@ -162,11 +171,10 @@ def rentPark(req):
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         park.host = hoster
         park.save()
-        Bill.objects.create(b_name="租停车位",hoster_id=hoster,b_amount=park.rent)
+        Bill.objects.create(b_name="租停车位", hoster_id=hoster, b_amount=park.rent)
         return HttpResponse("租赁成功")
     except:
         return HttpResponse("操作失败")
-
 
 
 def park_buy_show(req):
@@ -208,6 +216,7 @@ def rentHouse(req):
         return HttpResponse("租赁成功")
     except:
         return HttpResponse("操作失败")
+
 
 def house_buy_show(req):
     houses = House.objects.all().filter(avi=0)
@@ -261,8 +270,6 @@ def modify_data(req):
         return render(req, "4hosts/data.html", {"hoster": hoster, "houses": houses, "parks": parks})
     except:
         return HttpResponse("修改失败")
-
-
 
 
 def index_login(request):
@@ -345,26 +352,25 @@ def index_register(request):
 
             sex_num = None
 
-            #注册成功，创建相应用户表
+            # 注册成功，创建相应用户表
             if sex == 'boy':
-                sex_num ='1'
+                sex_num = '1'
             else:
-                sex_num ='0'
+                sex_num = '0'
 
-
-            #张你的注册入口在这
+            # 张你的注册入口在这
             if type == 0:
-                #管理处经理
+                # 管理处经理
                 models.Worker.objects.create(name=username, sex=sex_num, type=type)
-                #写入你想传过去的东西
+                # 写入你想传过去的东西
                 return redirect('Zone_manage:management_manager_index')
             elif type == 1:
-                #业务管理员
+                # 业务管理员
                 models.Worker.objects.create(name=username, sex=sex_num, type=type)
 
                 return redirect('Zone_manage:business_administrator_index')
             elif type == 2:
-                #水电维修工
+                # 水电维修工
                 models.Worker.objects.create(name=username, sex=sex_num, type=type)
 
                 return redirect('Zone_manage:hydropower_maintenance_worker_index')
@@ -372,10 +378,10 @@ def index_register(request):
 
 
             elif type == 3:
-                models.Worker.objects.create(name=username,sex=sex_num,type = type)
+                models.Worker.objects.create(name=username, sex=sex_num, type=type)
                 return HttpResponseRedirect('/security')
             elif type == 4:
-                models.Hoster.objects.create(hos_name=username, sex=sex_num,coupon_nam='您没有任何代金券',bonus=0)
+                models.Hoster.objects.create(hos_name=username, sex=sex_num, bonus=0)
                 hoster = models.Hoster.objects.get(hos_name=username)
                 request.session["user_id"] = hoster.hos_id  # hosterid
                 return render(request, '4.html',
@@ -488,7 +494,6 @@ def mysecurity(request):
 
         advice_s = models.Advice.objects.filter(workid=work_s.w_id)
 
-
         len = advice_s.count()
 
         hosts_boy = models.Hoster.objects.filter(sex='1')
@@ -496,8 +501,10 @@ def mysecurity(request):
 
         boy_sum = hosts_boy.count()
         girl_sum = hosts_girl.count()
-        sum = boy_sum+girl_sum
-        return render(request, '3.html', {'user': user,'info':infos,'advice':advice_s,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
+        sum = boy_sum + girl_sum
+        return render(request, '3.html',
+                      {'user': user, 'info': infos, 'advice': advice_s, 'len': len, 'boy_num': boy_sum,
+                       'girl_num': girl_sum, 'total': sum})
 
 
 @login_required
@@ -531,13 +538,14 @@ def s_form(request):
         worker = models.Worker.objects.filter(w_id=int(Wnumber))
         hoster = models.Hoster.objects.filter(hos_id=int(Hnumber))
 
-        if worker.count()==0 or hoster.count()==0:
+        if worker.count() == 0 or hoster.count() == 0:
             error_message = 'workerid or hoster id not exists!'
-            return render(request, 'form_validation.html', {'user': user,'error':error_message})
+            return render(request, 'form_validation.html', {'user': user, 'error': error_message})
         else:
             succeed_message = 'Success!'
-            models.InOut.objects.create(guest_name=Hname, worker=worker[0], contact=int(phone), remark=text, hoster=hoster[0])
-            return render(request, 'form_validation.html', {'user': user,'suc':succeed_message})
+            models.InOut.objects.create(guest_name=Hname, worker=worker[0], contact=int(phone), remark=text,
+                                        hoster=hoster[0])
+            return render(request, 'form_validation.html', {'user': user, 'suc': succeed_message})
 
 
 @login_required
@@ -545,7 +553,7 @@ def s_ta(request):
     if request.method == 'GET':
         user = request.user
         LOGS = models.InOut.objects.all()
-        return render(request, 'tables_dynamic.html', {'user': user, 'LOGS':LOGS})
+        return render(request, 'tables_dynamic.html', {'user': user, 'LOGS': LOGS})
 
 
 @login_required
@@ -563,13 +571,16 @@ def myfinance(request):
         boy_sum = hosts_boy.count()
         girl_sum = hosts_girl.count()
         sum = boy_sum + girl_sum
-        return render(request, '5.html', {'user': user,'info':infos,'advice':advice,'len':len,'boy_num':boy_sum,'girl_num':girl_sum,'total':sum})
+        return render(request, '5.html', {'user': user, 'info': infos, 'advice': advice, 'len': len, 'boy_num': boy_sum,
+                                          'girl_num': girl_sum, 'total': sum})
+
 
 @login_required
 def f_ch(request):
     if request.method == 'GET':
         user = request.user
         return render(request, 'fa_ch.html', {'user': user})
+
 
 @login_required
 def f_fo(request):
@@ -587,13 +598,13 @@ def f_fo(request):
         worker = models.Worker.objects.filter(w_id=int(WD))
         hoster = models.Hoster.objects.filter(hos_id=int(HD))
 
-        if worker.count()==0 or hoster.count()==0:
+        if worker.count() == 0 or hoster.count() == 0:
             error_message = 'workerid or hoster id not exists!'
-            return render(request, 'fa_fo.html', {'user': user,'error':error_message})
+            return render(request, 'fa_fo.html', {'user': user, 'error': error_message})
         else:
             succeed_message = 'Success!'
-            models.Bill.objects.create(b_name=BN,b_amount=int(BA),hoster_id=hoster[0],worker=worker[0])
-            return render(request, 'fa_fo.html', {'user': user,'suc':succeed_message})
+            models.Bill.objects.create(b_name=BN, b_amount=int(BA), hoster_id=hoster[0], worker=worker[0])
+            return render(request, 'fa_fo.html', {'user': user, 'suc': succeed_message})
 
 
 @login_required
@@ -610,14 +621,20 @@ def f_sa(request):
 
         worker = models.Worker.objects.filter(w_id=int(WD))
 
-
-        if worker.count()==0:
+        if worker.count() == 0:
             error_message = 'workerid id not exists!'
-            return render(request, 'fa_fo.html', {'user': user,'error_sa':error_message})
+            return render(request, 'fa_fo.html', {'user': user, 'error_sa': error_message})
         else:
             succeed_message = 'Success!'
-            models.Salary.objects.create(base_sal=int(sa),up_sa=0,secu_sa=int(se),deduct=0,total=int(sa)+int(se),worker_id=int(WD))
-            return render(request, 'fa_fo.html', {'user': user,'suc_sa':succeed_message})
+            worknum = worker[0].work_num
+            good = Advice.objects.filter(type_field=1).filter(workid_id=worker[0]).filter(type_re=0).count()
+            mid = Advice.objects.filter(type_field=1).filter(workid_id=worker[0]).filter(type_re=2).count()
+            bad = Advice.objects.filter(type_field=1).filter(workid_id=worker[0]).filter(type_re=1).count()
+            models.Salary.objects.create(base_sal=int(sa), up_sa=worknum * 30 + good * 20 + mid * 10, secu_sa=int(se),
+                                         deduct=bad * 15,
+                                         total=int(sa) + int(se) + worknum * 30 + good * 20 + mid * 10 - bad * 15,
+                                         worker_id=int(WD))
+            return render(request, 'fa_fo.html', {'user': user, 'suc_sa': succeed_message})
 
 
 @login_required
@@ -630,31 +647,34 @@ def f_fo_bonus(request):
         user = request.user
         H_id = request.POST['HosterId']
         Bonus = request.POST['Bonus']
-        Coupon = request.POST['Coupon']
 
         hoster = models.Hoster.objects.filter(hos_id=int(H_id))
-        if  hoster.count()==0:
+        if hoster.count() == 0:
             error_message = 'hoster id not exists!'
-            return render(request, 'fa_fo.html', {'user': user,'errors':error_message})
+            return render(request, 'fa_fo.html', {'user': user, 'errors': error_message})
         else:
-            hoster[0].bonus = int(Bonus)
-            hoster[0].coupon_nam = Coupon
-            hoster[0].save()
+            hoster.update(bonus = int(Bonus))
             succeed_message = 'Success!'
-            return render(request, 'fa_fo.html', {'user': user,'sucs':succeed_message})
 
-
-
+            #调用存储过程
+            conn = cx.connect('root/root@127.0.0.1/orcl')
+            cursor = conn.cursor()
+            id = hoster[0].hos_id
+            msg = 0
+            cursor.callproc('bonusp', [id])
+            cursor.close()
+            conn.close()
+            return render(request, 'fa_fo.html', {'user': user, 'sucs': succeed_message})
 
 
 @login_required
 def f_ta(request):
     if request.method == 'GET':
         user = request.user
-        BILLS = models.Bill.objects.all()#查询所有账单
+        BILLS = models.Bill.objects.all()  # 查询所有账单
         Expen = models.Expense.objects.all()
         Salary = models.Salary.objects.all()
-        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS,'Expen': Expen,'Salary':Salary})
+        return render(request, 'fa_ta.html', {'user': user, 'BILLS': BILLS, 'Expen': Expen, 'Salary': Salary})
 
 
 @login_required
