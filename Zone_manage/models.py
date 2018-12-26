@@ -152,7 +152,7 @@ class AInfo(models.Model):
 
 
 class Fix_Service(models.Model):
-    fix_service_id = models.IntegerField(primary_key=True, auto_created=True)
+    fix_service_id = models.AutoField(primary_key=True, auto_created=True)
     workid = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
     hoster = models.ForeignKey(Hoster, on_delete=models.CASCADE, blank=True, null=True)
     content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
@@ -164,7 +164,7 @@ class Fix_Service(models.Model):
 
 
 class Advice(models.Model):
-    advice_id = models.IntegerField(primary_key=True, auto_created=True)
+    advice_id = models.AutoField(primary_key=True, auto_created=True)
     workid = models.ForeignKey(Worker, on_delete=models.CASCADE, blank=True, null=True)
     hoster = models.ForeignKey(Hoster, on_delete=models.CASCADE, blank=True, null=True)
     content_field = models.CharField(db_column='content_', max_length=200, blank=True, null=True)  # Field renamed because it ended with '_'.
@@ -211,7 +211,7 @@ class Equip(models.Model):
 
 
 class Expense(models.Model):
-    exp_id = models.IntegerField(primary_key=True, auto_created=True)
+    exp_id = models.AutoField(primary_key=True, auto_created=True)
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE,blank=True, null=True)
     duty_id = models.BigIntegerField(unique=True, blank=True, null=True)
     amount = models.FloatField(blank=True, null=True)
@@ -222,7 +222,7 @@ class Expense(models.Model):
 
 
 class Fix(models.Model):
-    fixid = models.IntegerField(primary_key=True, auto_created=True)
+    fixid = models.AutoField(primary_key=True, auto_created=True)
     workid = models.ForeignKey(Worker, on_delete=models.CASCADE, db_column='workid')
     equ = models.ForeignKey(Equip, on_delete=models.CASCADE)
     date_field = models.DateField(auto_now=True, db_column='date_', blank=True, null=True)  # Field renamed because it ended with '_'.
