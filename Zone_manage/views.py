@@ -246,10 +246,28 @@ def inout(req):
     return render(req, '4hosts/info_in_out.html', {"inouts": inouts})
 
 
+
+
 def show_data(req):
     hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
     houses = House.objects.all().filter(host=hoster)
     parks = ParLot.objects.all().filter(host=hoster)
+    return render(req, "4hosts/data.html", {"hoster": hoster, "houses": houses, "parks": parks})
+
+def show_data2(req):
+    # 调用存储过程
+    conn = cx.connect('root/root@127.0.0.1/orcl')
+    cursor = conn.cursor()
+    id = req.session.get("user_id")
+    msg = 0
+    cursor.callproc('bonusp', [id])
+    cursor.close()
+    conn.close()
+
+    hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
+    houses = House.objects.all().filter(host=hoster)
+    parks = ParLot.objects.all().filter(host=hoster)
+
     return render(req, "4hosts/data.html", {"hoster": hoster, "houses": houses, "parks": parks})
 
 

@@ -6,6 +6,7 @@ urlpatterns = [
     path(r'unRentHouse/', views.unRentHouse),
     path(r'unRentPark/', views.unRentPark),
 
+    path(r'4hosts/data/exchange/', views.show_data2),
     path(r'4hosts/suggests.html/', views.hostssuggests),
     path(r'4hosts/judge_repair', views.hostjudge_repair),
     path(r'4hosts/go_repair.html', views.hostgo_repair),
