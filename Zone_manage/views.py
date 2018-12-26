@@ -66,11 +66,12 @@ from .models import AInfo
 
 def usage(req):
     try:
-        a_infos = AInfo.objects.all()
+        a_infos = AInfo.objects.filter(hoster=None)
 
         hoster = Hoster.objects.get(hos_id=int(req.session.get("user_id")))
         uses = Uses.objects.all().filter(hoster=hoster.hos_id)
-        return render(req, "4hosts/usage.html", {"a_infos": a_infos, "uses": uses})
+        info_per = AInfo.objects.filter(hoster_id=hoster.hos_id)
+        return render(req, "4hosts/usage.html", {"a_infos": a_infos, "uses": uses,"per":info_per})
     except:
         return render(req, "4hosts/usage.html")
 
@@ -481,7 +482,7 @@ def myhome(request):
 def mysecurity(request):
     if request.method == 'GET':
         user = request.user
-        infos = models.AInfo.objects.all()
+        infos = models.AInfo.objects.all().filter(hoster=None)
 
         type = user.type
         name = user.username
@@ -561,7 +562,7 @@ def myfinance(request):
     if request.method == 'GET':
         user = request.user
         worker = Worker.objects.get(name=user.username)
-        infos = models.AInfo.objects.all()
+        infos = models.AInfo.objects.all().filter(hoster=None)
         advice = models.Advice.objects.filter(workid_id=worker.w_id)
         len = advice.count()
 
@@ -649,11 +650,12 @@ def f_fo_bonus(request):
         Bonus = request.POST['Bonus']
 
         hoster = models.Hoster.objects.filter(hos_id=int(H_id))
+        ori = hoster[0].bonus
         if hoster.count() == 0:
             error_message = 'hoster id not exists!'
             return render(request, 'fa_fo.html', {'user': user, 'errors': error_message})
         else:
-            hoster.update(bonus = int(Bonus))
+            hoster.update(bonus = int(Bonus)+ori)
             succeed_message = 'Success!'
 
             #调用存储过程

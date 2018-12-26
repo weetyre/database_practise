@@ -146,7 +146,7 @@ class AInfo(models.Model):
     title = models.CharField(max_length=20, blank=True, null=True)
     content = models.CharField(max_length=500, blank=True, null=True)
     inf_time = models.DateField(auto_now_add=True,blank=True, null=True)
-
+    hoster = models.ForeignKey(Hoster, on_delete=models.CASCADE, blank=True, null=True)
     class Meta:
         db_table = 'a_info'
 

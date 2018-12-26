@@ -18,6 +18,20 @@
         <textarea disabled style="width:500px;height:200px;"  >{{ a_info.content }}</textarea>
     {% endfor %}
 {% endif %}
+
+<h1>缴费卡状态及个人通知</h1>
+<br><br>
+{% if per.count == 0 %}
+<h3 align="center">暂时没有信息</h3>
+{% else %}
+    {% for a_info in per %}
+<h3>{{ a_info.title }}</h3>
+    <br>
+        <h7>{{ a_info.inf_time}}</h7>
+        <br><br>
+        <textarea disabled style="width:500px;height:200px;"  >{{ a_info.content }}</textarea>
+    {% endfor %}
+{% endif %}
 {# 设备使用情况 #}
 <br><br><br><br>
 <h1>设备使用情况</h1>

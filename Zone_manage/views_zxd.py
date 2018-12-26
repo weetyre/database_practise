@@ -59,7 +59,7 @@ def bussiness_fix_handle(request):
 
 def business_administrator_index(request):
     rules = models.Rule.objects.all().order_by('-rule_id')
-    infos = models.AInfo.objects.all().order_by('-id')
+    infos = models.AInfo.objects.all().order_by('-id').filter(hoster_id=None)
     print(rules)
  
     thump_up = models.Advice.objects.filter(type_field=1, state=0,type_re=0).count()
@@ -250,7 +250,7 @@ def management_manager_advice_share(request):
 def management_manager_index(request):
 
     rules = models.Rule.objects.all().order_by('-rule_id')
-    infos = models.AInfo.objects.all().order_by('-id')
+    infos = models.AInfo.objects.all().order_by('-id').filter(hoster_id=None)
     print(rules)
     hoster_number = models.Hoster.objects.count()
     worker_number = models.Worker.objects.count()
@@ -388,7 +388,7 @@ def management_manager_advice_finish(request):
 
 def hydropower_maintenance_worker_index(request):
     rules = models.Rule.objects.all().order_by('-rule_id')
-    infos = models.AInfo.objects.all().order_by('-id')
+    infos = models.AInfo.objects.all().order_by('-id').filter(hoster_id=None)
     hoster_number = models.Hoster.objects.count()
     equip_number = models.Equip.objects.count()
     
